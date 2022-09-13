@@ -1,0 +1,51 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="user">
+      <h2>
+        <span>Usuario</span> [<strong>{{ user.login }}</strong
+        >]
+      </h2>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>Login</span></dt>
+        <dd>
+          <span>{{ user.login }}</span>
+          <span *ngIf="user.activated" class="badge bg-success">Activado</span>
+          <span *ngIf="!user.activated" class="badge bg-danger">Desactivado</span>
+        </dd>
+
+        <dt><span>Nombre</span></dt>
+        <dd>{{ user.firstName }}</dd>
+
+        <dt><span>Apellidos</span></dt>
+        <dd>{{ user.lastName }}</dd>
+
+        <dt><span>Email</span></dt>
+        <dd>{{ user.email }}</dd>
+
+        <dt><span>Creado por</span></dt>
+        <dd>{{ user.createdBy }}</dd>
+
+        <dt><span>Fecha de creación</span></dt>
+        <dd>{{ user.createdDate | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt><span>Modificado por</span></dt>
+        <dd>{{ user.lastModifiedBy }}</dd>
+
+        <dt><span>Fecha de modificación</span></dt>
+        <dd>{{ user.lastModifiedDate | date: 'dd/MM/yy HH:mm' }}</dd>
+
+        <dt><span>Perfiles</span></dt>
+        <dd>
+          <ul class="list-unstyled">
+            <li *ngFor="let authority of user.authorities">
+              <span class="badge bg-info">{{ authority }}</span>
+            </li>
+          </ul>
+        </dd>
+      </dl>
+
+      <button type="submit" routerLink="../../" class="btn btn-info"><fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span></button>
+    </div>
+  </div>
+</div>
