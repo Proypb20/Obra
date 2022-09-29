@@ -1,0 +1,59 @@
+{
+  "applications": "*",
+  "changelogDate": "20220913014458",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "detalle_acopio",
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "description",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "quantity",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "unitPrice",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Float",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "requestDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "promiseDate",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "deliveryStatus",
+      "fieldType": "Estado",
+      "fieldValues": "Pendiente,Entregado"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "DetalleAcopio",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityName": "acopio",
+      "relationshipName": "acopio",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

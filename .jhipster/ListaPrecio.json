@@ -1,0 +1,28 @@
+{
+  "changelogDate": "20220920005649",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "ListaPrecio",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "proveedor",
+      "relationshipName": "proveedor",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

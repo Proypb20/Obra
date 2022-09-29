@@ -1,0 +1,137 @@
+<div>
+  <h2 id="page-heading" data-cy="TareaHeading">
+    <span>Tareas</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-tarea me-2"
+        [routerLink]="['/tarea/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Tarea </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-tarea"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="tareas?.length === 0">
+    <span>No se encontraron tareas</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="tareas && tareas.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="obra.name">
+            <div class="d-flex">
+              <span>Obra</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="subcontratista.lastName">
+            <div class="d-flex">
+              <span>Subcontratista</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="concepto.name">
+            <div class="d-flex">
+              <span>Concepto</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Nombre</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="quantity">
+            <div class="d-flex">
+              <span>Cantidad</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cost">
+            <div class="d-flex">
+              <span>Costo MO</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="advanceStatus">
+            <div class="d-flex">
+              <span>Porcentaje Avance</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let tarea of tareas; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <div *ngIf="tarea.obra">
+              <a [routerLink]="['/obra']" [state]="{ oId: tarea.obra.id }">{{ tarea.obra.name }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="tarea.subcontratista">
+              <a [routerLink]="['/subcontratista']" [state]="{ sId: tarea.subcontratista.id }"
+                >{{ tarea.subcontratista.lastName }}, {{ tarea.subcontratista.firstName }}
+              </a>
+            </div>
+          </td>
+          <td>{{ tarea.concepto?.name }}</td>
+          <td>{{ tarea.name }}</td>
+          <td>{{ tarea.quantity }}</td>
+          <td>{{ tarea.cost }}</td>
+          <td>{{ tarea.advanceStatus }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <!--<button type="submit" [routerLink]="['/tarea', tarea.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Vista</span>
+              </button>-->
+
+              <button type="submit" [routerLink]="['/tarea', tarea.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(tarea)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

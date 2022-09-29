@@ -1,0 +1,141 @@
+<div>
+  <h2 id="page-heading" data-cy="SubcontratistaHeading">
+    <span>Subcontratistas</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-subcontratista me-2"
+        [routerLink]="['/subcontratista/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Subcontratista </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-subcontratista"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="subcontratistas?.length === 0">
+    <span>No se encontraron subcontratistas</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="subcontratistas && subcontratistas.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="lastName">
+            <div class="d-flex">
+              <span>Nombre</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <!--<th scope="col" jhiSortBy="firstName">
+            <div class="d-flex">
+              <span>First Name</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <!--<th scope="col" jhiSortBy="phone">
+            <div class="d-flex">
+              <span>Phone</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="email">
+            <div class="d-flex">
+              <span>Email</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="obra.name">
+            <div class="d-flex">
+              <span>Obra</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let subcontratista of subcontratistas; trackBy: trackId" data-cy="entityTable">
+          <!--<td>
+            <a [routerLink]="['/subcontratista', subcontratista.id, 'view']">{{ subcontratista.id }}</a>
+          </td>-->
+          <td>{{ subcontratista.lastName }}, {{ subcontratista.firstName }}</td>
+          <!--<td>{{ subcontratista.phone }}</td>
+          <td>{{ subcontratista.email }}</td>
+          <td>
+            <span *ngFor="let obra of subcontratista.obras; let last = last">
+              <a class="form-control-static" [routerLink]="['/obra', obra.id, 'view']">{{ obra.name }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>-->
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/subcontratista', subcontratista.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Detalles</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/obra']"
+                [state]="{ sId: subcontratista.id }"
+                class="btn btn-secondary btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="building"></fa-icon>
+                <span class="d-none d-md-inline">Obras</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/subcontratista', subcontratista.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(subcontratista)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

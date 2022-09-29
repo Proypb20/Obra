@@ -1,0 +1,44 @@
+<form name="submitForm" (ngSubmit)="upload()">
+  <div class="modal-header">
+    <h4 class="modal-title" data-cy="listaPrecioSubmitDialogHeading">Confirmar operación</h4>
+
+    <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
+  </div>
+
+  <div class="modal-body">
+    <jhi-alert-error></jhi-alert-error>
+
+    <div class="row">
+      <div class="row mb-3">
+        <label class="form-label" for="field_proveedor">Proveedor</label>
+        <select
+          class="form-control"
+          id="field_proveedor"
+          data-cy="proveedor"
+          name="proveedor"
+          formControlName="proveedor"
+          [compareWith]="compareProveedor"
+        >
+          <option [ngValue]="proveedorOption" *ngFor="let proveedorOption of proveedorsSharedCollection">
+            {{ proveedorOption.name }}
+          </option>
+        </select>
+      </div>
+      <div class="row mb-8">
+        <label>
+          <input type="file" (change)="selectFile($event)" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+      <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+    </button>
+
+    <button id="jhi-confirm-submit-listaPrecio" data-cy="entityConfirmSubmitButton" type="submit" class="btn btn-primary">
+      <fa-icon icon="arrow-up"></fa-icon>&nbsp;<span>Subir</span>
+    </button>
+  </div>
+</form>

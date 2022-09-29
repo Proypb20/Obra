@@ -49,6 +49,20 @@ public class CacheConfiguration {
             createCache(cm, com.ojeda.obras.domain.User.class.getName());
             createCache(cm, com.ojeda.obras.domain.Authority.class.getName());
             createCache(cm, com.ojeda.obras.domain.User.class.getName() + ".authorities");
+            createCache(cm, com.ojeda.obras.domain.Obra.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Obra.class.getName() + ".subcontratistas");
+            createCache(cm, com.ojeda.obras.domain.Proveedor.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Provincia.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Subcontratista.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Subcontratista.class.getName() + ".obras");
+            createCache(cm, com.ojeda.obras.domain.Acopio.class.getName());
+            createCache(cm, com.ojeda.obras.domain.UnidadMedida.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Tarea.class.getName());
+            createCache(cm, com.ojeda.obras.domain.TipoComprobante.class.getName());
+            createCache(cm, com.ojeda.obras.domain.DetalleAcopio.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Concepto.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Transaccion.class.getName());
+            createCache(cm, com.ojeda.obras.domain.ListaPrecio.class.getName());
             // jhipster-needle-caffeine-add-entry
         };
     }

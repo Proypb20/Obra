@@ -1,0 +1,44 @@
+{
+  "applications": "*",
+  "changelogDate": "20220913014451",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "proveedor",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Proveedor",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "provincia",
+      "relationshipName": "provincia",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

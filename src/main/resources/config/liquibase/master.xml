@@ -17,7 +17,32 @@
     <property name="datetimeType" value="datetime(6)" dbms="mysql"/>
 
     <include file="config/liquibase/changelog/00000000000000_initial_schema.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014450_added_entity_Obra.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014451_added_entity_Proveedor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014452_added_entity_Provincia.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014453_added_entity_Subcontratista.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014454_added_entity_Acopio.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014455_added_entity_UnidadMedida.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014456_added_entity_Tarea.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014457_added_entity_TipoComprobante.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014458_added_entity_DetalleAcopio.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014459_added_entity_Concepto.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014501_added_entity_Transaccion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220920005649_added_entity_ListaPrecio.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014502_added_entity_AdvPendRep.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014503_added_entity_SubCostSummary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014504_added_entity_SubPaidSummary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220920114056_added_entity_DetalleListaPrecio.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
+    <include file="config/liquibase/changelog/20220913014450_added_entity_constraints_Obra.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014451_added_entity_constraints_Proveedor.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014453_added_entity_constraints_Subcontratista.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014454_added_entity_constraints_Acopio.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014456_added_entity_constraints_Tarea.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014458_added_entity_constraints_DetalleAcopio.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014501_added_entity_constraints_Transaccion.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220920005649_added_entity_constraints_ListaPrecio.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220920114056_added_entity_constraints_DetalleListaPrecio.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-constraints-changelog - JHipster will add liquibase constraints changelogs here -->
     <!-- jhipster-needle-liquibase-add-incremental-changelog - JHipster will add incremental liquibase changelogs here -->
 </databaseChangeLog>

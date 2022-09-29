@@ -1,0 +1,10 @@
+SELECT ROW_NUMBER() OVER (ORDER BY "O"."NAME") AS "ID"
+       , "O"."ID" AS "OBRA_ID"
+       ,"O"."NAME" AS "OBRA"
+       , "S"."ID" AS "SUBCONTRATISTA_ID"
+       ,"S"."LAST_NAME" || ', ' || "S"."FIRST_NAME" AS "SUBCONTRATISTA"
+       , ROUND(SUM("T"."ADVANCE_STATUS") / COUNT(*), 2) AS "ADVANCE_STATUS" FROM "PUBLIC"."TAREA" "T"
+       INNER JOIN "PUBLIC"."OBRA" "O" ON 1=1 INNER JOIN "PUBLIC"."SUBCONTRATISTA" "S" ON 1=1
+       WHERE ("T"."OBRA_ID" = "O"."ID") AND ("T"."SUBCONTRATISTA_ID" = "S"."ID")
+       GROUP BY  "O"."ID" ,"O"."NAME","S"."ID", "S"."LAST_NAME" || ', ' || "S"."FIRST_NAME"
+       HAVING (SUM("T"."ADVANCE_STATUS") / COUNT(*)) < 100;

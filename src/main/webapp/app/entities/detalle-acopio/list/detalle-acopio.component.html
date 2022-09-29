@@ -1,0 +1,158 @@
+<div>
+  <h2 id="page-heading" data-cy="DetalleAcopioHeading">
+    <span>Detalle Acopios</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-detalle-acopio me-2"
+        [routerLink]="['/detalle-acopio/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Detalle Acopio </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-detalle-acopio"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="detalleAcopios?.length === 0">
+    <span>No hay detalle</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="detalleAcopios && detalleAcopios.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="date">
+            <div class="d-flex">
+              <span>Fecha</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="description">
+            <div class="d-flex">
+              <span>Descripcion</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="quantity">
+            <div class="d-flex">
+              <span>Cantidad</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="unitPrice">
+            <div class="d-flex">
+              <span>Precio Unitario</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="amount">
+            <div class="d-flex">
+              <span>Monto</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="requestDate">
+            <div class="d-flex">
+              <span>Fecha Solicitud</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="promiseDate">
+            <div class="d-flex">
+              <span>Fecha Entrega Prometida</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="deliveryStatus">
+            <div class="d-flex">
+              <span>Estado Entrega</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <!--<th scope="col" jhiSortBy="acopio.id">
+            <div class="d-flex">
+              <span>Acopio</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let detalleAcopio of detalleAcopios; trackBy: trackId" data-cy="entityTable">
+          <!--<td>
+            <a [routerLink]="['/detalle-acopio', detalleAcopio.id, 'view']">{{ detalleAcopio.id }}</a>
+          </td>-->
+          <!--<td>{{ detalleAcopio.date | formatMediumDate }}</td>-->
+          <td>{{ detalleAcopio.requestDate | formatShortDate }}</td>
+          <td>{{ detalleAcopio.description }}</td>
+          <td>{{ detalleAcopio.quantity }}</td>
+          <td>{{ detalleAcopio.unitPrice }}</td>
+          <td>{{ detalleAcopio.amount }}</td>
+          <td>{{ detalleAcopio.promiseDate | formatShortDate }}</td>
+          <td>{{ detalleAcopio.deliveryStatus }}</td>
+          <!--<td>
+            <div *ngIf="detalleAcopio.acopio">
+              <a [routerLink]="['/acopio', detalleAcopio.acopio.id, 'view']">{{ detalleAcopio.acopio.id }}</a>
+            </div>
+          </td>-->
+          <td class="text-end">
+            <div class="btn-group">
+              <!--<button
+                type="submit"
+                [routerLink]="['/detalle-acopio', detalleAcopio.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Vista</span>
+              </button>-->
+
+              <button
+                type="submit"
+                [routerLink]="['/detalle-acopio', detalleAcopio.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(detalleAcopio)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

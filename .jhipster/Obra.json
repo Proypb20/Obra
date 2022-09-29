@@ -1,0 +1,53 @@
+{
+  "applications": "*",
+  "changelogDate": "20220913014450",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "obra",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "initialDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "endDate",
+      "fieldType": "LocalDate",
+      "fieldValidateRules": ["required"]
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Obra",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "provincia",
+      "relationshipName": "provincia",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityName": "subcontratista",
+      "otherEntityRelationshipName": "obra",
+      "ownerSide": false,
+      "relationshipName": "subcontratista",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

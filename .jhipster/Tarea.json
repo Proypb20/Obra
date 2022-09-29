@@ -1,0 +1,54 @@
+{
+  "applications": "*",
+  "changelogDate": "20220913014456",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "tarea",
+  "fields": [
+    {
+      "fieldName": "name",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "quantity",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "cost",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "advanceStatus",
+      "fieldType": "Float",
+      "fieldValidateRules": ["max"],
+      "fieldValidateRulesMax": "100"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Tarea",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "obra",
+      "relationshipName": "obra",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "lastName",
+      "otherEntityName": "subcontratista",
+      "relationshipName": "subcontratista",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "concepto",
+      "relationshipName": "concepto",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

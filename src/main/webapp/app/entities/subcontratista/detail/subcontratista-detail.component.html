@@ -1,0 +1,47 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="subcontratista">
+      <h2 data-cy="subcontratistaDetailsHeading"><span>Subcontratista</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <!--<dt><span>ID</span></dt>
+        <dd>
+          <span>{{ subcontratista.id }}</span>
+        </dd>-->
+        <dt><span>Nombre</span></dt>
+        <dd>
+          <span>{{ subcontratista.lastName }}, {{ subcontratista.firstName }}</span>
+        </dd>
+        <dt><span>Telefono</span></dt>
+        <dd>
+          <span>{{ subcontratista.phone }}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+          <span>{{ subcontratista.email }}</span>
+        </dd>
+        <dt><span>Obras Asignadas</span></dt>
+        <dd>
+          <span *ngFor="let obra of subcontratista.obras; let last = last">
+            <a [routerLink]="['/obra', obra.id, 'view']">{{ obra.name }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/subcontratista', subcontratista.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

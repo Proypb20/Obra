@@ -1,0 +1,43 @@
+{
+  "applications": "*",
+  "changelogDate": "20220913014453",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "subcontratista",
+  "fields": [
+    {
+      "fieldName": "lastName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String",
+      "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "phone",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "email",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Subcontratista",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "obra",
+      "otherEntityRelationshipName": "subcontratista",
+      "ownerSide": true,
+      "relationshipName": "obra",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

@@ -1,19 +1,21 @@
 <div class="row">
-  <div class="col-md-3">
+  <!--<div class="col-md-3">
     <span class="hipster img-fluid rounded"></span>
-  </div>
+  </div>-->
 
   <div class="col-md-9">
-    <h1 class="display-4"><span>¡Bienvenido, Java Hipster!</span> (Obras)</h1>
-
-    <p class="lead">Esta es su página de inicio</p>
+    <!--<p class="lead">Esta es su página de inicio</p>-->
 
     <div [ngSwitch]="account !== null">
-      <div class="alert alert-success" *ngSwitchCase="true">
+      <div *ngSwitchCase="true">
+        <h1 class="display-4">
+          <span>¡Bienvenida/o {{ account?.lastName }}, {{ account?.firstName }}!</span>
+        </h1>
+        <!--<div class="alert alert-success" *ngSwitchCase="true">
         <span id="home-logged-message" *ngIf="account">Está conectado como "{{ account.login }}".</span>
+      </div>-->
       </div>
-
-      <div class="alert alert-warning" *ngSwitchCase="false">
+      <!--<div class="alert alert-warning" *ngSwitchCase="false">
         <span>Si desea </span>
         <a class="alert-link" (click)="login()">iniciar sesión</a
         ><span
@@ -25,10 +27,10 @@
       <div class="alert alert-warning" *ngSwitchCase="false">
         <span>¿Aún no tienes una cuenta?</span>&nbsp;
         <a class="alert-link" routerLink="account/register">Crea una cuenta</a>
-      </div>
+      </div>-->
     </div>
 
-    <p>Si tiene preguntas sobre JHipster:</p>
+    <!--<p>Si tiene preguntas sobre JHipster:</p>
 
     <ul>
       <li><a href="https://www.jhipster.tech/" target="_blank" rel="noopener noreferrer">Página de inicio de JHipster</a></li>
@@ -51,6 +53,6 @@
     <p>
       <span>Si te gusta JHipster, danos una estrella en</span>
       <a href="https://github.com/jhipster/generator-jhipster" target="_blank" rel="noopener noreferrer">GitHub</a>!
-    </p>
+    </p>-->
   </div>
 </div>

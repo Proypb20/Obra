@@ -109,6 +109,21 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi</artifactId>
+            <version>5.2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>3.17</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml-schemas</artifactId>
+            <version>4.1.2</version>
+        </dependency>
+        <dependency>
             <groupId>tech.jhipster</groupId>
             <artifactId>jhipster-framework</artifactId>
         </dependency>
@@ -360,6 +375,9 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
+                <configuration>
+                    <skipTests>true</skipTests>
+                </configuration>
             </plugin>
             <plugin>
                 <groupId>org.jacoco</groupId>
@@ -961,18 +979,19 @@
                             <artifactId>maven-failsafe-plugin</artifactId>
                             <version>${maven-failsafe-plugin.version}</version>
                             <configuration>
+                                <skipTests>true</skipTests>
                                 <!-- Due to spring-boot repackage, without adding this property test classes are not found
                                      See https://github.com/spring-projects/spring-boot/issues/6254 -->
-                                <classesDirectory>${project.build.outputDirectory}</classesDirectory>
+                                <!--<classesDirectory>${project.build.outputDirectory}</classesDirectory>-->
                                 <!-- Force alphabetical order to have a reproducible build -->
-                                <runOrder>alphabetical</runOrder>
+                                <!--<runOrder>alphabetical</runOrder>
                                 <includes>
                                     <include>**/*IT*</include>
                                     <include>**/*IntTest*</include>
                                 </includes>
-                                <argLine>@{argLine} -Dspring.profiles.active=testdev</argLine>
+                                <argLine>@{argLine} -Dspring.profiles.active=testdev</argLine>-->
                             </configuration>
-                            <executions>
+                            <!--<executions>
                                 <execution>
                                     <id>integration-test</id>
                                     <goals>
@@ -985,7 +1004,7 @@
                                         <goal>verify</goal>
                                     </goals>
                                 </execution>
-                            </executions>
+                            </executions>-->
                         </plugin>
                         <plugin>
                             <groupId>org.liquibase</groupId>

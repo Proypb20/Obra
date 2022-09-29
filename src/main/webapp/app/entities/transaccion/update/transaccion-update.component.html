@@ -1,0 +1,146 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <form name="editForm" role="form" novalidate (ngSubmit)="save()" [formGroup]="editForm">
+      <h2 id="jhi-transaccion-heading" data-cy="TransaccionCreateUpdateHeading">Crear o editar Transaccion</h2>
+
+      <div>
+        <jhi-alert-error></jhi-alert-error>
+
+        <div class="row mb-3" hidden>
+          <label class="form-label" for="field_id">ID</label>
+          <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
+        </div>
+
+        <br />
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_obra">Obra</label>
+          <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra" [compareWith]="compareObra">
+            <!--<option [ngValue]="null"></option>-->
+            <option [ngValue]="obraOption" *ngFor="let obraOption of obrasSharedCollection">{{ obraOption.name }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_subcontratista">Subcontratista</label>
+          <select
+            class="form-control"
+            id="field_subcontratista"
+            data-cy="subcontratista"
+            name="subcontratista"
+            formControlName="subcontratista"
+            [compareWith]="compareSubcontratista"
+          >
+            <!--<option [ngValue]="null"></option>-->
+            <option [ngValue]="subcontratistaOption" *ngFor="let subcontratistaOption of subcontratistasSharedCollection">
+              {{ subcontratistaOption.lastName }}, {{ subcontratistaOption.firstName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_date">Fecha</label>
+          <div class="input-group">
+            <input
+              id="field_date"
+              data-cy="date"
+              type="date"
+              class="form-control"
+              name="date"
+              ngbDatepicker
+              #dateDp="ngbDatepicker"
+              formControlName="date"
+            />
+            <!--<button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>-->
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_tipoComprobante">Tipo Comprobante</label>
+          <select
+            class="form-control"
+            id="field_tipoComprobante"
+            data-cy="tipoComprobante"
+            name="tipoComprobante"
+            formControlName="tipoComprobante"
+            [compareWith]="compareTipoComprobante"
+          >
+            <!--<option [ngValue]="null"></option>-->
+            <option [ngValue]="tipoComprobanteOption" *ngFor="let tipoComprobanteOption of tipoComprobantesSharedCollection">
+              {{ tipoComprobanteOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_transactionNumber">Nro Transaccion</label>
+          <input
+            type="text"
+            class="form-control"
+            name="transactionNumber"
+            id="field_transactionNumber"
+            data-cy="transactionNumber"
+            formControlName="transactionNumber"
+          />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_concepto">Concepto</label>
+          <select
+            class="form-control"
+            id="field_concepto"
+            data-cy="concepto"
+            name="concepto"
+            formControlName="concepto"
+            [compareWith]="compareConcepto"
+          >
+            <!--<option [ngValue]="null"></option>-->
+            <option [ngValue]="conceptoOption" *ngFor="let conceptoOption of conceptosSharedCollection">
+              {{ conceptoOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_note">Nota</label>
+          <input type="text" class="form-control" name="note" id="field_note" data-cy="note" formControlName="note" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_paymentMethod">Metodo de Pago</label>
+          <select
+            class="form-control"
+            name="paymentMethod"
+            formControlName="paymentMethod"
+            id="field_paymentMethod"
+            data-cy="paymentMethod"
+          >
+            <!--<option [ngValue]="null"></option>-->
+            <option [ngValue]="metodoPago" *ngFor="let metodoPago of metodoPagoValues">{{ metodoPago }}</option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_amount">Importe</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
+        </div>
+      </div>
+
+      <div>
+        <button type="button" id="cancel-save" data-cy="entityCreateCancelButton" class="btn btn-secondary" (click)="previousState()">
+          <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+        </button>
+
+        <button
+          type="submit"
+          id="save-entity"
+          data-cy="entityCreateSaveButton"
+          [disabled]="editForm.invalid || isSaving"
+          class="btn btn-primary"
+        >
+          <fa-icon icon="save"></fa-icon>&nbsp;<span>Guardar</span>
+        </button>
+      </div>
+    </form>
+  </div>
+</div>

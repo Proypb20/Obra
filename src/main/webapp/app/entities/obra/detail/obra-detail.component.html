@@ -1,0 +1,50 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="obra">
+      <h2 data-cy="obraDetailsHeading"><span>Obra</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ obra.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ obra.name }}</span>
+        </dd>
+        <dt><span>Address</span></dt>
+        <dd>
+          <span>{{ obra.address }}</span>
+        </dd>
+        <dt><span>City</span></dt>
+        <dd>
+          <span>{{ obra.city }}</span>
+        </dd>
+        <dt><span>Comments</span></dt>
+        <dd>
+          <span>{{ obra.comments }}</span>
+        </dd>
+        <dt><span>Provincia</span></dt>
+        <dd>
+          <div *ngIf="obra.provincia">
+            <a [routerLink]="['/provincia', obra.provincia.id, 'view']">{{ obra.provincia.name }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/obra', obra.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

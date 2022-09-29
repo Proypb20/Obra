@@ -1,0 +1,52 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="proveedor">
+      <h2 data-cy="proveedorDetailsHeading"><span>Proveedor</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ proveedor.id }}</span>
+        </dd>
+        <dt><span>Nombre</span></dt>
+        <dd>
+          <span>{{ proveedor.name }}</span>
+        </dd>
+        <dt><span>Direccion</span></dt>
+        <dd>
+          <span>{{ proveedor.address }}</span>
+        </dd>
+        <dt><span>Ciudad</span></dt>
+        <dd>
+          <span>{{ proveedor.city }}</span>
+        </dd>
+        <dt><span>Provincia</span></dt>
+        <dd>
+          <span>{{ proveedor.provincia?.name }}</span>
+        </dd>
+        <dt><span>Telefono</span></dt>
+        <dd>
+          <span>{{ proveedor.phone }}</span>
+        </dd>
+        <dt><span>Email</span></dt>
+        <dd>
+          <span>{{ proveedor.email }}</span>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/proveedor', proveedor.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

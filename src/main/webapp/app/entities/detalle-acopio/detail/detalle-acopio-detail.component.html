@@ -1,0 +1,66 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="detalleAcopio">
+      <h2 data-cy="detalleAcopioDetailsHeading"><span>Detalle Acopio</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.id }}</span>
+        </dd>
+        <dt><span>Date</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.date | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.description }}</span>
+        </dd>
+        <dt><span>Quantity</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.quantity }}</span>
+        </dd>
+        <dt><span>Unit Price</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.unitPrice }}</span>
+        </dd>
+        <dt><span>Amount</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.amount }}</span>
+        </dd>
+        <dt><span>Request Date</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.requestDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Promise Date</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.promiseDate | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Delivery Status</span></dt>
+        <dd>
+          <span>{{ detalleAcopio.deliveryStatus }}</span>
+        </dd>
+        <dt><span>Acopio</span></dt>
+        <dd>
+          <div *ngIf="detalleAcopio.acopio">
+            <a [routerLink]="['/acopio', detalleAcopio.acopio.id, 'view']">{{ detalleAcopio.acopio.id }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/detalle-acopio', detalleAcopio.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

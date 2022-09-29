@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+
+    <!--
+        Added the entity AdvPendRep.
+    -->
+    <changeSet id="20220913014502-1" author="Sly">
+        <createView viewName="advance_pending_report" path="config/liquibase/changelog/advance_pending_report.sql">
+            <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
+        </createView>
+    </changeSet>
+
+</databaseChangeLog>

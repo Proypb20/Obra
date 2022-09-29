@@ -1,0 +1,138 @@
+<div>
+  <h2 id="page-heading" data-cy="AdvPendRepHeading">
+    <span>Reporte Estado de Avance</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-adv-pend-rep"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="advPendReps?.length === 0">
+    <span>No hay obras con tareas sin finalizar</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="advPendReps && advPendReps.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>--->
+          <th scope="col" jhiSortBy="obra">
+            <div class="d-flex">
+              <span>Obra</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="subcontratista">
+            <div class="d-flex">
+              <span>Subcontratista</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="advanceStatus">
+            <div class="d-flex">
+              <span>Avance Acumulado</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let advPendRep of advPendReps; trackBy: trackId" data-cy="entityTable">
+          <td>
+            <a [routerLink]="['/obra']" [state]="{ oId: advPendRep.obraId }">{{ advPendRep.obra }}</a>
+          </td>
+          <td>{{ advPendRep.subcontratista }}</td>
+          <td>{{ advPendRep.advanceStatus }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                (click)="showDetails(advPendRep.obraId!, advPendRep.subcontratistaId!)"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Detalle</span>
+              </button>
+              <button
+                type="submit"
+                [routerLink]="['/tarea']"
+                [state]="{ oId: advPendRep.obraId }"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Tareas</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div *ngIf="showDet">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+            <th scope="col" jhiSortBy="concepto.name">
+              <div class="d-flex">
+                <span>Concepto</span>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="name">
+              <div class="d-flex">
+                <span>Nombre</span>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="quantity">
+              <div class="d-flex">
+                <span>Cantidad</span>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="cost">
+              <div class="d-flex">
+                <span>Costo MO</span>
+              </div>
+            </th>
+            <th scope="col" jhiSortBy="advanceStatus">
+              <div class="d-flex">
+                <span>Porcentaje Avance</span>
+              </div>
+            </th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let tarea of tareas; trackBy: trackIdTarea" data-cy="entityTable">
+            <td>{{ tarea.concepto?.name }}</td>
+            <td>{{ tarea.name }}</td>
+            <td>{{ tarea.quantity }}</td>
+            <td>{{ tarea.cost }}</td>
+            <td>{{ tarea.advanceStatus }}</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

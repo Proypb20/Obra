@@ -1,0 +1,37 @@
+{
+  "applications": "*",
+  "changelogDate": "20220913014454",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "acopio",
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "totalAmount",
+      "fieldType": "Long"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Acopio",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "obra",
+      "relationshipName": "obra",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "proveedor",
+      "relationshipName": "proveedor",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

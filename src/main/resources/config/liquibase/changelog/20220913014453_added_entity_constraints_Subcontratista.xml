@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Subcontratista.
+    -->
+    <changeSet id="20220913014453-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="subcontratista_id"
+                                 baseTableName="rel_subcontratista__obra"
+                                 constraintName="fk_rel_subcontratista__obra__subcontratista_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="subcontratista"/>
+
+        <addForeignKeyConstraint baseColumnNames="obra_id"
+                                 baseTableName="rel_subcontratista__obra"
+                                 constraintName="fk_rel_subcontratista__obra__obra_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="obra"/>
+    </changeSet>
+</databaseChangeLog>

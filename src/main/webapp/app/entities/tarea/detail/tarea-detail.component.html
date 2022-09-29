@@ -1,0 +1,62 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="tarea">
+      <h2 data-cy="tareaDetailsHeading"><span>Tarea</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ tarea.id }}</span>
+        </dd>
+        <dt><span>Name</span></dt>
+        <dd>
+          <span>{{ tarea.name }}</span>
+        </dd>
+        <dt><span>Quantity</span></dt>
+        <dd>
+          <span>{{ tarea.quantity }}</span>
+        </dd>
+        <dt><span>Cost</span></dt>
+        <dd>
+          <span>{{ tarea.cost }}</span>
+        </dd>
+        <dt><span>Advance Status</span></dt>
+        <dd>
+          <span>{{ tarea.advanceStatus }}</span>
+        </dd>
+        <dt><span>Obra</span></dt>
+        <dd>
+          <div *ngIf="tarea.obra">
+            <a [routerLink]="['/obra', tarea.obra.id, 'view']">{{ tarea.obra.name }}</a>
+          </div>
+        </dd>
+        <dt><span>Subcontratista</span></dt>
+        <dd>
+          <div *ngIf="tarea.subcontratista">
+            <a [routerLink]="['/subcontratista', tarea.subcontratista.id, 'view']">{{ tarea.subcontratista.lastName }}</a>
+          </div>
+        </dd>
+        <dt><span>Concepto</span></dt>
+        <dd>
+          <div *ngIf="tarea.concepto">
+            <a [routerLink]="['/concepto', tarea.concepto.id, 'view']">{{ tarea.concepto.name }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/tarea', tarea.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

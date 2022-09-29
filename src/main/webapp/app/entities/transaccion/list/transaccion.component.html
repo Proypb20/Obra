@@ -1,0 +1,167 @@
+<div>
+  <h2 id="page-heading" data-cy="TransaccionHeading">
+    <span>Transacciones</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-transaccion me-2"
+        [routerLink]="['/transaccion/new']"
+        [state]="{ oId: this.oId }"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Transaccion </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-transaccion"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="transaccions?.length === 0">
+    <span>No hay Transacciones</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="transaccions && transaccions.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="obra.name">
+            <div class="d-flex">
+              <span>Obra</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="subcontratista.lastName">
+            <div class="d-flex">
+              <span>Subcontratista</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+
+          <th scope="col" jhiSortBy="date">
+            <div class="d-flex">
+              <span>Fecha</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="concepto.name">
+            <div class="d-flex">
+              <span>Concepto</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <!--<th scope="col" jhiSortBy="paymentMethod">
+            <div class="d-flex">
+              <span>Metodo de Pago</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="tipoComprobante.name">
+            <div class="d-flex">
+              <span>Tipo Comprobante</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="transactionNumber">
+            <div class="d-flex">
+              <span>Nro de Transaccion</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="note">
+            <div class="d-flex">
+              <span>Nota</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="amount">
+            <div class="d-flex">
+              <span>Importe</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let transaccion of transaccions; trackBy: trackId" data-cy="entityTable">
+          <!--<td>
+            <a [routerLink]="['/transaccion', transaccion.id, 'view']">{{ transaccion.id }}</a>
+          </td>-->
+          <td>
+            <div *ngIf="transaccion.obra">
+              <a [routerLink]="['/obra']" [state]="{ oId: transaccion.obra.id }">{{ transaccion.obra.name }}</a>
+            </div>
+          </td>
+          <td>
+            <div *ngIf="transaccion.subcontratista">
+              <a [routerLink]="['/subcontratista']" [state]="{ sId: transaccion.subcontratista.id }"
+                >{{ transaccion.subcontratista.lastName }}, {{ transaccion.subcontratista.firstName }}</a
+              >
+            </div>
+          </td>
+          <td>{{ transaccion.date | formatShortDate }}</td>
+          <!--<td>{{ transaccion.paymentMethod }}</td>
+          <td>{{ transaccion.tipoComprobante?.name }}</td>
+          <td>{{ transaccion.transactionNumber }}</td>-->
+          <td>{{ transaccion.concepto?.name }}</td>
+          <td>{{ transaccion.note }}</td>
+          <td>{{ transaccion.amount }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/transaccion', transaccion.id, 'view']"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Vista</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/transaccion', transaccion.id, 'edit']"
+                [state]="{ oId: this.oId }"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(transaccion)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

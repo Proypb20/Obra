@@ -1,0 +1,62 @@
+{
+  "applications": "*",
+  "changelogDate": "20220913014501",
+  "dto": "mapstruct",
+  "embedded": false,
+  "entityTableName": "transaccion",
+  "fields": [
+    {
+      "fieldName": "date",
+      "fieldType": "LocalDate"
+    },
+    {
+      "fieldName": "paymentMethod",
+      "fieldType": "MetodoPago",
+      "fieldValues": "Efectivo,Banco"
+    },
+    {
+      "fieldName": "transactionNumber",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Float"
+    },
+    {
+      "fieldName": "note",
+      "fieldType": "String"
+    }
+  ],
+  "fluentMethods": true,
+  "jpaMetamodelFiltering": true,
+  "name": "Transaccion",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "obra",
+      "relationshipName": "obra",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "lastName",
+      "otherEntityName": "subcontratista",
+      "relationshipName": "subcontratista",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "tipoComprobante",
+      "relationshipName": "tipoComprobante",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "concepto",
+      "relationshipName": "concepto",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

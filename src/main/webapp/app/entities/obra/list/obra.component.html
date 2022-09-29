@@ -1,0 +1,150 @@
+<div>
+  <h2 id="page-heading" data-cy="ObraHeading">
+    <span>Obras</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-obra me-2"
+        [routerLink]="['/obra/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Obra </span>
+      </button>
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-obra"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="obras?.length === 0">
+    <span>No se encontraron Obras</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="obras && obras.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Nombre</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="address">
+            <div class="d-flex">
+              <span>Direccion</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <!--<th scope="col" jhiSortBy="city">
+            <div class="d-flex">
+              <span>City</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="provincia.name">
+            <div class="d-flex">
+              <span>Provincia</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let obra of obras; trackBy: trackId" data-cy="entityTable">
+          <!--<td>
+            <a [routerLink]="['/obra', obra.id, 'view']">{{ obra.id }}</a>
+          </td>-->
+          <td>{{ obra.name }}</td>
+          <td>{{ obra.address }}, {{ obra.city }}, {{ obra.provincia?.name }}</td>
+          <!--<td>
+            <div *ngIf="obra.provincia">
+              <a [routerLink]="['/provincia', obra.provincia.id, 'view']"></a>
+            </div>
+          </td>-->
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/subcontratista']"
+                [state]="{ oId: obra.id }"
+                class="btn btn-secondary btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Subcontratistas</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/tarea']"
+                [state]="{ oId: obra.id }"
+                class="btn btn-secondary btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="tasks"></fa-icon>
+                <span class="d-none d-md-inline">Tareas</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/acopio']"
+                [state]="{ oId: obra.id }"
+                class="btn btn-secondary btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="digging"></fa-icon>
+                <span class="d-none d-md-inline">Acopios</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/transaccion']"
+                [state]="{ oId: obra.id }"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="file-invoice"></fa-icon>
+                <span class="d-none d-md-inline">Transacciones</span>
+              </button>
+
+              <button type="submit" [routerLink]="['/obra', obra.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(obra)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

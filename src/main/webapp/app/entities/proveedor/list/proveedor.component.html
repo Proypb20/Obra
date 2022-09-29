@@ -1,0 +1,149 @@
+<div>
+  <h2 id="page-heading" data-cy="ProveedorHeading">
+    <span>Proveedores</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-proveedor me-2"
+        [routerLink]="['/proveedor/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Proveedor </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-proveedor"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="proveedors?.length === 0">
+    <span>No se encontraron proveedores</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="proveedors && proveedors.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Nombre</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <!--<th scope="col" jhiSortBy="address">
+            <div class="d-flex">
+              <span>Direccion</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="city">
+            <div class="d-flex">
+              <span>City</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="phone">
+            <div class="d-flex">
+              <span>Phone</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="email">
+            <div class="d-flex">
+              <span>Email</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="provincia.name">
+            <div class="d-flex">
+              <span>Provincia</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let proveedor of proveedors; trackBy: trackId" data-cy="entityTable">
+          <!--<td>
+            <a [routerLink]="['/proveedor', proveedor.id, 'view']">{{ proveedor.id }}</a>
+          </td>-->
+          <td>{{ proveedor.name }}</td>
+          <!--<td>{{ proveedor.address }}</td>
+          <td>{{ proveedor.city }}</td>
+          <td>{{ proveedor.phone }}</td>
+          <td>{{ proveedor.email }}</td>
+          <td>
+            <div *ngIf="proveedor.provincia">
+              <a [routerLink]="['/provincia', proveedor.provincia.id, 'view']">{{ proveedor.provincia.name }}</a>
+            </div>
+          </td>-->
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/acopio']"
+                [state]="{ pId: proveedor.id }"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="digging"></fa-icon>
+                <span class="d-none d-md-inline">Acopios</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/lista-precio']"
+                [state]="{ pId: proveedor.id }"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="file-invoice"></fa-icon>
+                <span class="d-none d-md-inline">Lista de Precios</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/proveedor', proveedor.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(proveedor)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

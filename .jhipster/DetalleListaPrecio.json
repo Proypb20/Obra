@@ -1,0 +1,31 @@
+{
+  "changelogDate": "20220920114056",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "code",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "product",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "amount",
+      "fieldType": "Float"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "DetalleListaPrecio",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "listaPrecio",
+      "relationshipName": "listaPrecio",
+      "relationshipType": "many-to-one"
+    }
+  ],
+  "service": "serviceClass"
+}

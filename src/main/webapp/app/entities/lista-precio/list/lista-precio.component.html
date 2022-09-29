@@ -1,0 +1,128 @@
+<div>
+  <h2 id="page-heading" data-cy="ListaPrecioHeading">
+    <span>Lista Precios</span>
+
+    <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity-submit"
+        class="btn btn-primary float-right jh-create-entity create-lista-precio me-2"
+        (click)="submitFile()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-up'"></fa-icon>
+        <span> Importar Lista</span>
+      </button>
+
+      <button
+        id="jh-create-entity"
+        data-cy="entityCreateButton"
+        class="btn btn-primary jh-create-entity create-lista-precio me-2"
+        [routerLink]="['/lista-precio/new']"
+      >
+        <fa-icon icon="plus"></fa-icon>
+        <span> Crear nuevo Lista Precio </span>
+      </button>
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-lista-precio"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="alert alert-warning" id="no-result" *ngIf="listaPrecios?.length === 0">
+    <span>No se encontraron listas de precio</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="listaPrecios && listaPrecios.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <!--<th scope="col" jhiSortBy="id">
+            <div class="d-flex">
+              <span>ID</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
+          <th scope="col" jhiSortBy="proveedor.name">
+            <div class="d-flex">
+              <span>Proveedor</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="name">
+            <div class="d-flex">
+              <span>Nombre</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="date">
+            <div class="d-flex">
+              <span>Fecha</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let listaPrecio of listaPrecios; trackBy: trackId" data-cy="entityTable">
+          <!--<td>
+            <a [routerLink]="['/lista-precio', listaPrecio.id, 'view']">{{ listaPrecio.id }}</a>
+          </td>-->
+          <td>
+            <div *ngIf="listaPrecio.proveedor">
+              <a [routerLink]="['/proveedor']" [state]="{ pId: listaPrecio.proveedor.id }">{{ listaPrecio.proveedor.name }}</a>
+            </div>
+          </td>
+          <td>{{ listaPrecio.name }}</td>
+          <td>{{ listaPrecio.date | formatShortDate }}</td>
+
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/detalle-lista-precio']"
+                [state]="{ lpId: listaPrecio.id }"
+                class="btn btn-info btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Detalle</span>
+              </button>
+
+              <button
+                type="submit"
+                [routerLink]="['/lista-precio', listaPrecio.id, 'edit']"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
+                <fa-icon icon="pencil-alt"></fa-icon>
+                <span class="d-none d-md-inline">Editar</span>
+              </button>
+
+              <button type="submit" (click)="delete(listaPrecio)" class="btn btn-danger btn-sm" data-cy="entityDeleteButton">
+                <fa-icon icon="times"></fa-icon>
+                <span class="d-none d-md-inline">Eliminar</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

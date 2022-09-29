@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Acopio.
+    -->
+    <changeSet id="20220913014454-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="obra_id"
+                                 baseTableName="acopio"
+                                 constraintName="fk_acopio__obra_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="obra"/>
+
+        <addForeignKeyConstraint baseColumnNames="proveedor_id"
+                                 baseTableName="acopio"
+                                 constraintName="fk_acopio__proveedor_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="proveedor"/>
+    </changeSet>
+</databaseChangeLog>
