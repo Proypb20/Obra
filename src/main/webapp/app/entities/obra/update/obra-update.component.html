@@ -52,6 +52,40 @@
           <label class="form-label" for="field_comments">Comentarios</label>
           <input type="text" class="form-control" name="comments" id="field_comments" data-cy="comments" formControlName="comments" />
         </div>
+
+        <div class="row mb-3">
+          <label for="field_subcontratistas">Subcontratista</label>
+          <select
+            class="form-control"
+            id="field_subcontratistas"
+            data-cy="subcontratista"
+            multiple
+            name="subcontratistas"
+            formControlName="subcontratistas"
+            [compareWith]="compareSubcontratista"
+          >
+            <option [ngValue]="subcontratistaOption" *ngFor="let subcontratistaOption of subcontratistasSharedCollection">
+              {{ subcontratistaOption.lastName }}, {{ subcontratistaOption.firstName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label for="field_clientes">Cliente</label>
+          <select
+            class="form-control"
+            id="field_clientes"
+            data-cy="cliente"
+            multiple
+            name="clientes"
+            formControlName="clientes"
+            [compareWith]="compareCliente"
+          >
+            <option [ngValue]="clienteOption" *ngFor="let clienteOption of clientesSharedCollection">
+              {{ clienteOption.lastName }}, {{ clienteOption.firstName }}
+            </option>
+          </select>
+        </div>
       </div>
 
       <div>

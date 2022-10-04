@@ -23,7 +23,7 @@
             <column name="transaction_number" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="amount" type="float">
+            <column name="amount" type="${floatType}">
                 <constraints nullable="true" />
             </column>
             <column name="note" type="varchar(255)">

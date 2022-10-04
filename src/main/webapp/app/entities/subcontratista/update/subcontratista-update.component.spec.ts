@@ -9,8 +9,6 @@ import { of, Subject, from } from 'rxjs';
 import { SubcontratistaFormService } from './subcontratista-form.service';
 import { SubcontratistaService } from '../service/subcontratista.service';
 import { ISubcontratista } from '../subcontratista.model';
-import { IObra } from 'app/entities/obra/obra.model';
-import { ObraService } from 'app/entities/obra/service/obra.service';
 
 import { SubcontratistaUpdateComponent } from './subcontratista-update.component';
 
@@ -20,7 +18,6 @@ describe('Subcontratista Management Update Component', () => {
   let activatedRoute: ActivatedRoute;
   let subcontratistaFormService: SubcontratistaFormService;
   let subcontratistaService: SubcontratistaService;
-  let obraService: ObraService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -43,43 +40,17 @@ describe('Subcontratista Management Update Component', () => {
     activatedRoute = TestBed.inject(ActivatedRoute);
     subcontratistaFormService = TestBed.inject(SubcontratistaFormService);
     subcontratistaService = TestBed.inject(SubcontratistaService);
-    obraService = TestBed.inject(ObraService);
 
     comp = fixture.componentInstance;
   });
 
   describe('ngOnInit', () => {
-    it('Should call Obra query and add missing value', () => {
-      const subcontratista: ISubcontratista = { id: 456 };
-      const obras: IObra[] = [{ id: 19352 }];
-      subcontratista.obras = obras;
-
-      const obraCollection: IObra[] = [{ id: 10634 }];
-      jest.spyOn(obraService, 'query').mockReturnValue(of(new HttpResponse({ body: obraCollection })));
-      const additionalObras = [...obras];
-      const expectedCollection: IObra[] = [...additionalObras, ...obraCollection];
-      jest.spyOn(obraService, 'addObraToCollectionIfMissing').mockReturnValue(expectedCollection);
-
-      activatedRoute.data = of({ subcontratista });
-      comp.ngOnInit();
-
-      expect(obraService.query).toHaveBeenCalled();
-      expect(obraService.addObraToCollectionIfMissing).toHaveBeenCalledWith(
-        obraCollection,
-        ...additionalObras.map(expect.objectContaining)
-      );
-      expect(comp.obrasSharedCollection).toEqual(expectedCollection);
-    });
-
     it('Should update editForm', () => {
       const subcontratista: ISubcontratista = { id: 456 };
-      const obra: IObra = { id: 79896 };
-      subcontratista.obras = [obra];
 
       activatedRoute.data = of({ subcontratista });
       comp.ngOnInit();
 
-      expect(comp.obrasSharedCollection).toContain(obra);
       expect(comp.subcontratista).toEqual(subcontratista);
     });
   });
@@ -149,18 +120,6 @@ describe('Subcontratista Management Update Component', () => {
       expect(subcontratistaService.update).toHaveBeenCalled();
       expect(comp.isSaving).toEqual(false);
       expect(comp.previousState).not.toHaveBeenCalled();
-    });
-  });
-
-  describe('Compare relationships', () => {
-    describe('compareObra', () => {
-      it('Should forward to obraService', () => {
-        const entity = { id: 123 };
-        const entity2 = { id: 456 };
-        jest.spyOn(obraService, 'compareObra');
-        comp.compareObra(entity, entity2);
-        expect(obraService.compareObra).toHaveBeenCalledWith(entity, entity2);
-      });
     });
   });
 });

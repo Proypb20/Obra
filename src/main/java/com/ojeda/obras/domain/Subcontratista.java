@@ -39,14 +39,9 @@ public class Subcontratista implements Serializable {
     @Column(name = "email")
     private String email;
 
-    @ManyToMany
-    @JoinTable(
-        name = "rel_subcontratista__obra",
-        joinColumns = @JoinColumn(name = "subcontratista_id"),
-        inverseJoinColumns = @JoinColumn(name = "obra_id")
-    )
+    @ManyToMany(mappedBy = "subcontratistas")
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-    @JsonIgnoreProperties(value = { "provincia", "subcontratistas" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "provincia", "subcontratistas", "clientes" }, allowSetters = true)
     private Set<Obra> obras = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
@@ -121,6 +116,12 @@ public class Subcontratista implements Serializable {
     }
 
     public void setObras(Set<Obra> obras) {
+        if (this.obras != null) {
+            this.obras.forEach(i -> i.removeSubcontratista(this));
+        }
+        if (obras != null) {
+            obras.forEach(i -> i.addSubcontratista(this));
+        }
         this.obras = obras;
     }
 

@@ -81,6 +81,31 @@
             <li>
               <a
                 class="dropdown-item"
+                routerLink="cliente"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="users" [fixedWidth]="true"></fa-icon>
+                <span>Clientes</span>
+              </a>
+            </li>
+            <!--
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="cliente"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
+                <span>Cliente</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
                 routerLink="acopio"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
@@ -125,7 +150,7 @@
                 <fa-icon icon="file-invoice" [fixedWidth]="true"></fa-icon>
                 <span>Lista de Precios</span>
               </a>
-            </li>
+            </li>-->
           </ul>
         </li>
         <!--Configuracion-->
@@ -156,19 +181,8 @@
                 <span>Provincia</span>
               </a>
             </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="unidad-medida"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Unidad Medida</span>
-              </a>
-            </li>
-            <li>
+
+            <!--<li>
               <a
                 class="dropdown-item"
                 routerLink="tipo-comprobante"
@@ -179,7 +193,7 @@
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span>Tipo Comprobante</span>
               </a>
-            </li>
+            </li>-->
             <li>
               <a
                 class="dropdown-item"
@@ -188,14 +202,14 @@
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
               >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <fa-icon icon="file-lines" [fixedWidth]="true"></fa-icon>
                 <span>Concepto</span>
               </a>
             </li>
           </ul>
         </li>
         <!--Reportes-->
-        <li
+        <!--<li
           *ngSwitchCase="true"
           ngbDropdown
           class="nav-item dropdown pointer"
@@ -223,7 +237,7 @@
               </a>
             </li>
           </ul>
-        </li>
+        </li>-->
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngSwitchCase="true"
@@ -286,6 +300,18 @@
             <li>
               <a
                 class="dropdown-item"
+                routerLink="cliente"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
+                <span>Cliente</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
                 routerLink="provincia"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
@@ -317,18 +343,6 @@
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
                 <span>Detalle Acopio</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="unidad-medida"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Unidad Medida</span>
               </a>
             </li>
             <li>
@@ -377,6 +391,30 @@
               >
                 <fa-icon icon="file-invoice" [fixedWidth]="true"></fa-icon>
                 <span>Transaccion</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="cliente"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span>Cliente</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="detalle-lista-precio"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span>Detalle Lista Precio</span>
               </a>
             </li>
             <!-- jhipster-needle-add-entity-to-menu - JHipster will add entities to the menu here -->

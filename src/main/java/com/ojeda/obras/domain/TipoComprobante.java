@@ -26,10 +26,6 @@ public class TipoComprobante implements Serializable {
     @Column(name = "name", nullable = false)
     private String name;
 
-    @NotNull
-    @Column(name = "sign", nullable = false)
-    private String sign;
-
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -58,14 +54,6 @@ public class TipoComprobante implements Serializable {
         this.name = name;
     }
 
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -91,7 +79,6 @@ public class TipoComprobante implements Serializable {
         return "TipoComprobante{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", sign='" + getSign() + "'" +
             "}";
     }
 }

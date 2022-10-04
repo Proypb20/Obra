@@ -1,16 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IObra } from '../obra.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../obra.test-samples';
 
-import { ObraService, RestObra } from './obra.service';
+import { ObraService } from './obra.service';
 
-const requireRestSample: RestObra = {
+const requireRestSample: IObra = {
   ...sampleWithRequiredData,
-  initialDate: sampleWithRequiredData.initialDate?.format(DATE_FORMAT),
-  endDate: sampleWithRequiredData.endDate?.format(DATE_FORMAT),
 };
 
 describe('Obra Service', () => {

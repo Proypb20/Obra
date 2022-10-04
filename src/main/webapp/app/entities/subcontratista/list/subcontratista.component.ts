@@ -97,7 +97,6 @@ export class SubcontratistaComponent implements OnInit {
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const queryObject = {
-      eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
       'obraId.equals': this.oId ?? 0,
     };

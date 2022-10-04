@@ -30,7 +30,7 @@ public class Acopio implements Serializable {
     private Long totalAmount;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "provincia", "subcontratistas" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "provincia", "subcontratistas", "clientes" }, allowSetters = true)
     private Obra obra;
 
     @ManyToOne

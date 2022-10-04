@@ -41,7 +41,7 @@ public class Transaccion implements Serializable {
     private String note;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "provincia", "subcontratistas" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "provincia", "subcontratistas", "clientes" }, allowSetters = true)
     private Obra obra;
 
     @ManyToOne
@@ -174,7 +174,7 @@ public class Transaccion implements Serializable {
     }
 
     public Concepto getConcepto() {
-        return concepto;
+        return this.concepto;
     }
 
     public void setConcepto(Concepto concepto) {

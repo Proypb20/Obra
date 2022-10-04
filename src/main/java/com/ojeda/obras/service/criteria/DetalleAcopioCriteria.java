@@ -45,11 +45,11 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
 
     private StringFilter description;
 
-    private LongFilter quantity;
+    private FloatFilter quantity;
 
-    private LongFilter unitPrice;
+    private FloatFilter unitPrice;
 
-    private LongFilter amount;
+    private FloatFilter amount;
 
     private LocalDateFilter requestDate;
 
@@ -127,48 +127,48 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
         this.description = description;
     }
 
-    public LongFilter getQuantity() {
+    public FloatFilter getQuantity() {
         return quantity;
     }
 
-    public LongFilter quantity() {
+    public FloatFilter quantity() {
         if (quantity == null) {
-            quantity = new LongFilter();
+            quantity = new FloatFilter();
         }
         return quantity;
     }
 
-    public void setQuantity(LongFilter quantity) {
+    public void setQuantity(FloatFilter quantity) {
         this.quantity = quantity;
     }
 
-    public LongFilter getUnitPrice() {
+    public FloatFilter getUnitPrice() {
         return unitPrice;
     }
 
-    public LongFilter unitPrice() {
+    public FloatFilter unitPrice() {
         if (unitPrice == null) {
-            unitPrice = new LongFilter();
+            unitPrice = new FloatFilter();
         }
         return unitPrice;
     }
 
-    public void setUnitPrice(LongFilter unitPrice) {
+    public void setUnitPrice(FloatFilter unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public LongFilter getAmount() {
+    public FloatFilter getAmount() {
         return amount;
     }
 
-    public LongFilter amount() {
+    public FloatFilter amount() {
         if (amount == null) {
-            amount = new LongFilter();
+            amount = new FloatFilter();
         }
         return amount;
     }
 
-    public void setAmount(LongFilter amount) {
+    public void setAmount(FloatFilter amount) {
         this.amount = amount;
     }
 

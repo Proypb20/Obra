@@ -38,21 +38,6 @@
           <label class="form-label" for="field_email">Email</label>
           <input type="text" class="form-control" name="email" id="field_email" data-cy="email" formControlName="email" />
         </div>
-
-        <div class="row mb-3">
-          <label for="field_obras">Obras</label>
-          <select
-            class="form-control"
-            id="field_obras"
-            data-cy="obra"
-            multiple
-            name="obras"
-            formControlName="obras"
-            [compareWith]="compareObra"
-          >
-            <option [ngValue]="obraOption" *ngFor="let obraOption of obrasSharedCollection">{{ obraOption.name }}</option>
-          </select>
-        </div>
       </div>
 
       <div>

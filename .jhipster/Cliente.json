@@ -1,0 +1,47 @@
+{
+  "changelogDate": "20220929214608",
+  "dto": "mapstruct",
+  "fields": [
+    {
+      "fieldName": "lastName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "firstName",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "taxpayerID",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "address",
+      "fieldType": "String"
+    },
+    {
+      "fieldName": "city",
+      "fieldType": "String"
+    }
+  ],
+  "jpaMetamodelFiltering": true,
+  "name": "Cliente",
+  "pagination": "no",
+  "readOnly": false,
+  "relationships": [
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "provincia",
+      "relationshipName": "provincia",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "obra",
+      "otherEntityRelationshipName": "cliente",
+      "ownerSide": false,
+      "relationshipName": "obra",
+      "relationshipType": "many-to-many"
+    }
+  ],
+  "service": "serviceClass"
+}

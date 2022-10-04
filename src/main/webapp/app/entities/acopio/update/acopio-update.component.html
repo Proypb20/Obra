@@ -16,7 +16,6 @@
         <div class="row mb-3">
           <label class="form-label" for="field_obra">Obra</label>
           <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra" [compareWith]="compareObra">
-            <option [ngValue]="null"></option>
             <option [ngValue]="obraOption" *ngFor="let obraOption of obrasSharedCollection">{{ obraOption.name }}</option>
           </select>
         </div>
@@ -31,7 +30,6 @@
             formControlName="proveedor"
             [compareWith]="compareProveedor"
           >
-            <option [ngValue]="null"></option>
             <option [ngValue]="proveedorOption" *ngFor="let proveedorOption of proveedorsSharedCollection">
               {{ proveedorOption.name }}
             </option>

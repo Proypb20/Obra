@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.ojeda.obras.IntegrationTest;
+import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.domain.Subcontratista;
 import com.ojeda.obras.domain.TipoComprobante;
@@ -187,7 +188,7 @@ class TransaccionResourceIT {
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].paymentMethod").value(hasItem(DEFAULT_PAYMENT_METHOD.toString())))
             .andExpect(jsonPath("$.[*].transactionNumber").value(hasItem(DEFAULT_TRANSACTION_NUMBER)))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE)));
     }
 
@@ -223,7 +224,7 @@ class TransaccionResourceIT {
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.paymentMethod").value(DEFAULT_PAYMENT_METHOD.toString()))
             .andExpect(jsonPath("$.transactionNumber").value(DEFAULT_TRANSACTION_NUMBER))
-            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.intValue()))
+            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.doubleValue()))
             .andExpect(jsonPath("$.note").value(DEFAULT_NOTE));
     }
 
@@ -665,6 +666,29 @@ class TransaccionResourceIT {
         defaultTransaccionShouldNotBeFound("tipoComprobanteId.equals=" + (tipoComprobanteId + 1));
     }
 
+    @Test
+    @Transactional
+    void getAllTransaccionsByConceptoIsEqualToSomething() throws Exception {
+        Concepto concepto;
+        if (TestUtil.findAll(em, Concepto.class).isEmpty()) {
+            transaccionRepository.saveAndFlush(transaccion);
+            concepto = ConceptoResourceIT.createEntity(em);
+        } else {
+            concepto = TestUtil.findAll(em, Concepto.class).get(0);
+        }
+        em.persist(concepto);
+        em.flush();
+        transaccion.setConcepto(concepto);
+        transaccionRepository.saveAndFlush(transaccion);
+        Long conceptoId = concepto.getId();
+
+        // Get all the transaccionList where concepto equals to conceptoId
+        defaultTransaccionShouldBeFound("conceptoId.equals=" + conceptoId);
+
+        // Get all the transaccionList where concepto equals to (conceptoId + 1)
+        defaultTransaccionShouldNotBeFound("conceptoId.equals=" + (conceptoId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -677,7 +701,7 @@ class TransaccionResourceIT {
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].paymentMethod").value(hasItem(DEFAULT_PAYMENT_METHOD.toString())))
             .andExpect(jsonPath("$.[*].transactionNumber").value(hasItem(DEFAULT_TRANSACTION_NUMBER)))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.intValue())))
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
             .andExpect(jsonPath("$.[*].note").value(hasItem(DEFAULT_NOTE)));
 
         // Check, that the count call also returns 1

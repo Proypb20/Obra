@@ -35,6 +35,8 @@ public class ObraCriteria implements Serializable, Criteria {
 
     private LongFilter subcontratistaId;
 
+    private LongFilter clienteId;
+
     private Boolean distinct;
 
     public ObraCriteria() {}
@@ -44,9 +46,10 @@ public class ObraCriteria implements Serializable, Criteria {
         this.name = other.name == null ? null : other.name.copy();
         this.address = other.address == null ? null : other.address.copy();
         this.city = other.city == null ? null : other.city.copy();
-        this.city = other.comments == null ? null : other.comments.copy();
+        this.comments = other.comments == null ? null : other.comments.copy();
         this.provinciaId = other.provinciaId == null ? null : other.provinciaId.copy();
         this.subcontratistaId = other.subcontratistaId == null ? null : other.subcontratistaId.copy();
+        this.clienteId = other.clienteId == null ? null : other.clienteId.copy();
         this.distinct = other.distinct;
     }
 
@@ -160,6 +163,21 @@ public class ObraCriteria implements Serializable, Criteria {
         this.subcontratistaId = subcontratistaId;
     }
 
+    public LongFilter getClienteId() {
+        return clienteId;
+    }
+
+    public LongFilter clienteId() {
+        if (clienteId == null) {
+            clienteId = new LongFilter();
+        }
+        return clienteId;
+    }
+
+    public void setClienteId(LongFilter clienteId) {
+        this.clienteId = clienteId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -185,13 +203,14 @@ public class ObraCriteria implements Serializable, Criteria {
             Objects.equals(comments, that.comments) &&
             Objects.equals(provinciaId, that.provinciaId) &&
             Objects.equals(subcontratistaId, that.subcontratistaId) &&
+            Objects.equals(clienteId, that.clienteId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name, address, city, comments, provinciaId, subcontratistaId, distinct);
+        return Objects.hash(id, name, address, city, comments, provinciaId, subcontratistaId, clienteId, distinct);
     }
 
     // prettier-ignore
@@ -205,6 +224,7 @@ public class ObraCriteria implements Serializable, Criteria {
             (comments != null ? "comments=" + comments + ", " : "") +
             (provinciaId != null ? "provinciaId=" + provinciaId + ", " : "") +
             (subcontratistaId != null ? "subcontratistaId=" + subcontratistaId + ", " : "") +
+            (clienteId != null ? "clienteId=" + clienteId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

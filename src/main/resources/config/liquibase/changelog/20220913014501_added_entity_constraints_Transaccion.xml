@@ -25,6 +25,7 @@
                                  constraintName="fk_transaccion__tipo_comprobante_id"
                                  referencedColumnNames="id"
                                  referencedTableName="tipo_comprobante"/>
+
         <addForeignKeyConstraint baseColumnNames="concepto_id"
                                  baseTableName="transaccion"
                                  constraintName="fk_transaccion__concepto_id"

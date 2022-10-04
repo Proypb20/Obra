@@ -63,6 +63,10 @@ public class CacheConfiguration {
             createCache(cm, com.ojeda.obras.domain.Concepto.class.getName());
             createCache(cm, com.ojeda.obras.domain.Transaccion.class.getName());
             createCache(cm, com.ojeda.obras.domain.ListaPrecio.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Cliente.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Cliente.class.getName() + ".obras");
+            createCache(cm, com.ojeda.obras.domain.Obra.class.getName() + ".clientes");
+            createCache(cm, com.ojeda.obras.domain.DetalleListaPrecio.class.getName());
             // jhipster-needle-caffeine-add-entry
         };
     }

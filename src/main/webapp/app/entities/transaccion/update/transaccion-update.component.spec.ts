@@ -129,10 +129,10 @@ describe('Transaccion Management Update Component', () => {
 
     it('Should call Concepto query and add missing value', () => {
       const transaccion: ITransaccion = { id: 456 };
-      const concepto: IConcepto = { id: 20820 };
+      const concepto: IConcepto = { id: 58409 };
       transaccion.concepto = concepto;
 
-      const conceptoCollection: IConcepto[] = [{ id: 85950 }];
+      const conceptoCollection: IConcepto[] = [{ id: 85653 }];
       jest.spyOn(conceptoService, 'query').mockReturnValue(of(new HttpResponse({ body: conceptoCollection })));
       const additionalConceptos = [concepto];
       const expectedCollection: IConcepto[] = [...additionalConceptos, ...conceptoCollection];
@@ -157,7 +157,7 @@ describe('Transaccion Management Update Component', () => {
       transaccion.subcontratista = subcontratista;
       const tipoComprobante: ITipoComprobante = { id: 11238 };
       transaccion.tipoComprobante = tipoComprobante;
-      const concepto: IConcepto = { id: 11238 };
+      const concepto: IConcepto = { id: 99116 };
       transaccion.concepto = concepto;
 
       activatedRoute.data = of({ transaccion });

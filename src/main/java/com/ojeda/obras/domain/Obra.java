@@ -42,10 +42,25 @@ public class Obra implements Serializable {
     @ManyToOne
     private Provincia provincia;
 
-    @ManyToMany(mappedBy = "obras")
+    @ManyToMany
+    @JoinTable(
+        name = "rel_obra__subcontratista",
+        joinColumns = @JoinColumn(name = "obra_id"),
+        inverseJoinColumns = @JoinColumn(name = "subcontratista_id")
+    )
     @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
     @JsonIgnoreProperties(value = { "obras" }, allowSetters = true)
     private Set<Subcontratista> subcontratistas = new HashSet<>();
+
+    @ManyToMany
+    @JoinTable(
+        name = "rel_obra__cliente",
+        joinColumns = @JoinColumn(name = "obra_id"),
+        inverseJoinColumns = @JoinColumn(name = "cliente_id")
+    )
+    @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+    @JsonIgnoreProperties(value = { "provincia", "obras" }, allowSetters = true)
+    private Set<Cliente> clientes = new HashSet<>();
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -102,16 +117,16 @@ public class Obra implements Serializable {
     }
 
     public String getComments() {
-        return comments;
-    }
-
-    public void setComments(String comments) {
-        this.comments = comments;
+        return this.comments;
     }
 
     public Obra comments(String comments) {
         this.setComments(comments);
         return this;
+    }
+
+    public void setComments(String comments) {
+        this.comments = comments;
     }
 
     public Provincia getProvincia() {
@@ -132,12 +147,6 @@ public class Obra implements Serializable {
     }
 
     public void setSubcontratistas(Set<Subcontratista> subcontratistas) {
-        if (this.subcontratistas != null) {
-            this.subcontratistas.forEach(i -> i.removeObra(this));
-        }
-        if (subcontratistas != null) {
-            subcontratistas.forEach(i -> i.addObra(this));
-        }
         this.subcontratistas = subcontratistas;
     }
 
@@ -155,6 +164,31 @@ public class Obra implements Serializable {
     public Obra removeSubcontratista(Subcontratista subcontratista) {
         this.subcontratistas.remove(subcontratista);
         subcontratista.getObras().remove(this);
+        return this;
+    }
+
+    public Set<Cliente> getClientes() {
+        return this.clientes;
+    }
+
+    public void setClientes(Set<Cliente> clientes) {
+        this.clientes = clientes;
+    }
+
+    public Obra clientes(Set<Cliente> clientes) {
+        this.setClientes(clientes);
+        return this;
+    }
+
+    public Obra addCliente(Cliente cliente) {
+        this.clientes.add(cliente);
+        cliente.getObras().add(this);
+        return this;
+    }
+
+    public Obra removeCliente(Cliente cliente) {
+        this.clientes.remove(cliente);
+        cliente.getObras().remove(this);
         return this;
     }
 

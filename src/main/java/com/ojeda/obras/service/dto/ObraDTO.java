@@ -1,8 +1,9 @@
 package com.ojeda.obras.service.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.util.HashSet;
 import java.util.Objects;
+import java.util.Set;
 import javax.validation.constraints.*;
 
 /**
@@ -23,6 +24,10 @@ public class ObraDTO implements Serializable {
     private String comments;
 
     private ProvinciaDTO provincia;
+
+    private Set<SubcontratistaDTO> subcontratistas = new HashSet<>();
+
+    private Set<ClienteDTO> clientes = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -72,6 +77,22 @@ public class ObraDTO implements Serializable {
         this.provincia = provincia;
     }
 
+    public Set<SubcontratistaDTO> getSubcontratistas() {
+        return subcontratistas;
+    }
+
+    public void setSubcontratistas(Set<SubcontratistaDTO> subcontratistas) {
+        this.subcontratistas = subcontratistas;
+    }
+
+    public Set<ClienteDTO> getClientes() {
+        return clientes;
+    }
+
+    public void setClientes(Set<ClienteDTO> clientes) {
+        this.clientes = clientes;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -103,6 +124,8 @@ public class ObraDTO implements Serializable {
             ", city='" + getCity() + "'" +
             ", comments='" + getComments() + "'" +
             ", provincia=" + getProvincia() +
+            ", subcontratistas=" + getSubcontratistas() +
+            ", clientes=" + getClientes() +
             "}";
     }
 }

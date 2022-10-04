@@ -24,13 +24,38 @@
                 <constraints nullable="true" />
             </column>
             <column name="comments" type="varchar(255)">
-                <constraints nullable="false" />
+                <constraints nullable="true" />
             </column>
             <column name="provincia_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+    </changeSet>
+
+    <changeSet id="20220913014450-1-relations" author="jhipster">
+
+        <createTable tableName="rel_obra__subcontratista">
+            <column name="subcontratista_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="obra_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="obra_id, subcontratista_id" tableName="rel_obra__subcontratista"/>
+
+        <createTable tableName="rel_obra__cliente">
+            <column name="cliente_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+            <column name="obra_id" type="bigint">
+                <constraints nullable="false"/>
+            </column>
+        </createTable>
+
+        <addPrimaryKey columnNames="obra_id, cliente_id" tableName="rel_obra__cliente"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

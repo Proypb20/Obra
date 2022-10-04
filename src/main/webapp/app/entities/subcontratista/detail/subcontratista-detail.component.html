@@ -26,13 +26,6 @@
         <dd>
           <span>{{ subcontratista.email }}</span>
         </dd>
-        <dt><span>Obras Asignadas</span></dt>
-        <dd>
-          <span *ngFor="let obra of subcontratista.obras; let last = last">
-            <a [routerLink]="['/obra', obra.id, 'view']">{{ obra.name }}</a
-            >{{ last ? '' : ', ' }}
-          </span>
-        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

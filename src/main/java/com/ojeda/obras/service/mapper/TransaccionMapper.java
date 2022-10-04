@@ -1,7 +1,15 @@
 package com.ojeda.obras.service.mapper;
 
-import com.ojeda.obras.domain.*;
-import com.ojeda.obras.service.dto.*;
+import com.ojeda.obras.domain.Concepto;
+import com.ojeda.obras.domain.Obra;
+import com.ojeda.obras.domain.Subcontratista;
+import com.ojeda.obras.domain.TipoComprobante;
+import com.ojeda.obras.domain.Transaccion;
+import com.ojeda.obras.service.dto.ConceptoDTO;
+import com.ojeda.obras.service.dto.ObraDTO;
+import com.ojeda.obras.service.dto.SubcontratistaDTO;
+import com.ojeda.obras.service.dto.TipoComprobanteDTO;
+import com.ojeda.obras.service.dto.TransaccionDTO;
 import org.mapstruct.*;
 
 /**
@@ -25,14 +33,12 @@ public interface TransaccionMapper extends EntityMapper<TransaccionDTO, Transacc
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     @Mapping(target = "lastName", source = "lastName")
-    @Mapping(target = "firstName", source = "firstName")
     SubcontratistaDTO toDtoSubcontratistaLastName(Subcontratista subcontratista);
 
     @Named("tipoComprobanteName")
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     @Mapping(target = "name", source = "name")
-    @Mapping(target = "sign", source = "sign")
     TipoComprobanteDTO toDtoTipoComprobanteName(TipoComprobante tipoComprobante);
 
     @Named("conceptoName")

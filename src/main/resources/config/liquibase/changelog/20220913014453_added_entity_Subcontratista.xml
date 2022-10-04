@@ -30,20 +30,6 @@
         </createTable>
     </changeSet>
 
-    <changeSet id="20220913014453-1-relations" author="jhipster">
-
-        <createTable tableName="rel_subcontratista__obra">
-            <column name="obra_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-            <column name="subcontratista_id" type="bigint">
-                <constraints nullable="false"/>
-            </column>
-        </createTable>
-
-        <addPrimaryKey columnNames="subcontratista_id, obra_id" tableName="rel_subcontratista__obra"/>
-    </changeSet>
-
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->
 
     <!--

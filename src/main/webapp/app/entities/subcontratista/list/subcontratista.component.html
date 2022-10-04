@@ -71,12 +71,6 @@
               <span>Email</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
-          </th>
-          <th scope="col" jhiSortBy="obra.name">
-            <div class="d-flex">
-              <span>Obra</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
           </th>-->
           <th scope="col"></th>
         </tr>
@@ -88,13 +82,7 @@
           </td>-->
           <td>{{ subcontratista.lastName }}, {{ subcontratista.firstName }}</td>
           <!--<td>{{ subcontratista.phone }}</td>
-          <td>{{ subcontratista.email }}</td>
-          <td>
-            <span *ngFor="let obra of subcontratista.obras; let last = last">
-              <a class="form-control-static" [routerLink]="['/obra', obra.id, 'view']">{{ obra.name }}</a
-              >{{ last ? '' : ', ' }}
-            </span>
-          </td>-->
+          <td>{{ subcontratista.email }}</td>-->
           <td class="text-end">
             <div class="btn-group">
               <button

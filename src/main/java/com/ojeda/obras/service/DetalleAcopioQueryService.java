@@ -16,7 +16,6 @@ import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import tech.jhipster.service.QueryService;
-import tech.jhipster.service.filter.StringFilter;
 
 /**
  * Service for executing complex queries for {@link DetalleAcopio} entities in the database.
@@ -97,15 +96,15 @@ public class DetalleAcopioQueryService extends QueryService<DetalleAcopio> {
             if (criteria.getDescription() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getDescription(), DetalleAcopio_.description));
             }
-            /*if (criteria.getQuantity() != null) {
-                specification = specification.and(buildStringSpecification((StringFilter) criteria.getQuantity(), DetalleAcopio_.quantity.toString()));
+            if (criteria.getQuantity() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getQuantity(), DetalleAcopio_.quantity));
             }
             if (criteria.getUnitPrice() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getUnitPrice(), DetalleAcopio_.unitPrice));
             }
             if (criteria.getAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAmount(), DetalleAcopio_.amount));
-            }*/
+            }
             if (criteria.getRequestDate() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getRequestDate(), DetalleAcopio_.requestDate));
             }

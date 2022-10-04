@@ -74,6 +74,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Reporte de Estado de Avance' },
         loadChildren: () => import('./adv-pend-rep/adv-pend-rep.module').then(m => m.AdvPendRepModule),
       },
+      {
+        path: 'cliente',
+        data: { pageTitle: 'Clientes' },
+        loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

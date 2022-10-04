@@ -23,6 +23,9 @@ export class AcopioUpdateComponent implements OnInit {
   obrasSharedCollection: IObra[] = [];
   proveedorsSharedCollection: IProveedor[] = [];
 
+  pId = 0;
+  oId = 0;
+
   editForm: AcopioFormGroup = this.acopioFormService.createAcopioFormGroup();
 
   constructor(
@@ -38,6 +41,8 @@ export class AcopioUpdateComponent implements OnInit {
   compareProveedor = (o1: IProveedor | null, o2: IProveedor | null): boolean => this.proveedorService.compareProveedor(o1, o2);
 
   ngOnInit(): void {
+    this.pId = history.state.pId;
+    this.oId = history.state.oId;
     this.activatedRoute.data.subscribe(({ acopio }) => {
       this.acopio = acopio;
       if (acopio) {
@@ -94,13 +99,13 @@ export class AcopioUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.obraService
-      .query()
+      .query({ 'obraId.equals': this.oId })
       .pipe(map((res: HttpResponse<IObra[]>) => res.body ?? []))
       .pipe(map((obras: IObra[]) => this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.acopio?.obra)))
       .subscribe((obras: IObra[]) => (this.obrasSharedCollection = obras));
 
     this.proveedorService
-      .query()
+      .query({ 'id.equals': this.pId })
       .pipe(map((res: HttpResponse<IProveedor[]>) => res.body ?? []))
       .pipe(
         map((proveedors: IProveedor[]) =>

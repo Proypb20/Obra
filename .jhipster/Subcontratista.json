@@ -34,7 +34,7 @@
       "otherEntityField": "name",
       "otherEntityName": "obra",
       "otherEntityRelationshipName": "subcontratista",
-      "ownerSide": true,
+      "ownerSide": false,
       "relationshipName": "obra",
       "relationshipType": "many-to-many"
     }

@@ -4,12 +4,10 @@ import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.domain.Subcontratista;
 import com.ojeda.obras.domain.Tarea;
-import com.ojeda.obras.domain.UnidadMedida;
 import com.ojeda.obras.service.dto.ConceptoDTO;
 import com.ojeda.obras.service.dto.ObraDTO;
 import com.ojeda.obras.service.dto.SubcontratistaDTO;
 import com.ojeda.obras.service.dto.TareaDTO;
-import com.ojeda.obras.service.dto.UnidadMedidaDTO;
 import org.mapstruct.*;
 
 /**

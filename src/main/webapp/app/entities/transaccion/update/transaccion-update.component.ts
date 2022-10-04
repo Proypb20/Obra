@@ -32,6 +32,7 @@ export class TransaccionUpdateComponent implements OnInit {
   conceptosSharedCollection: IConcepto[] = [];
 
   oId = 0;
+  sId = 0;
 
   editForm: TransaccionFormGroup = this.transaccionFormService.createTransaccionFormGroup();
 
@@ -57,6 +58,7 @@ export class TransaccionUpdateComponent implements OnInit {
 
   ngOnInit(): void {
     this.oId = history.state.oId ?? 0;
+    this.sId = history.state.sId ?? 0;
     this.activatedRoute.data.subscribe(({ transaccion }) => {
       this.transaccion = transaccion;
       if (transaccion) {
@@ -127,7 +129,7 @@ export class TransaccionUpdateComponent implements OnInit {
       .subscribe((obras: IObra[]) => (this.obrasSharedCollection = obras));
 
     this.subcontratistaService
-      .query({ 'obraId.equals': this.oId })
+      .query({ 'obraId.equals': this.oId, 'id.equals': this.sId })
       .pipe(map((res: HttpResponse<ISubcontratista[]>) => res.body ?? []))
       .pipe(
         map((subcontratistas: ISubcontratista[]) =>

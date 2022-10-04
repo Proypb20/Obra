@@ -7,11 +7,13 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.ojeda.obras.IntegrationTest;
+import com.ojeda.obras.domain.Cliente;
 import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.domain.Provincia;
 import com.ojeda.obras.domain.Subcontratista;
 import com.ojeda.obras.repository.ObraRepository;
 import com.ojeda.obras.service.ObraService;
+import com.ojeda.obras.service.criteria.ObraCriteria;
 import com.ojeda.obras.service.dto.ObraDTO;
 import com.ojeda.obras.service.mapper.ObraMapper;
 import java.util.ArrayList;
@@ -27,6 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -179,7 +182,7 @@ class ObraResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
-            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_COMMENTS)));
+            .andExpect(jsonPath("$.[*].comments").value(hasItem(DEFAULT_COMMENTS)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -214,7 +217,7 @@ class ObraResourceIT {
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
             .andExpect(jsonPath("$.address").value(DEFAULT_ADDRESS))
             .andExpect(jsonPath("$.city").value(DEFAULT_CITY))
-            .andExpect(jsonPath("$.endDate").value(DEFAULT_COMMENTS));
+            .andExpect(jsonPath("$.comments").value(DEFAULT_COMMENTS));
     }
 
     @Test
@@ -436,10 +439,10 @@ class ObraResourceIT {
         // Initialize the database
         obraRepository.saveAndFlush(obra);
 
-        // Get all the obraList where initialDate equals to DEFAULT_COMMENTS
+        // Get all the obraList where comments equals to DEFAULT_COMMENTS
         defaultObraShouldBeFound("comments.equals=" + DEFAULT_COMMENTS);
 
-        // Get all the obraList where initialDate equals to UPDATED_COMMENTS
+        // Get all the obraList where comments equals to UPDATED_COMMENTS
         defaultObraShouldNotBeFound("comments.equals=" + UPDATED_COMMENTS);
     }
 
@@ -449,11 +452,50 @@ class ObraResourceIT {
         // Initialize the database
         obraRepository.saveAndFlush(obra);
 
-        // Get all the obraList where initialDate in DEFAULT_COMMENTS or UPDATED_COMMENTS
-        defaultObraShouldBeFound("initialDate.in=" + DEFAULT_COMMENTS + "," + UPDATED_COMMENTS);
+        // Get all the obraList where comments in DEFAULT_COMMENTS or UPDATED_COMMENTS
+        defaultObraShouldBeFound("comments.in=" + DEFAULT_COMMENTS + "," + UPDATED_COMMENTS);
 
-        // Get all the obraList where initialDate equals to UPDATED_COMMENTS
-        defaultObraShouldNotBeFound("initialDate.in=" + UPDATED_COMMENTS);
+        // Get all the obraList where comments equals to UPDATED_COMMENTS
+        defaultObraShouldNotBeFound("comments.in=" + UPDATED_COMMENTS);
+    }
+
+    @Test
+    @Transactional
+    void getAllObrasByCommentsIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        obraRepository.saveAndFlush(obra);
+
+        // Get all the obraList where comments is not null
+        defaultObraShouldBeFound("comments.specified=true");
+
+        // Get all the obraList where comments is null
+        defaultObraShouldNotBeFound("comments.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllObrasByCommentsContainsSomething() throws Exception {
+        // Initialize the database
+        obraRepository.saveAndFlush(obra);
+
+        // Get all the obraList where comments contains DEFAULT_COMMENTS
+        defaultObraShouldBeFound("comments.contains=" + DEFAULT_COMMENTS);
+
+        // Get all the obraList where comments contains UPDATED_COMMENTS
+        defaultObraShouldNotBeFound("comments.contains=" + UPDATED_COMMENTS);
+    }
+
+    @Test
+    @Transactional
+    void getAllObrasByCommentsNotContainsSomething() throws Exception {
+        // Initialize the database
+        obraRepository.saveAndFlush(obra);
+
+        // Get all the obraList where comments does not contain DEFAULT_COMMENTS
+        defaultObraShouldNotBeFound("comments.doesNotContain=" + DEFAULT_COMMENTS);
+
+        // Get all the obraList where comments does not contain UPDATED_COMMENTS
+        defaultObraShouldBeFound("comments.doesNotContain=" + UPDATED_COMMENTS);
     }
 
     @Test
@@ -502,6 +544,29 @@ class ObraResourceIT {
         defaultObraShouldNotBeFound("subcontratistaId.equals=" + (subcontratistaId + 1));
     }
 
+    @Test
+    @Transactional
+    void getAllObrasByClienteIsEqualToSomething() throws Exception {
+        Cliente cliente;
+        if (TestUtil.findAll(em, Cliente.class).isEmpty()) {
+            obraRepository.saveAndFlush(obra);
+            cliente = ClienteResourceIT.createEntity(em);
+        } else {
+            cliente = TestUtil.findAll(em, Cliente.class).get(0);
+        }
+        em.persist(cliente);
+        em.flush();
+        obra.addCliente(cliente);
+        obraRepository.saveAndFlush(obra);
+        Long clienteId = cliente.getId();
+
+        // Get all the obraList where cliente equals to clienteId
+        defaultObraShouldBeFound("clienteId.equals=" + clienteId);
+
+        // Get all the obraList where cliente equals to (clienteId + 1)
+        defaultObraShouldNotBeFound("clienteId.equals=" + (clienteId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -514,7 +579,7 @@ class ObraResourceIT {
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
             .andExpect(jsonPath("$.[*].address").value(hasItem(DEFAULT_ADDRESS)))
             .andExpect(jsonPath("$.[*].city").value(hasItem(DEFAULT_CITY)))
-            .andExpect(jsonPath("$.[*].endDate").value(hasItem(DEFAULT_COMMENTS)));
+            .andExpect(jsonPath("$.[*].comments").value(hasItem(DEFAULT_COMMENTS)));
 
         // Check, that the count call also returns 1
         restObraMockMvc
@@ -660,7 +725,7 @@ class ObraResourceIT {
         Obra partialUpdatedObra = new Obra();
         partialUpdatedObra.setId(obra.getId());
 
-        partialUpdatedObra.city(UPDATED_CITY).comments(UPDATED_COMMENTS);
+        partialUpdatedObra.city(UPDATED_CITY);
 
         restObraMockMvc
             .perform(

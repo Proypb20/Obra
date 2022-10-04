@@ -38,7 +38,7 @@ public interface TareaRepository extends JpaRepository<Tarea, Long>, JpaSpecific
     List<Tarea> findAllWithToOneRelationships();
 
     @Query(
-        "select tarea from Tarea tarea  left join fetch tarea.obra left join fetch tarea.subcontratista left join fetch tarea.concepto where tarea.id =:id"
+        "select tarea from Tarea tarea left join fetch tarea.obra left join fetch tarea.subcontratista left join fetch tarea.concepto where tarea.id =:id"
     )
     Optional<Tarea> findOneWithToOneRelationships(@Param("id") Long id);
 }

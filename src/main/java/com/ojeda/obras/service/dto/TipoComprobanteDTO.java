@@ -15,9 +15,6 @@ public class TipoComprobanteDTO implements Serializable {
     @NotNull
     private String name;
 
-    @NotNull
-    private String sign;
-
     public Long getId() {
         return id;
     }
@@ -32,14 +29,6 @@ public class TipoComprobanteDTO implements Serializable {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public String getSign() {
-        return sign;
-    }
-
-    public void setSign(String sign) {
-        this.sign = sign;
     }
 
     @Override
@@ -69,7 +58,6 @@ public class TipoComprobanteDTO implements Serializable {
         return "TipoComprobanteDTO{" +
             "id=" + getId() +
             ", name='" + getName() + "'" +
-            ", sign='" + getSign() + "'" +
             "}";
     }
 }

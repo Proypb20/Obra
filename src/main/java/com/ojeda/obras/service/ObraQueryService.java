@@ -117,6 +117,12 @@ public class ObraQueryService extends QueryService<Obra> {
                         )
                     );
             }
+            if (criteria.getClienteId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(criteria.getClienteId(), root -> root.join(Obra_.clientes, JoinType.LEFT).get(Cliente_.id))
+                    );
+            }
         }
         return specification;
     }

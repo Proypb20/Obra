@@ -73,6 +73,7 @@ public class TransaccionCriteria implements Serializable, Criteria {
         this.obraId = other.obraId == null ? null : other.obraId.copy();
         this.subcontratistaId = other.subcontratistaId == null ? null : other.subcontratistaId.copy();
         this.tipoComprobanteId = other.tipoComprobanteId == null ? null : other.tipoComprobanteId.copy();
+        this.conceptoId = other.conceptoId == null ? null : other.conceptoId.copy();
         this.distinct = other.distinct;
     }
 
@@ -258,6 +259,7 @@ public class TransaccionCriteria implements Serializable, Criteria {
             Objects.equals(obraId, that.obraId) &&
             Objects.equals(subcontratistaId, that.subcontratistaId) &&
             Objects.equals(tipoComprobanteId, that.tipoComprobanteId) &&
+            Objects.equals(conceptoId, that.conceptoId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -274,6 +276,7 @@ public class TransaccionCriteria implements Serializable, Criteria {
             obraId,
             subcontratistaId,
             tipoComprobanteId,
+            conceptoId,
             distinct
         );
     }
@@ -291,6 +294,7 @@ public class TransaccionCriteria implements Serializable, Criteria {
             (obraId != null ? "obraId=" + obraId + ", " : "") +
             (subcontratistaId != null ? "subcontratistaId=" + subcontratistaId + ", " : "") +
             (tipoComprobanteId != null ? "tipoComprobanteId=" + tipoComprobanteId + ", " : "") +
+            (conceptoId != null ? "conceptoId=" + conceptoId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

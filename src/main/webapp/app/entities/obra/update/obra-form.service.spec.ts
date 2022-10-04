@@ -26,6 +26,7 @@ describe('Obra Form Service', () => {
             comments: expect.any(Object),
             provincia: expect.any(Object),
             subcontratistas: expect.any(Object),
+            clientes: expect.any(Object),
           })
         );
       });
@@ -42,6 +43,7 @@ describe('Obra Form Service', () => {
             comments: expect.any(Object),
             provincia: expect.any(Object),
             subcontratistas: expect.any(Object),
+            clientes: expect.any(Object),
           })
         );
       });

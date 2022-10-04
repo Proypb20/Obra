@@ -36,6 +36,20 @@
             <a [routerLink]="['/provincia', obra.provincia.id, 'view']">{{ obra.provincia.name }}</a>
           </div>
         </dd>
+        <dt><span>Subcontratista</span></dt>
+        <dd>
+          <span *ngFor="let subcontratista of obra.subcontratistas; let last = last">
+            <a [routerLink]="['/subcontratista', subcontratista.id, 'view']">{{ subcontratista.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
+        <dt><span>Cliente</span></dt>
+        <dd>
+          <span *ngFor="let cliente of obra.clientes; let last = last">
+            <a [routerLink]="['/cliente', cliente.id, 'view']">{{ cliente.id }}</a
+            >{{ last ? '' : ', ' }}
+          </span>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

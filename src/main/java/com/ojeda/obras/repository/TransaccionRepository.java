@@ -38,7 +38,7 @@ public interface TransaccionRepository extends JpaRepository<Transaccion, Long>,
     List<Transaccion> findAllWithToOneRelationships();
 
     @Query(
-        "select transaccion from Transaccion transaccion left join fetch transaccion.obra left join fetch transaccion.subcontratista left join fetch transaccion.tipoComprobante  left join fetch transaccion.concepto where transaccion.id =:id"
+        "select transaccion from Transaccion transaccion left join fetch transaccion.obra left join fetch transaccion.subcontratista left join fetch transaccion.tipoComprobante left join fetch transaccion.concepto where transaccion.id =:id"
     )
     Optional<Transaccion> findOneWithToOneRelationships(@Param("id") Long id);
 }

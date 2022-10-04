@@ -11,9 +11,9 @@ import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.domain.Subcontratista;
 import com.ojeda.obras.domain.Tarea;
-import com.ojeda.obras.domain.UnidadMedida;
 import com.ojeda.obras.repository.TareaRepository;
 import com.ojeda.obras.service.TareaService;
+import com.ojeda.obras.service.criteria.TareaCriteria;
 import com.ojeda.obras.service.dto.TareaDTO;
 import com.ojeda.obras.service.mapper.TareaMapper;
 import java.util.ArrayList;
@@ -29,6 +29,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
@@ -182,9 +183,9 @@ class TareaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tarea.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
-            .andExpect(jsonPath("$.[*].cost").value(hasItem(DEFAULT_COST.intValue())))
-            .andExpect(jsonPath("$.[*].advanceStatus").value(hasItem(DEFAULT_ADVANCE_STATUS.intValue())));
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].cost").value(hasItem(DEFAULT_COST.doubleValue())))
+            .andExpect(jsonPath("$.[*].advanceStatus").value(hasItem(DEFAULT_ADVANCE_STATUS.doubleValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -217,9 +218,9 @@ class TareaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(tarea.getId().intValue()))
             .andExpect(jsonPath("$.name").value(DEFAULT_NAME))
-            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.intValue()))
-            .andExpect(jsonPath("$.cost").value(DEFAULT_COST.intValue()))
-            .andExpect(jsonPath("$.advanceStatus").value(DEFAULT_ADVANCE_STATUS.intValue()));
+            .andExpect(jsonPath("$.quantity").value(DEFAULT_QUANTITY.doubleValue()))
+            .andExpect(jsonPath("$.cost").value(DEFAULT_COST.doubleValue()))
+            .andExpect(jsonPath("$.advanceStatus").value(DEFAULT_ADVANCE_STATUS.doubleValue()));
     }
 
     @Test
@@ -657,9 +658,9 @@ class TareaResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(tarea.getId().intValue())))
             .andExpect(jsonPath("$.[*].name").value(hasItem(DEFAULT_NAME)))
-            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.intValue())))
-            .andExpect(jsonPath("$.[*].cost").value(hasItem(DEFAULT_COST.intValue())))
-            .andExpect(jsonPath("$.[*].advanceStatus").value(hasItem(DEFAULT_ADVANCE_STATUS.intValue())));
+            .andExpect(jsonPath("$.[*].quantity").value(hasItem(DEFAULT_QUANTITY.doubleValue())))
+            .andExpect(jsonPath("$.[*].cost").value(hasItem(DEFAULT_COST.doubleValue())))
+            .andExpect(jsonPath("$.[*].advanceStatus").value(hasItem(DEFAULT_ADVANCE_STATUS.doubleValue())));
 
         // Check, that the count call also returns 1
         restTareaMockMvc

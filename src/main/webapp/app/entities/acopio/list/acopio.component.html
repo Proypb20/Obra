@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-acopio me-2"
         [routerLink]="['/acopio/new']"
+        [state]="{ pId: this.pId }"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Crear nuevo Acopio </span>

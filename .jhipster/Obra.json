@@ -19,14 +19,8 @@
       "fieldType": "String"
     },
     {
-      "fieldName": "initialDate",
-      "fieldType": "LocalDate",
-      "fieldValidateRules": ["required"]
-    },
-    {
-      "fieldName": "endDate",
-      "fieldType": "LocalDate",
-      "fieldValidateRules": ["required"]
+      "fieldName": "comments",
+      "fieldType": "String"
     }
   ],
   "fluentMethods": true,
@@ -44,8 +38,15 @@
     {
       "otherEntityName": "subcontratista",
       "otherEntityRelationshipName": "obra",
-      "ownerSide": false,
+      "ownerSide": true,
       "relationshipName": "subcontratista",
+      "relationshipType": "many-to-many"
+    },
+    {
+      "otherEntityName": "cliente",
+      "otherEntityRelationshipName": "obra",
+      "ownerSide": true,
+      "relationshipName": "cliente",
       "relationshipType": "many-to-many"
     }
   ],

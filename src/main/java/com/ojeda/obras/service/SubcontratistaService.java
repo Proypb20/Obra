@@ -10,8 +10,6 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -95,15 +93,6 @@ public class SubcontratistaService {
     }
 
     /**
-     * Get all the subcontratistas with eager load of many-to-many relationships.
-     *
-     * @return the list of entities.
-     */
-    public Page<SubcontratistaDTO> findAllWithEagerRelationships(Pageable pageable) {
-        return subcontratistaRepository.findAllWithEagerRelationships(pageable).map(subcontratistaMapper::toDto);
-    }
-
-    /**
      * Get one subcontratista by id.
      *
      * @param id the id of the entity.
@@ -112,7 +101,7 @@ public class SubcontratistaService {
     @Transactional(readOnly = true)
     public Optional<SubcontratistaDTO> findOne(Long id) {
         log.debug("Request to get Subcontratista : {}", id);
-        return subcontratistaRepository.findOneWithEagerRelationships(id).map(subcontratistaMapper::toDto);
+        return subcontratistaRepository.findById(id).map(subcontratistaMapper::toDto);
     }
 
     /**

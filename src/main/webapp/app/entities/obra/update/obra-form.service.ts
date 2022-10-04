@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type ObraFormGroupInput = IObra | PartialWithRequiredKeyOf<NewObra>;
 
-type ObraFormDefaults = Pick<NewObra, 'id' | 'subcontratistas'>;
+type ObraFormDefaults = Pick<NewObra, 'id' | 'subcontratistas' | 'clientes'>;
 
 type ObraFormGroupContent = {
   id: FormControl<IObra['id'] | NewObra['id']>;
@@ -24,6 +24,7 @@ type ObraFormGroupContent = {
   comments: FormControl<IObra['comments']>;
   provincia: FormControl<IObra['provincia']>;
   subcontratistas: FormControl<IObra['subcontratistas']>;
+  clientes: FormControl<IObra['clientes']>;
 };
 
 export type ObraFormGroup = FormGroup<ObraFormGroupContent>;
@@ -48,11 +49,10 @@ export class ObraFormService {
       }),
       address: new FormControl(obraRawValue.address),
       city: new FormControl(obraRawValue.city),
-      comments: new FormControl(obraRawValue.comments, {
-        validators: [Validators.required],
-      }),
+      comments: new FormControl(obraRawValue.comments),
       provincia: new FormControl(obraRawValue.provincia),
       subcontratistas: new FormControl(obraRawValue.subcontratistas ?? []),
+      clientes: new FormControl(obraRawValue.clientes ?? []),
     });
   }
 
@@ -74,6 +74,7 @@ export class ObraFormService {
     return {
       id: null,
       subcontratistas: [],
+      clientes: [],
     };
   }
 }

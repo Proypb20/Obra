@@ -71,6 +71,24 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>-->
+          <!--<th scope="col" jhiSortBy="subcontratista.id">
+            <div class="d-flex">
+              <span>Subcontratista</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="cliente.id">
+            <div class="d-flex">
+              <span>Cliente</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="comments">
+            <div class="d-flex">
+              <span>Comments</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>-->
           <th scope="col"></th>
         </tr>
       </thead>
@@ -81,10 +99,24 @@
           </td>-->
           <td>{{ obra.name }}</td>
           <td>{{ obra.address }}, {{ obra.city }}, {{ obra.provincia?.name }}</td>
-          <!--<td>
+          <!--
+          <td>{{ obra.comments }}</td>
+          <td>
             <div *ngIf="obra.provincia">
-              <a [routerLink]="['/provincia', obra.provincia.id, 'view']"></a>
+              <a [routerLink]="['/provincia', obra.provincia.id, 'view']">{{ obra.provincia.name }}</a>
             </div>
+          </td>
+          <td>
+            <span *ngFor="let subcontratista of obra.subcontratistas; let last = last">
+              <a class="form-control-static" [routerLink]="['/subcontratista', subcontratista.id, 'view']">{{ subcontratista.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
+          </td>
+          <td>
+            <span *ngFor="let cliente of obra.clientes; let last = last">
+              <a class="form-control-static" [routerLink]="['/cliente', cliente.id, 'view']">{{ cliente.id }}</a
+              >{{ last ? '' : ', ' }}
+            </span>
           </td>-->
           <td class="text-end">
             <div class="btn-group">
@@ -98,8 +130,17 @@
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">Subcontratistas</span>
               </button>
-
               <button
+                type="submit"
+                [routerLink]="['/cliente']"
+                [state]="{ oId: obra.id }"
+                class="btn btn-secondary btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="eye"></fa-icon>
+                <span class="d-none d-md-inline">Clientes</span>
+              </button>
+              <!--<button
                 type="submit"
                 [routerLink]="['/tarea']"
                 [state]="{ oId: obra.id }"
@@ -130,7 +171,7 @@
               >
                 <fa-icon icon="file-invoice"></fa-icon>
                 <span class="d-none d-md-inline">Transacciones</span>
-              </button>
+              </button>-->
 
               <button type="submit" [routerLink]="['/obra', obra.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                 <fa-icon icon="pencil-alt"></fa-icon>

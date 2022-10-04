@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-tarea me-2"
         [routerLink]="['/tarea/new']"
+        [state]="{ oId: this.oId }"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Crear nuevo Tarea </span>

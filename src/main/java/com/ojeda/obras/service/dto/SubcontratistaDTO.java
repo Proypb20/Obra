@@ -1,9 +1,7 @@
 package com.ojeda.obras.service.dto;
 
 import java.io.Serializable;
-import java.util.HashSet;
 import java.util.Objects;
-import java.util.Set;
 import javax.validation.constraints.*;
 
 /**
@@ -23,8 +21,6 @@ public class SubcontratistaDTO implements Serializable {
     private String phone;
 
     private String email;
-
-    private Set<ObraDTO> obras = new HashSet<>();
 
     public Long getId() {
         return id;
@@ -66,14 +62,6 @@ public class SubcontratistaDTO implements Serializable {
         this.email = email;
     }
 
-    public Set<ObraDTO> getObras() {
-        return obras;
-    }
-
-    public void setObras(Set<ObraDTO> obras) {
-        this.obras = obras;
-    }
-
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -98,13 +86,12 @@ public class SubcontratistaDTO implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "SubcontratistaDTOXXX{" +
+        return "SubcontratistaDTO{" +
             "id=" + getId() +
             ", lastName='" + getLastName() + "'" +
             ", firstName='" + getFirstName() + "'" +
             ", phone='" + getPhone() + "'" +
             ", email='" + getEmail() + "'" +
-            ", obras=" + getObras() +
             "}";
     }
 }

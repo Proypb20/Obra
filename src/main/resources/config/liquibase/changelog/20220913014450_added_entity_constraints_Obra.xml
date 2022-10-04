@@ -13,5 +13,29 @@
                                  constraintName="fk_obra__provincia_id"
                                  referencedColumnNames="id"
                                  referencedTableName="provincia"/>
+
+        <addForeignKeyConstraint baseColumnNames="obra_id"
+                                 baseTableName="rel_obra__subcontratista"
+                                 constraintName="fk_rel_obra__subcontratista__obra_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="obra"/>
+
+        <addForeignKeyConstraint baseColumnNames="subcontratista_id"
+                                 baseTableName="rel_obra__subcontratista"
+                                 constraintName="fk_rel_obra__subcontratista__subcontratista_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="subcontratista"/>
+
+        <addForeignKeyConstraint baseColumnNames="obra_id"
+                                 baseTableName="rel_obra__cliente"
+                                 constraintName="fk_rel_obra__cliente__obra_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="obra"/>
+
+        <addForeignKeyConstraint baseColumnNames="cliente_id"
+                                 baseTableName="rel_obra__cliente"
+                                 constraintName="fk_rel_obra__cliente__cliente_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="cliente"/>
     </changeSet>
 </databaseChangeLog>

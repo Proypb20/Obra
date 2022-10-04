@@ -20,13 +20,13 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="quantity" type="float">
+            <column name="quantity" type="${floatType}">
                 <constraints nullable="false" />
             </column>
-            <column name="unit_price" type="float">
+            <column name="unit_price" type="${floatType}">
                 <constraints nullable="false" />
             </column>
-            <column name="amount" type="float">
+            <column name="amount" type="${floatType}">
                 <constraints nullable="false" />
             </column>
             <column name="request_date" type="date">

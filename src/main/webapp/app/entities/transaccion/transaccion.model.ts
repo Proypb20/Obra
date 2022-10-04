@@ -14,7 +14,7 @@ export interface ITransaccion {
   note?: string | null;
   obra?: Pick<IObra, 'id' | 'name'> | null;
   subcontratista?: Pick<ISubcontratista, 'id' | 'lastName' | 'firstName'> | null;
-  tipoComprobante?: Pick<ITipoComprobante, 'id' | 'name' | 'sign'> | null;
+  tipoComprobante?: Pick<ITipoComprobante, 'id' | 'name'> | null;
   concepto?: Pick<IConcepto, 'id' | 'name'> | null;
 }
 

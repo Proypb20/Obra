@@ -19,7 +19,6 @@ type TipoComprobanteFormDefaults = Pick<NewTipoComprobante, 'id'>;
 type TipoComprobanteFormGroupContent = {
   id: FormControl<ITipoComprobante['id'] | NewTipoComprobante['id']>;
   name: FormControl<ITipoComprobante['name']>;
-  sign: FormControl<ITipoComprobante['sign']>;
 };
 
 export type TipoComprobanteFormGroup = FormGroup<TipoComprobanteFormGroupContent>;
@@ -40,9 +39,6 @@ export class TipoComprobanteFormService {
         }
       ),
       name: new FormControl(tipoComprobanteRawValue.name, {
-        validators: [Validators.required],
-      }),
-      sign: new FormControl(tipoComprobanteRawValue.sign, {
         validators: [Validators.required],
       }),
     });

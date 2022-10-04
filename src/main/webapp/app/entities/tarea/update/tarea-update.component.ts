@@ -28,6 +28,8 @@ export class TareaUpdateComponent implements OnInit {
 
   editForm: TareaFormGroup = this.tareaFormService.createTareaFormGroup();
 
+  oId = 0;
+
   constructor(
     protected tareaService: TareaService,
     protected tareaFormService: TareaFormService,
@@ -45,6 +47,7 @@ export class TareaUpdateComponent implements OnInit {
   compareConcepto = (o1: IConcepto | null, o2: IConcepto | null): boolean => this.conceptoService.compareConcepto(o1, o2);
 
   ngOnInit(): void {
+    this.oId = history.state.oId ?? 0;
     this.activatedRoute.data.subscribe(({ tarea }) => {
       this.tarea = tarea;
       if (tarea) {
@@ -105,13 +108,13 @@ export class TareaUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.obraService
-      .query()
+      .query({ 'id.equals': this.oId })
       .pipe(map((res: HttpResponse<IObra[]>) => res.body ?? []))
       .pipe(map((obras: IObra[]) => this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.tarea?.obra)))
       .subscribe((obras: IObra[]) => (this.obrasSharedCollection = obras));
 
     this.subcontratistaService
-      .query()
+      .query({ 'obraId.equals': this.oId })
       .pipe(map((res: HttpResponse<ISubcontratista[]>) => res.body ?? []))
       .pipe(
         map((subcontratistas: ISubcontratista[]) =>

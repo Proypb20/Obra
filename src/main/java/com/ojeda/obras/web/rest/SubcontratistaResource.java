@@ -1,6 +1,5 @@
 package com.ojeda.obras.web.rest;
 
-//import tech.jhipster.web.util.HeaderUtil;
 import com.ojeda.obras.domain.XXHeaderUtil;
 import com.ojeda.obras.repository.SubcontratistaRepository;
 import com.ojeda.obras.service.SubcontratistaQueryService;
