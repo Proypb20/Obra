@@ -41,7 +41,7 @@
             formControlName="provincia"
             [compareWith]="compareProvincia"
           >
-            <option [ngValue]="null"></option>
+            <!--<option [ngValue]="null"></option>-->
             <option [ngValue]="provinciaOption" *ngFor="let provinciaOption of provinciasSharedCollection">
               {{ provinciaOption.name }}
             </option>

@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { FormControl, FormBuilder, Validators } from '@angular/forms';
 import { HttpResponse } from '@angular/common/http';
 import { ListaPrecioService } from '../service/lista-precio.service';
 import { IProveedor } from 'app/entities/proveedor/proveedor.model';
@@ -15,11 +15,17 @@ export class ListaPrecioSubmitDialogComponent {
 
   proveedorsSharedCollection: IProveedor[] = [];
   proveedor?: IProveedor;
+  idProveedor?: number;
+
+  submitForm = this.fb.group({
+    proveedor: [],
+  });
 
   constructor(
     protected listaPrecioService: ListaPrecioService,
     protected activeModal: NgbActiveModal,
-    protected proveedorService: ProveedorService
+    protected proveedorService: ProveedorService,
+    protected fb: FormBuilder
   ) {}
 
   ngOnInit(): void {
@@ -40,7 +46,7 @@ export class ListaPrecioSubmitDialogComponent {
     if (this.selectedFiles) {
       const file: File | null = this.selectedFiles.item(0);
       if (file) {
-        this.listaPrecioService.submit(file).subscribe(() => {
+        this.listaPrecioService.submit(file, this.submitForm.get('proveedor')!.value!).subscribe(() => {
           this.activeModal.close('yes');
         });
       }
@@ -49,7 +55,7 @@ export class ListaPrecioSubmitDialogComponent {
 
   protected loadRelationshipsOptions(): void {
     this.proveedorService
-      .query()
+      .query({ 'id.equals': this.idProveedor })
       .pipe(map((res: HttpResponse<IProveedor[]>) => res.body ?? []))
       .pipe(
         map((proveedors: IProveedor[]) => this.proveedorService.addProveedorToCollectionIfMissing<IProveedor>(proveedors, this.proveedor))

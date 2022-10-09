@@ -1,4 +1,4 @@
-<form name="submitForm" (ngSubmit)="upload()">
+<form name="submitForm" [formGroup]="submitForm" (ngSubmit)="upload()">
   <div class="modal-header">
     <h4 class="modal-title" data-cy="listaPrecioSubmitDialogHeading">Confirmar operación</h4>
 
@@ -19,7 +19,7 @@
           formControlName="proveedor"
           [compareWith]="compareProveedor"
         >
-          <option [ngValue]="proveedorOption" *ngFor="let proveedorOption of proveedorsSharedCollection">
+          <option [ngValue]="proveedorOption.id" *ngFor="let proveedorOption of proveedorsSharedCollection">
             {{ proveedorOption.name }}
           </option>
         </select>

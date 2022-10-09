@@ -86,7 +86,7 @@ class DetalleListaPrecioResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static DetalleListaPrecio createEntity(EntityManager em) {
-        DetalleListaPrecio detalleListaPrecio = new DetalleListaPrecio().code(DEFAULT_CODE).product(DEFAULT_PRODUCT).amount(DEFAULT_AMOUNT);
+        DetalleListaPrecio detalleListaPrecio = new DetalleListaPrecio().product(DEFAULT_PRODUCT).amount(DEFAULT_AMOUNT);
         return detalleListaPrecio;
     }
 
@@ -97,7 +97,7 @@ class DetalleListaPrecioResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static DetalleListaPrecio createUpdatedEntity(EntityManager em) {
-        DetalleListaPrecio detalleListaPrecio = new DetalleListaPrecio().code(UPDATED_CODE).product(UPDATED_PRODUCT).amount(UPDATED_AMOUNT);
+        DetalleListaPrecio detalleListaPrecio = new DetalleListaPrecio().product(UPDATED_PRODUCT).amount(UPDATED_AMOUNT);
         return detalleListaPrecio;
     }
 
@@ -124,7 +124,6 @@ class DetalleListaPrecioResourceIT {
         List<DetalleListaPrecio> detalleListaPrecioList = detalleListaPrecioRepository.findAll();
         assertThat(detalleListaPrecioList).hasSize(databaseSizeBeforeCreate + 1);
         DetalleListaPrecio testDetalleListaPrecio = detalleListaPrecioList.get(detalleListaPrecioList.size() - 1);
-        assertThat(testDetalleListaPrecio.getCode()).isEqualTo(DEFAULT_CODE);
         assertThat(testDetalleListaPrecio.getProduct()).isEqualTo(DEFAULT_PRODUCT);
         assertThat(testDetalleListaPrecio.getAmount()).isEqualTo(DEFAULT_AMOUNT);
     }
@@ -524,7 +523,7 @@ class DetalleListaPrecioResourceIT {
         DetalleListaPrecio updatedDetalleListaPrecio = detalleListaPrecioRepository.findById(detalleListaPrecio.getId()).get();
         // Disconnect from session so that the updates on updatedDetalleListaPrecio are not directly saved in db
         em.detach(updatedDetalleListaPrecio);
-        updatedDetalleListaPrecio.code(UPDATED_CODE).product(UPDATED_PRODUCT).amount(UPDATED_AMOUNT);
+        updatedDetalleListaPrecio.product(UPDATED_PRODUCT).amount(UPDATED_AMOUNT);
         DetalleListaPrecioDTO detalleListaPrecioDTO = detalleListaPrecioMapper.toDto(updatedDetalleListaPrecio);
 
         restDetalleListaPrecioMockMvc
@@ -539,7 +538,6 @@ class DetalleListaPrecioResourceIT {
         List<DetalleListaPrecio> detalleListaPrecioList = detalleListaPrecioRepository.findAll();
         assertThat(detalleListaPrecioList).hasSize(databaseSizeBeforeUpdate);
         DetalleListaPrecio testDetalleListaPrecio = detalleListaPrecioList.get(detalleListaPrecioList.size() - 1);
-        assertThat(testDetalleListaPrecio.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testDetalleListaPrecio.getProduct()).isEqualTo(UPDATED_PRODUCT);
         assertThat(testDetalleListaPrecio.getAmount()).isEqualTo(UPDATED_AMOUNT);
     }
@@ -625,8 +623,6 @@ class DetalleListaPrecioResourceIT {
         DetalleListaPrecio partialUpdatedDetalleListaPrecio = new DetalleListaPrecio();
         partialUpdatedDetalleListaPrecio.setId(detalleListaPrecio.getId());
 
-        partialUpdatedDetalleListaPrecio.code(UPDATED_CODE);
-
         restDetalleListaPrecioMockMvc
             .perform(
                 patch(ENTITY_API_URL_ID, partialUpdatedDetalleListaPrecio.getId())
@@ -639,7 +635,6 @@ class DetalleListaPrecioResourceIT {
         List<DetalleListaPrecio> detalleListaPrecioList = detalleListaPrecioRepository.findAll();
         assertThat(detalleListaPrecioList).hasSize(databaseSizeBeforeUpdate);
         DetalleListaPrecio testDetalleListaPrecio = detalleListaPrecioList.get(detalleListaPrecioList.size() - 1);
-        assertThat(testDetalleListaPrecio.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testDetalleListaPrecio.getProduct()).isEqualTo(DEFAULT_PRODUCT);
         assertThat(testDetalleListaPrecio.getAmount()).isEqualTo(DEFAULT_AMOUNT);
     }
@@ -656,7 +651,7 @@ class DetalleListaPrecioResourceIT {
         DetalleListaPrecio partialUpdatedDetalleListaPrecio = new DetalleListaPrecio();
         partialUpdatedDetalleListaPrecio.setId(detalleListaPrecio.getId());
 
-        partialUpdatedDetalleListaPrecio.code(UPDATED_CODE).product(UPDATED_PRODUCT).amount(UPDATED_AMOUNT);
+        partialUpdatedDetalleListaPrecio.product(UPDATED_PRODUCT).amount(UPDATED_AMOUNT);
 
         restDetalleListaPrecioMockMvc
             .perform(
@@ -670,7 +665,6 @@ class DetalleListaPrecioResourceIT {
         List<DetalleListaPrecio> detalleListaPrecioList = detalleListaPrecioRepository.findAll();
         assertThat(detalleListaPrecioList).hasSize(databaseSizeBeforeUpdate);
         DetalleListaPrecio testDetalleListaPrecio = detalleListaPrecioList.get(detalleListaPrecioList.size() - 1);
-        assertThat(testDetalleListaPrecio.getCode()).isEqualTo(UPDATED_CODE);
         assertThat(testDetalleListaPrecio.getProduct()).isEqualTo(UPDATED_PRODUCT);
         assertThat(testDetalleListaPrecio.getAmount()).isEqualTo(UPDATED_AMOUNT);
     }

@@ -71,7 +71,7 @@ export class ListaPrecioComponent implements OnInit {
 
   submitFile(): void {
     const modalRef = this.modalService.open(ListaPrecioSubmitDialogComponent, { size: 'lg', backdrop: 'static' });
-    //modalRef.componentInstance.listaPrecio = listaPrecio;
+    modalRef.componentInstance.idProveedor = history.state.pId;
     // unsubscribe not needed because closed completes on modal close
     modalRef.closed.subscribe({
       next: (res: EntityArrayResponseType) => {

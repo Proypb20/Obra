@@ -23,19 +23,11 @@
             formControlName="proveedor"
             [compareWith]="compareProveedor"
           >
-            <option [ngValue]="null"></option>
+            <!--<option [ngValue]="null"></option>-->
             <option [ngValue]="proveedorOption" *ngFor="let proveedorOption of proveedorsSharedCollection">
               {{ proveedorOption.name }}
             </option>
           </select>
-        </div>
-
-        <div class="row mb-3">
-          <label class="form-label" for="field_name">Nombre</label>
-          <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
-          <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
-            <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> Este campo es obligatorio. </small>
-          </div>
         </div>
 
         <div class="row mb-3">
@@ -53,6 +45,14 @@
             />
             <!--<button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>-->
           </div>
+        </div>
+      </div>
+
+      <div class="row mb-3">
+        <label class="form-label" for="field_name">Nombre</label>
+        <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
+        <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
+          <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> Este campo es obligatorio. </small>
         </div>
       </div>
 

@@ -4,19 +4,17 @@ import com.ojeda.obras.domain.DetalleListaPrecio;
 import com.ojeda.obras.domain.ListaPrecio;
 import com.ojeda.obras.repository.DetalleListaPrecioRepository;
 import com.ojeda.obras.repository.ListaPrecioRepository;
+import com.ojeda.obras.repository.ProveedorRepository;
 import com.ojeda.obras.service.dto.ListaPrecioDTO;
 import com.ojeda.obras.service.mapper.ListaPrecioMapper;
 import java.io.*;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Date;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
@@ -43,14 +41,18 @@ public class ListaPrecioService {
 
     private final ListaPrecioMapper listaPrecioMapper;
 
+    private final ProveedorRepository proveedorRepository;
+
     public ListaPrecioService(
         ListaPrecioRepository listaPrecioRepository,
         DetalleListaPrecioRepository detalleListaPrecioRepository,
-        ListaPrecioMapper listaPrecioMapper
+        ListaPrecioMapper listaPrecioMapper,
+        ProveedorRepository proveedorRepository
     ) {
         this.listaPrecioRepository = listaPrecioRepository;
         this.listaPrecioMapper = listaPrecioMapper;
         this.detalleListaPrecioRepository = detalleListaPrecioRepository;
+        this.proveedorRepository = proveedorRepository;
     }
 
     /**
@@ -141,7 +143,7 @@ public class ListaPrecioService {
         listaPrecioRepository.deleteById(id);
     }
 
-    public Boolean submitXML(MultipartFile file) throws IOException {
+    public Boolean submitXLS(MultipartFile file, Long idProveedor) throws IOException {
         InputStream inputStream = new BufferedInputStream(file.getInputStream());
         File currDir = new File(".");
         String path = currDir.getAbsolutePath();
@@ -158,6 +160,7 @@ public class ListaPrecioService {
         ListaPrecio lp = new ListaPrecio();
         lp.setName(file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf(".")));
         lp.setDate(LocalDateTime.now().toLocalDate());
+        lp.setProveedor(proveedorRepository.findById(idProveedor).get());
         lp = listaPrecioRepository.save(lp);
 
         FileInputStream fis = new FileInputStream(fileLocation);
@@ -166,40 +169,16 @@ public class ListaPrecioService {
         FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
         for (Row row : sheet) { //iteration over row using for each loop
             DetalleListaPrecio dlp = new DetalleListaPrecio();
-            log.debug("1");
             if (row.getCell(0).getCellType() == CellType.NUMERIC) {
-                dlp.setCode(row.getCell(0).getNumericCellValue() + "");
+                dlp.setProduct(row.getCell(0).getNumericCellValue() + "");
             } else {
-                dlp.setCode(row.getCell(0).getStringCellValue());
+                dlp.setProduct(row.getCell(0).getStringCellValue());
             }
-            log.debug("2");
             if (row.getCell(1).getCellType() == CellType.NUMERIC) {
-                dlp.setProduct(row.getCell(1).getNumericCellValue() + "");
-            } else {
-                dlp.setProduct(row.getCell(1).getStringCellValue());
+                dlp.setAmount((float) row.getCell(1).getNumericCellValue());
             }
-            log.debug("3");
-            if (row.getCell(2).getCellType() == CellType.NUMERIC) {
-                dlp.setAmount((float) row.getCell(2).getNumericCellValue());
-            }
-            log.debug("4");
-
             dlp.listaPrecio(lp);
             dlp = detalleListaPrecioRepository.save(dlp);
-            /*for(Cell cell: row)    //iteration over cell using for each loop
-            {
-                switch(formulaEvaluator.evaluateInCell(cell).getCellType())
-                {
-                    case NUMERIC:   //field that represents numeric cell type
-                         //getting the value of the cell as a number
-                        log.debug(cell.getNumericCellValue()+ "\t\t");
-                        break;
-                    case STRING:    //field that represents string cell type
-                        //getting the value of the cell as a string
-                        log.debug(cell.getStringCellValue()+ "\t\t");
-                        break;
-                }
-            }*/
         }
         return Boolean.TRUE;
     }

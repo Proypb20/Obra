@@ -11,8 +11,6 @@ public class DetalleListaPrecioDTO implements Serializable {
 
     private Long id;
 
-    private String code;
-
     private String product;
 
     private Float amount;
@@ -25,14 +23,6 @@ public class DetalleListaPrecioDTO implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getProduct() {
@@ -85,7 +75,6 @@ public class DetalleListaPrecioDTO implements Serializable {
     public String toString() {
         return "DetalleListaPrecioDTO{" +
             "id=" + getId() +
-            ", code='" + getCode() + "'" +
             ", product='" + getProduct() + "'" +
             ", amount=" + getAmount() +
             ", listaPrecio=" + getListaPrecio() +

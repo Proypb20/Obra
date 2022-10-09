@@ -6,14 +6,12 @@ export const sampleWithRequiredData: IDetalleListaPrecio = {
 
 export const sampleWithPartialData: IDetalleListaPrecio = {
   id: 9426,
-  code: 'bandwidth',
   product: 'XML',
   amount: 94182,
 };
 
 export const sampleWithFullData: IDetalleListaPrecio = {
   id: 67343,
-  code: 'paralelismo',
   product: 'input Sincronizado hacking',
   amount: 58822,
 };

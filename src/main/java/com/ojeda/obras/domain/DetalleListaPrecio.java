@@ -22,9 +22,6 @@ public class DetalleListaPrecio implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @Column(name = "code")
-    private String code;
-
     @Column(name = "product")
     private String product;
 
@@ -48,19 +45,6 @@ public class DetalleListaPrecio implements Serializable {
 
     public void setId(Long id) {
         this.id = id;
-    }
-
-    public String getCode() {
-        return this.code;
-    }
-
-    public DetalleListaPrecio code(String code) {
-        this.setCode(code);
-        return this;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
     }
 
     public String getProduct() {
@@ -126,7 +110,6 @@ public class DetalleListaPrecio implements Serializable {
     public String toString() {
         return "DetalleListaPrecio{" +
             "id=" + getId() +
-            ", code='" + getCode() + "'" +
             ", product='" + getProduct() + "'" +
             ", amount=" + getAmount() +
             "}";

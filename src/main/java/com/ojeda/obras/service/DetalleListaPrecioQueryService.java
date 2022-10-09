@@ -93,9 +93,6 @@ public class DetalleListaPrecioQueryService extends QueryService<DetalleListaPre
             if (criteria.getId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getId(), DetalleListaPrecio_.id));
             }
-            if (criteria.getCode() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getCode(), DetalleListaPrecio_.code));
-            }
             if (criteria.getProduct() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getProduct(), DetalleListaPrecio_.product));
             }

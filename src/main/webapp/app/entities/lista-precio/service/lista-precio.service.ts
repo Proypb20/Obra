@@ -99,9 +99,11 @@ export class ListaPrecioService {
     return listaPrecioCollection;
   }
 
-  submit(file: File): Observable<HttpResponse<any>> {
+  submit(file: File, idProv: number): Observable<HttpResponse<any>> {
     const formData: FormData = new FormData();
     formData.append('file', file);
+    formData.append('idProv', idProv.toString());
+    /*const copy = {file, idProv };*/
     return this.http.post<RestListaPrecio>(`${this.resourceUrl}/importXLS`, formData, { observe: 'response' });
   }
 

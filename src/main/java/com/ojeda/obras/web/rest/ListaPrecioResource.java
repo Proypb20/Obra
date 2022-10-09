@@ -73,9 +73,12 @@ public class ListaPrecioResource {
     }
 
     @PostMapping(value = "/lista-precios/importXLS", consumes = { "multipart/form-data" })
-    public ResponseEntity<?> write(@RequestParam(value = "file") MultipartFile multipartFile) throws Exception {
+    public ResponseEntity<?> write(
+        @RequestParam(value = "file") MultipartFile multipartFile,
+        @RequestParam(value = "idProv") Long idProveedor
+    ) throws Exception {
         log.debug("REST request to Import file: {}", multipartFile);
-        if (listaPrecioService.submitXML(multipartFile)) {
+        if (listaPrecioService.submitXLS(multipartFile, idProveedor)) {
             return ResponseEntity.noContent().build();
         } else {
             throw new BadRequestAlertException("Error when try to generate XML", ENTITY_NAME, "XLSerrorWriting");

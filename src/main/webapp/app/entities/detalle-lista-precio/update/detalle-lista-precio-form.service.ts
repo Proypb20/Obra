@@ -18,7 +18,6 @@ type DetalleListaPrecioFormDefaults = Pick<NewDetalleListaPrecio, 'id'>;
 
 type DetalleListaPrecioFormGroupContent = {
   id: FormControl<IDetalleListaPrecio['id'] | NewDetalleListaPrecio['id']>;
-  code: FormControl<IDetalleListaPrecio['code']>;
   product: FormControl<IDetalleListaPrecio['product']>;
   amount: FormControl<IDetalleListaPrecio['amount']>;
   listaPrecio: FormControl<IDetalleListaPrecio['listaPrecio']>;
@@ -41,7 +40,6 @@ export class DetalleListaPrecioFormService {
           validators: [Validators.required],
         }
       ),
-      code: new FormControl(detalleListaPrecioRawValue.code),
       product: new FormControl(detalleListaPrecioRawValue.product),
       amount: new FormControl(detalleListaPrecioRawValue.amount),
       listaPrecio: new FormControl(detalleListaPrecioRawValue.listaPrecio),

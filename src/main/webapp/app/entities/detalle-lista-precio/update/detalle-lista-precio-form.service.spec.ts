@@ -20,7 +20,6 @@ describe('DetalleListaPrecio Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            code: expect.any(Object),
             product: expect.any(Object),
             amount: expect.any(Object),
             listaPrecio: expect.any(Object),
@@ -34,7 +33,6 @@ describe('DetalleListaPrecio Form Service', () => {
         expect(formGroup.controls).toEqual(
           expect.objectContaining({
             id: expect.any(Object),
-            code: expect.any(Object),
             product: expect.any(Object),
             amount: expect.any(Object),
             listaPrecio: expect.any(Object),

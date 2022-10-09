@@ -32,6 +32,7 @@
     <include file="config/liquibase/changelog/20220913014502_added_entity_AdvPendRep.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014503_added_entity_SubCostSummary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014504_added_entity_SubPaidSummary.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014505_added_entity_SumTrxRep.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220920114056_added_entity_DetalleListaPrecio.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220929214608_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
