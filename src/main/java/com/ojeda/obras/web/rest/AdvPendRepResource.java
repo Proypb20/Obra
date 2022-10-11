@@ -22,7 +22,7 @@ import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
- * REST controller for managing {@link com.ojeda.obras.domain.Concepto}.
+ * REST controller for managing {@link com.ojeda.obras.domain.AdvPendRep}.
  */
 @RestController
 @RequestMapping("/api")

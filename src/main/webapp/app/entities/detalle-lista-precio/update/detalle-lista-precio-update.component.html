@@ -6,22 +6,14 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="row mb-3" hidden>
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_product">Product</label>
-          <input type="text" class="form-control" name="product" id="field_product" data-cy="product" formControlName="product" />
-        </div>
+        <br />
 
-        <div class="row mb-3">
-          <label class="form-label" for="field_amount">Amount</label>
-          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
-        </div>
-
-        <div class="row mb-3">
+        <div class="row mb-3" *ngIf="editForm.controls.listaPrecio.value === null">
           <label class="form-label" for="field_listaPrecio">Lista Precio</label>
           <select
             class="form-control"
@@ -31,11 +23,20 @@
             formControlName="listaPrecio"
             [compareWith]="compareListaPrecio"
           >
-            <option [ngValue]="null"></option>
             <option [ngValue]="listaPrecioOption" *ngFor="let listaPrecioOption of listaPreciosSharedCollection">
               {{ listaPrecioOption.name }}
             </option>
           </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_product">Producto</label>
+          <input type="text" class="form-control" name="product" id="field_product" data-cy="product" formControlName="product" />
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_amount">Importe</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
         </div>
       </div>
 

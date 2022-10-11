@@ -41,12 +41,6 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <!--<th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>-->
           <th scope="col" jhiSortBy="name">
             <div class="d-flex">
               <span>Nombre</span>
@@ -59,65 +53,13 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <!--<th scope="col" jhiSortBy="city">
-            <div class="d-flex">
-              <span>City</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="provincia.name">
-            <div class="d-flex">
-              <span>Provincia</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>-->
-          <!--<th scope="col" jhiSortBy="subcontratista.id">
-            <div class="d-flex">
-              <span>Subcontratista</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="cliente.id">
-            <div class="d-flex">
-              <span>Cliente</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="comments">
-            <div class="d-flex">
-              <span>Comments</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>-->
           <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         <tr *ngFor="let obra of obras; trackBy: trackId" data-cy="entityTable">
-          <!--<td>
-            <a [routerLink]="['/obra', obra.id, 'view']">{{ obra.id }}</a>
-          </td>-->
           <td>{{ obra.name }}</td>
           <td>{{ obra.address }}, {{ obra.city }}, {{ obra.provincia?.name }}</td>
-          <!--
-          <td>{{ obra.comments }}</td>
-          <td>
-            <div *ngIf="obra.provincia">
-              <a [routerLink]="['/provincia', obra.provincia.id, 'view']">{{ obra.provincia.name }}</a>
-            </div>
-          </td>
-          <td>
-            <span *ngFor="let subcontratista of obra.subcontratistas; let last = last">
-              <a class="form-control-static" [routerLink]="['/subcontratista', subcontratista.id, 'view']">{{ subcontratista.id }}</a
-              >{{ last ? '' : ', ' }}
-            </span>
-          </td>
-          <td>
-            <span *ngFor="let cliente of obra.clientes; let last = last">
-              <a class="form-control-static" [routerLink]="['/cliente', cliente.id, 'view']">{{ cliente.id }}</a
-              >{{ last ? '' : ', ' }}
-            </span>
-          </td>-->
           <td class="text-end">
             <div class="btn-group">
               <button
@@ -140,7 +82,7 @@
                 <fa-icon icon="eye"></fa-icon>
                 <span class="d-none d-md-inline">Clientes</span>
               </button>
-              <!--<button
+              <button
                 type="submit"
                 [routerLink]="['/tarea']"
                 [state]="{ oId: obra.id }"
@@ -151,7 +93,7 @@
                 <span class="d-none d-md-inline">Tareas</span>
               </button>
 
-              <button
+              <!--<button
                 type="submit"
                 [routerLink]="['/acopio']"
                 [state]="{ oId: obra.id }"

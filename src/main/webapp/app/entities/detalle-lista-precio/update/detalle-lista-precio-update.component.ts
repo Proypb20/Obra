@@ -19,6 +19,7 @@ export class DetalleListaPrecioUpdateComponent implements OnInit {
   detalleListaPrecio: IDetalleListaPrecio | null = null;
 
   listaPreciosSharedCollection: IListaPrecio[] = [];
+  lpId = 0;
 
   editForm: DetalleListaPrecioFormGroup = this.detalleListaPrecioFormService.createDetalleListaPrecioFormGroup();
 
@@ -32,6 +33,7 @@ export class DetalleListaPrecioUpdateComponent implements OnInit {
   compareListaPrecio = (o1: IListaPrecio | null, o2: IListaPrecio | null): boolean => this.listaPrecioService.compareListaPrecio(o1, o2);
 
   ngOnInit(): void {
+    this.lpId = history.state.lpId ?? 0;
     this.activatedRoute.data.subscribe(({ detalleListaPrecio }) => {
       this.detalleListaPrecio = detalleListaPrecio;
       if (detalleListaPrecio) {
@@ -87,7 +89,7 @@ export class DetalleListaPrecioUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.listaPrecioService
-      .query()
+      .query({ 'id.equals': this.lpId })
       .pipe(map((res: HttpResponse<IListaPrecio[]>) => res.body ?? []))
       .pipe(
         map((listaPrecios: IListaPrecio[]) =>
