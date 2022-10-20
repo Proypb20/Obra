@@ -20,13 +20,13 @@
             <column name="description" type="varchar(255)">
                 <constraints nullable="true" />
             </column>
-            <column name="quantity" type="${floatType}">
+            <column name="quantity" type="double">
                 <constraints nullable="false" />
             </column>
-            <column name="unit_price" type="${floatType}">
+            <column name="unit_price" type="double">
                 <constraints nullable="false" />
             </column>
-            <column name="amount" type="${floatType}">
+            <column name="amount" type="double">
                 <constraints nullable="false" />
             </column>
             <column name="request_date" type="date">
@@ -39,6 +39,9 @@
                 <constraints nullable="true" />
             </column>
             <column name="acopio_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="detalle_lista_precio_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->

@@ -27,11 +27,15 @@ public class Acopio implements Serializable {
     private LocalDate date;
 
     @Column(name = "total_amount")
-    private Long totalAmount;
+    private Double totalAmount;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "provincia", "subcontratistas", "clientes" }, allowSetters = true)
     private Obra obra;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "proveedor" }, allowSetters = true)
+    private ListaPrecio listaprecio;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "provincia" }, allowSetters = true)
@@ -65,16 +69,16 @@ public class Acopio implements Serializable {
         this.date = date;
     }
 
-    public Long getTotalAmount() {
+    public Double getTotalAmount() {
         return this.totalAmount;
     }
 
-    public Acopio totalAmount(Long totalAmount) {
+    public Acopio totalAmount(Double totalAmount) {
         this.setTotalAmount(totalAmount);
         return this;
     }
 
-    public void setTotalAmount(Long totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -88,6 +92,19 @@ public class Acopio implements Serializable {
 
     public Acopio obra(Obra obra) {
         this.setObra(obra);
+        return this;
+    }
+
+    public ListaPrecio getListaprecio() {
+        return this.listaprecio;
+    }
+
+    public void setListaprecio(ListaPrecio ListaPrecio) {
+        this.listaprecio = ListaPrecio;
+    }
+
+    public Acopio listaprecio(ListaPrecio ListaPrecio) {
+        this.setListaprecio(ListaPrecio);
         return this;
     }
 

@@ -33,14 +33,15 @@
       "Transaccion",
       "ListaPrecio",
       "DetalleListaPrecio",
-      "Cliente"
+      "Cliente",
+      "Movimiento"
     ],
     "entitySuffix": "",
     "jhiPrefix": "jhi",
     "jhipsterVersion": "7.9.3",
     "jwtSecretKey": "OTZkMmY1OWJkOGFlYjY1ZTZmOGU0NzVhNmY5ZjllOGNlOGVjMDc0NjIzYWExNzk4NDBjYWRkYjdiMjk4ZjIxOTJiM2JjM2EwNjVmMWVlYzhjM2Y0ODVlNDcxYmExM2IyYzk3MGMyODM1MTQ0MDg0Y2JhMWRiOGY4YzAwYzgxYmM=",
     "languages": ["en", "fr"],
-    "lastLiquibaseTimestamp": 1664487968000,
+    "lastLiquibaseTimestamp": 1665624043000,
     "messageBroker": false,
     "microfrontend": false,
     "microfrontends": [],

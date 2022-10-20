@@ -12,15 +12,15 @@
     },
     {
       "fieldName": "quantity",
-      "fieldType": "Float"
+      "fieldType": "Double"
     },
     {
       "fieldName": "cost",
-      "fieldType": "Float"
+      "fieldType": "Double"
     },
     {
       "fieldName": "advanceStatus",
-      "fieldType": "Float",
+      "fieldType": "Double",
       "fieldValidateRules": ["max"],
       "fieldValidateRulesMax": "100"
     }

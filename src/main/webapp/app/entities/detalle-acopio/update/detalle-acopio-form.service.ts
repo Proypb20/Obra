@@ -27,6 +27,7 @@ type DetalleAcopioFormGroupContent = {
   promiseDate: FormControl<IDetalleAcopio['promiseDate']>;
   deliveryStatus: FormControl<IDetalleAcopio['deliveryStatus']>;
   acopio: FormControl<IDetalleAcopio['acopio']>;
+  detalleListaPrecio: FormControl<IDetalleAcopio['detalleListaPrecio']>;
 };
 
 export type DetalleAcopioFormGroup = FormGroup<DetalleAcopioFormGroupContent>;
@@ -63,6 +64,7 @@ export class DetalleAcopioFormService {
       promiseDate: new FormControl(detalleAcopioRawValue.promiseDate),
       deliveryStatus: new FormControl(detalleAcopioRawValue.deliveryStatus),
       acopio: new FormControl(detalleAcopioRawValue.acopio),
+      detalleListaPrecio: new FormControl(detalleAcopioRawValue.detalleListaPrecio),
     });
   }
 

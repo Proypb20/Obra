@@ -102,6 +102,15 @@ public class AcopioQueryService extends QueryService<Acopio> {
                         buildSpecification(criteria.getObraId(), root -> root.join(Acopio_.obra, JoinType.LEFT).get(Obra_.id))
                     );
             }
+            if (criteria.getListaprecioId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getListaprecioId(),
+                            root -> root.join(Acopio_.listaprecio, JoinType.LEFT).get(ListaPrecio_.id)
+                        )
+                    );
+            }
             if (criteria.getProveedorId() != null) {
                 specification =
                     specification.and(

@@ -80,16 +80,8 @@
           <!--<td>
             <a [routerLink]="['/acopio', acopio.id, 'view']">{{ acopio.id }}</a>
           </td>-->
-          <td>
-            <div *ngIf="acopio.obra">
-              <a [routerLink]="['/obra', acopio.obra.id, 'view']">{{ acopio.obra.name }}</a>
-            </div>
-          </td>
-          <td>
-            <div *ngIf="acopio.proveedor">
-              <a [routerLink]="['/proveedor', acopio.proveedor.id, 'view']">{{ acopio.proveedor.name }}</a>
-            </div>
-          </td>
+          <td>{{ acopio.obra?.name }}</td>
+          <td>{{ acopio.proveedor?.name }}</td>
           <td>{{ acopio.date | formatShortDate }}</td>
           <td>{{ acopio.totalAmount }}</td>
           <td class="text-end">
@@ -105,7 +97,13 @@
                 <span class="d-none d-md-inline">Detalle</span>
               </button>
 
-              <button type="submit" [routerLink]="['/acopio', acopio.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/acopio', acopio.id, 'edit']"
+                [state]="{ pId: this.pId }"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Editar</span>
               </button>

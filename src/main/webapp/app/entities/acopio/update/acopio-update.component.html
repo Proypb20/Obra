@@ -29,9 +29,26 @@
             name="proveedor"
             formControlName="proveedor"
             [compareWith]="compareProveedor"
+            (change)="onChange()"
           >
             <option [ngValue]="proveedorOption" *ngFor="let proveedorOption of proveedorsSharedCollection">
               {{ proveedorOption.name }}
+            </option>
+          </select>
+        </div>
+
+        <div class="row mb-3" *ngIf="editForm.controls.proveedor.value !== null">
+          <label class="form-label" for="field_listaprecio">Lista de precio</label>
+          <select
+            class="form-control"
+            id="field_listaprecio"
+            data-cy="listaprecio"
+            name="listaprecio"
+            formControlName="listaprecio"
+            [compareWith]="compareListaPrecio"
+          >
+            <option [ngValue]="ListaPrecioOption" *ngFor="let ListaPrecioOption of listaPreciosSharedCollection">
+              {{ ListaPrecioOption.name }}
             </option>
           </select>
         </div>

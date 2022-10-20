@@ -28,6 +28,12 @@
             <a [routerLink]="['/obra', acopio.obra.id, 'view']">{{ acopio.obra.name }}</a>
           </div>
         </dd>
+        <dt><span>Lista de precio</span></dt>
+        <dd>
+          <div *ngIf="acopio.listaprecio">
+            <a [routerLink]="['/lista-precio', acopio.listaprecio.id, 'view']">{{ acopio.listaprecio.name }}</a>
+          </div>
+        </dd>
         <dt><span>Proveedor</span></dt>
         <dd>
           <div *ngIf="acopio.proveedor">

@@ -13,5 +13,11 @@
                                  constraintName="fk_detalle_acopio__acopio_id"
                                  referencedColumnNames="id"
                                  referencedTableName="acopio"/>
+
+        <addForeignKeyConstraint baseColumnNames="detalle_lista_precio_id"
+                                 baseTableName="detalle_acopio"
+                                 constraintName="fk_detalle_acopio__detalle_lista_precio_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="detalle_lista_precio"/>
     </changeSet>
 </databaseChangeLog>

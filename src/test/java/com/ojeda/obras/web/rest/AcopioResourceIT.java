@@ -8,6 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.ojeda.obras.IntegrationTest;
 import com.ojeda.obras.domain.Acopio;
+import com.ojeda.obras.domain.ListaPrecio;
 import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.domain.Proveedor;
 import com.ojeda.obras.repository.AcopioRepository;
@@ -50,9 +51,9 @@ class AcopioResourceIT {
     private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
     private static final LocalDate SMALLER_DATE = LocalDate.ofEpochDay(-1L);
 
-    private static final Long DEFAULT_TOTAL_AMOUNT = 1L;
-    private static final Long UPDATED_TOTAL_AMOUNT = 2L;
-    private static final Long SMALLER_TOTAL_AMOUNT = 1L - 1L;
+    private static final Double DEFAULT_TOTAL_AMOUNT = 1D;
+    private static final Double UPDATED_TOTAL_AMOUNT = 2D;
+    private static final Double SMALLER_TOTAL_AMOUNT = 1D - 1D;
 
     private static final String ENTITY_API_URL = "/api/acopios";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -157,7 +158,7 @@ class AcopioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(acopio.getId().intValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.intValue())));
+            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.doubleValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -190,7 +191,7 @@ class AcopioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(acopio.getId().intValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
-            .andExpect(jsonPath("$.totalAmount").value(DEFAULT_TOTAL_AMOUNT.intValue()));
+            .andExpect(jsonPath("$.totalAmount").value(DEFAULT_TOTAL_AMOUNT.doubleValue()));
     }
 
     @Test
@@ -418,6 +419,29 @@ class AcopioResourceIT {
 
     @Test
     @Transactional
+    void getAllAcopiosByListaprecioIsEqualToSomething() throws Exception {
+        ListaPrecio listaprecio;
+        if (TestUtil.findAll(em, ListaPrecio.class).isEmpty()) {
+            acopioRepository.saveAndFlush(acopio);
+            listaprecio = ListaPrecioResourceIT.createEntity(em);
+        } else {
+            listaprecio = TestUtil.findAll(em, ListaPrecio.class).get(0);
+        }
+        em.persist(listaprecio);
+        em.flush();
+        acopio.setListaprecio(listaprecio);
+        acopioRepository.saveAndFlush(acopio);
+        Long listaprecioId = listaprecio.getId();
+
+        // Get all the acopioList where listaprecio equals to listaprecioId
+        defaultAcopioShouldBeFound("listaprecioId.equals=" + listaprecioId);
+
+        // Get all the acopioList where listaprecio equals to (listaprecioId + 1)
+        defaultAcopioShouldNotBeFound("listaprecioId.equals=" + (listaprecioId + 1));
+    }
+
+    @Test
+    @Transactional
     void getAllAcopiosByProveedorIsEqualToSomething() throws Exception {
         Proveedor proveedor;
         if (TestUtil.findAll(em, Proveedor.class).isEmpty()) {
@@ -449,7 +473,7 @@ class AcopioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(acopio.getId().intValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.intValue())));
+            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.doubleValue())));
 
         // Check, that the count call also returns 1
         restAcopioMockMvc

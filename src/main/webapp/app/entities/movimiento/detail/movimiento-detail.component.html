@@ -1,0 +1,56 @@
+<div class="d-flex justify-content-center">
+  <div class="col-8">
+    <div *ngIf="movimiento">
+      <h2 data-cy="movimientoDetailsHeading"><span>Movimiento</span></h2>
+
+      <hr />
+
+      <jhi-alert-error></jhi-alert-error>
+
+      <jhi-alert></jhi-alert>
+
+      <dl class="row-md jh-entity-details">
+        <dt><span>ID</span></dt>
+        <dd>
+          <span>{{ movimiento.id }}</span>
+        </dd>
+        <dt><span>Date</span></dt>
+        <dd>
+          <span>{{ movimiento.date | formatMediumDate }}</span>
+        </dd>
+        <dt><span>Description</span></dt>
+        <dd>
+          <span>{{ movimiento.description }}</span>
+        </dd>
+        <dt><span>Metodo Pago</span></dt>
+        <dd>
+          <span>{{ movimiento.metodoPago }}</span>
+        </dd>
+        <dt><span>Amount</span></dt>
+        <dd>
+          <span>{{ movimiento.amount }}</span>
+        </dd>
+        <dt><span>Obra</span></dt>
+        <dd>
+          <div *ngIf="movimiento.obra">
+            <a [routerLink]="['/obra', movimiento.obra.id, 'view']">{{ movimiento.obra.name }}</a>
+          </div>
+        </dd>
+        <dt><span>Subcontratista</span></dt>
+        <dd>
+          <div *ngIf="movimiento.subcontratista">
+            <a [routerLink]="['/subcontratista', movimiento.subcontratista.id, 'view']">{{ movimiento.subcontratista.lastName }}</a>
+          </div>
+        </dd>
+      </dl>
+
+      <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">
+        <fa-icon icon="arrow-left"></fa-icon>&nbsp;<span>Volver</span>
+      </button>
+
+      <button type="button" [routerLink]="['/movimiento', movimiento.id, 'edit']" class="btn btn-primary">
+        <fa-icon icon="pencil-alt"></fa-icon>&nbsp;<span>Editar</span>
+      </button>
+    </div>
+  </div>
+</div>

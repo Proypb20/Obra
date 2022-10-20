@@ -69,18 +69,6 @@
             <li>
               <a
                 class="dropdown-item"
-                routerLink="proveedor"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
-                <span>Proveedor</span>
-              </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
                 routerLink="cliente"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
@@ -90,17 +78,28 @@
                 <span>Clientes</span>
               </a>
             </li>
-            <!--
             <li>
               <a
                 class="dropdown-item"
-                routerLink="cliente"
+                routerLink="proveedor"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
               >
                 <fa-icon icon="user" [fixedWidth]="true"></fa-icon>
-                <span>Cliente</span>
+                <span>Proveedor</span>
+              </a>
+            </li>
+            <!--<li>
+              <a
+                class="dropdown-item"
+                routerLink="tarea"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
+                <span>Tarea</span>
               </a>
             </li>
             <li>
@@ -114,19 +113,7 @@
                 <fa-icon icon="digging" [fixedWidth]="true"></fa-icon>
                 <span>Acopio</span>
               </a>
-            </li>
-            <li>
-              <a
-                class="dropdown-item"
-                routerLink="tarea"
-                routerLinkActive="active"
-                [routerLinkActiveOptions]="{ exact: true }"
-                (click)="collapseNavbar()"
-              >
-                <fa-icon icon="tasks" [fixedWidth]="true"></fa-icon>
-                <span>Tarea</span>
-              </a>
-            </li>
+            </li>-->
             <li>
               <a
                 class="dropdown-item"
@@ -142,15 +129,15 @@
             <li>
               <a
                 class="dropdown-item"
-                routerLink="lista-precio"
+                routerLink="movimiento"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
               >
                 <fa-icon icon="file-invoice" [fixedWidth]="true"></fa-icon>
-                <span>Lista de Precios</span>
+                <span>Movimientos Caja</span>
               </a>
-            </li>-->
+            </li>
           </ul>
         </li>
         <!--Configuracion-->
@@ -182,7 +169,7 @@
               </a>
             </li>
 
-            <!--<li>
+            <li>
               <a
                 class="dropdown-item"
                 routerLink="tipo-comprobante"
@@ -190,10 +177,10 @@
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
               >
-                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <fa-icon icon="file-lines" [fixedWidth]="true"></fa-icon>
                 <span>Tipo Comprobante</span>
               </a>
-            </li>-->
+            </li>
             <li>
               <a
                 class="dropdown-item"
@@ -209,7 +196,7 @@
           </ul>
         </li>
         <!--Reportes-->
-        <!--<li
+        <li
           *ngSwitchCase="true"
           ngbDropdown
           class="nav-item dropdown pointer"
@@ -236,8 +223,20 @@
                 <span>Estado Obras</span>
               </a>
             </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="sum-trx-rep"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span>Seguimiento Obras</span>
+              </a>
+            </li>
           </ul>
-        </li>-->
+        </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngSwitchCase="true"
@@ -391,6 +390,18 @@
               >
                 <fa-icon icon="file-invoice" [fixedWidth]="true"></fa-icon>
                 <span>Transaccion</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="movimiento"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="file-invoice" [fixedWidth]="true"></fa-icon>
+                <span>Movimientos</span>
               </a>
             </li>
             <li>

@@ -29,6 +29,7 @@ describe('DetalleAcopio Form Service', () => {
             promiseDate: expect.any(Object),
             deliveryStatus: expect.any(Object),
             acopio: expect.any(Object),
+            detalleListaPrecio: expect.any(Object),
           })
         );
       });
@@ -48,6 +49,7 @@ describe('DetalleAcopio Form Service', () => {
             promiseDate: expect.any(Object),
             deliveryStatus: expect.any(Object),
             acopio: expect.any(Object),
+            detalleListaPrecio: expect.any(Object),
           })
         );
       });

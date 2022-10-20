@@ -11,7 +11,7 @@
     },
     {
       "fieldName": "totalAmount",
-      "fieldType": "Long"
+      "fieldType": "Double"
     }
   ],
   "fluentMethods": true,
@@ -24,6 +24,12 @@
       "otherEntityField": "name",
       "otherEntityName": "obra",
       "relationshipName": "obra",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "ListaPrecio",
+      "relationshipName": "listaprecio",
       "relationshipType": "many-to-one"
     },
     {

@@ -2,27 +2,37 @@ package com.ojeda.obras.web.rest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+import static org.mockito.Mockito.*;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.ojeda.obras.IntegrationTest;
 import com.ojeda.obras.domain.Acopio;
 import com.ojeda.obras.domain.DetalleAcopio;
+import com.ojeda.obras.domain.DetalleListaPrecio;
 import com.ojeda.obras.domain.enumeration.Estado;
 import com.ojeda.obras.repository.DetalleAcopioRepository;
+import com.ojeda.obras.service.DetalleAcopioService;
 import com.ojeda.obras.service.criteria.DetalleAcopioCriteria;
 import com.ojeda.obras.service.dto.DetalleAcopioDTO;
 import com.ojeda.obras.service.mapper.DetalleAcopioMapper;
 import java.time.LocalDate;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.concurrent.atomic.AtomicLong;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
@@ -32,6 +42,7 @@ import org.springframework.transaction.annotation.Transactional;
  * Integration tests for the {@link DetalleAcopioResource} REST controller.
  */
 @IntegrationTest
+@ExtendWith(MockitoExtension.class)
 @AutoConfigureMockMvc
 @WithMockUser
 class DetalleAcopioResourceIT {
@@ -43,17 +54,17 @@ class DetalleAcopioResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final Float DEFAULT_QUANTITY = 1F;
-    private static final Float UPDATED_QUANTITY = 2F;
-    private static final Float SMALLER_QUANTITY = 1F - 1F;
+    private static final Double DEFAULT_QUANTITY = 1D;
+    private static final Double UPDATED_QUANTITY = 2D;
+    private static final Double SMALLER_QUANTITY = 1D - 1D;
 
-    private static final Float DEFAULT_UNIT_PRICE = 1F;
-    private static final Float UPDATED_UNIT_PRICE = 2F;
-    private static final Float SMALLER_UNIT_PRICE = 1F - 1F;
+    private static final Double DEFAULT_UNIT_PRICE = 1D;
+    private static final Double UPDATED_UNIT_PRICE = 2D;
+    private static final Double SMALLER_UNIT_PRICE = 1D - 1D;
 
-    private static final Float DEFAULT_AMOUNT = 1F;
-    private static final Float UPDATED_AMOUNT = 2F;
-    private static final Float SMALLER_AMOUNT = 1F - 1F;
+    private static final Double DEFAULT_AMOUNT = 1D;
+    private static final Double UPDATED_AMOUNT = 2D;
+    private static final Double SMALLER_AMOUNT = 1D - 1D;
 
     private static final LocalDate DEFAULT_REQUEST_DATE = LocalDate.ofEpochDay(0L);
     private static final LocalDate UPDATED_REQUEST_DATE = LocalDate.now(ZoneId.systemDefault());
@@ -75,8 +86,14 @@ class DetalleAcopioResourceIT {
     @Autowired
     private DetalleAcopioRepository detalleAcopioRepository;
 
+    @Mock
+    private DetalleAcopioRepository detalleAcopioRepositoryMock;
+
     @Autowired
     private DetalleAcopioMapper detalleAcopioMapper;
+
+    @Mock
+    private DetalleAcopioService detalleAcopioServiceMock;
 
     @Autowired
     private EntityManager em;
@@ -276,6 +293,23 @@ class DetalleAcopioResourceIT {
             .andExpect(jsonPath("$.[*].requestDate").value(hasItem(DEFAULT_REQUEST_DATE.toString())))
             .andExpect(jsonPath("$.[*].promiseDate").value(hasItem(DEFAULT_PROMISE_DATE.toString())))
             .andExpect(jsonPath("$.[*].deliveryStatus").value(hasItem(DEFAULT_DELIVERY_STATUS.toString())));
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllDetalleAcopiosWithEagerRelationshipsIsEnabled() throws Exception {
+        when(detalleAcopioServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restDetalleAcopioMockMvc.perform(get(ENTITY_API_URL + "?eagerload=true")).andExpect(status().isOk());
+
+        verify(detalleAcopioServiceMock, times(1)).findAllWithEagerRelationships(any());
+    }
+
+    @SuppressWarnings({ "unchecked" })
+    void getAllDetalleAcopiosWithEagerRelationshipsIsNotEnabled() throws Exception {
+        when(detalleAcopioServiceMock.findAllWithEagerRelationships(any())).thenReturn(new PageImpl(new ArrayList<>()));
+
+        restDetalleAcopioMockMvc.perform(get(ENTITY_API_URL + "?eagerload=false")).andExpect(status().isOk());
+        verify(detalleAcopioRepositoryMock, times(1)).findAll(any(Pageable.class));
     }
 
     @Test
@@ -989,6 +1023,29 @@ class DetalleAcopioResourceIT {
 
         // Get all the detalleAcopioList where acopio equals to (acopioId + 1)
         defaultDetalleAcopioShouldNotBeFound("acopioId.equals=" + (acopioId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllDetalleAcopiosByDetalleListaPrecioIsEqualToSomething() throws Exception {
+        DetalleListaPrecio detalleListaPrecio;
+        if (TestUtil.findAll(em, DetalleListaPrecio.class).isEmpty()) {
+            detalleAcopioRepository.saveAndFlush(detalleAcopio);
+            detalleListaPrecio = DetalleListaPrecioResourceIT.createEntity(em);
+        } else {
+            detalleListaPrecio = TestUtil.findAll(em, DetalleListaPrecio.class).get(0);
+        }
+        em.persist(detalleListaPrecio);
+        em.flush();
+        detalleAcopio.setDetalleListaPrecio(detalleListaPrecio);
+        detalleAcopioRepository.saveAndFlush(detalleAcopio);
+        Long detalleListaPrecioId = detalleListaPrecio.getId();
+
+        // Get all the detalleAcopioList where detalleListaPrecio equals to detalleListaPrecioId
+        defaultDetalleAcopioShouldBeFound("detalleListaPrecioId.equals=" + detalleListaPrecioId);
+
+        // Get all the detalleAcopioList where detalleListaPrecio equals to (detalleListaPrecioId + 1)
+        defaultDetalleAcopioShouldNotBeFound("detalleListaPrecioId.equals=" + (detalleListaPrecioId + 1));
     }
 
     /**

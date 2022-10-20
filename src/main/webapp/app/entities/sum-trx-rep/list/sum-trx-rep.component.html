@@ -1,0 +1,97 @@
+<div>
+  <h2 id="page-heading" data-cy="AdvPendRepHeading">
+    <span>Reporte Resumen de Obra</span>
+
+    <div class="d-flex justify-content-end">
+      <!--<button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
+        <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
+        <span>Refrescar lista</span>
+      </button>-->
+
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-adv-pend-rep"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <form name="findForm" role="form" novalidate (ngSubmit)="find()" [formGroup]="findForm">
+    <div class="row mb-3">
+      <label class="form-label" for="field_obra">Obra</label>
+      <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra">
+        <option [ngValue]="obraOption.id" *ngFor="let obraOption of obras; trackBy: trackIdObra">{{ obraOption.name }}</option>
+      </select>
+    </div>
+    <div class="row mb-3">
+      <label class="form-label" for="field_date_from">Desde</label>
+      <div class="input-group">
+        <input id="field_date_from" data-cy="dateFrom" type="date" class="form-control" name="dateFrom" formControlName="dateFrom" />
+      </div>
+    </div>
+    <div class="row mb-3">
+      <label class="form-label" for="field_date_to">Desde</label>
+      <div class="input-group">
+        <input id="field_date_to" data-cy="dateTo" type="date" class="form-control" name="dateTo" formControlName="dateTo" />
+      </div>
+    </div>
+    <div>
+      <button type="submit" id="find" data-cy="FindButton" [disabled]="findForm.invalid" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Buscar</span>
+      </button>
+    </div>
+  </form>
+
+  <br />
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="sumTrxReps && sumTrxReps.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col">
+            <div class="d-flex">
+              <span>Fecha</span>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="obra.name">
+            <div class="d-flex">
+              <span>Origen</span>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="obra.name">
+            <div class="d-flex">
+              <span>Referencia</span>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="obra.name">
+            <div class="d-flex">
+              <span>Ingreso</span>
+            </div>
+          </th>
+          <th scope="col" jhiSortBy="obra.name">
+            <div class="d-flex">
+              <span>Egreso</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let sumTrxRep of sumTrxReps; trackBy: trackId" data-cy="entityTable">
+          <td>{{ sumTrxRep.fecha }}</td>
+          <td>{{ sumTrxRep.concepto }}</td>
+          <td>{{ sumTrxRep.tipoComprobante }} {{ sumTrxRep.transactionNumber }}</td>
+          <td>{{ sumTrxRep.debitAmount }}</td>
+          <td>{{ sumTrxRep.creditAmount }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

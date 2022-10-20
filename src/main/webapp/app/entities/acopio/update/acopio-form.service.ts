@@ -21,6 +21,7 @@ type AcopioFormGroupContent = {
   date: FormControl<IAcopio['date']>;
   totalAmount: FormControl<IAcopio['totalAmount']>;
   obra: FormControl<IAcopio['obra']>;
+  listaprecio: FormControl<IAcopio['listaprecio']>;
   proveedor: FormControl<IAcopio['proveedor']>;
 };
 
@@ -44,6 +45,7 @@ export class AcopioFormService {
       date: new FormControl(acopioRawValue.date),
       totalAmount: new FormControl(acopioRawValue.totalAmount),
       obra: new FormControl(acopioRawValue.obra),
+      listaprecio: new FormControl(acopioRawValue.listaprecio),
       proveedor: new FormControl(acopioRawValue.proveedor),
     });
   }

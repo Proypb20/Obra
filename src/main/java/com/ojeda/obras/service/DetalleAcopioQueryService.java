@@ -120,6 +120,15 @@ public class DetalleAcopioQueryService extends QueryService<DetalleAcopio> {
                         buildSpecification(criteria.getAcopioId(), root -> root.join(DetalleAcopio_.acopio, JoinType.LEFT).get(Acopio_.id))
                     );
             }
+            if (criteria.getDetalleListaPrecioId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getDetalleListaPrecioId(),
+                            root -> root.join(DetalleAcopio_.detalleListaPrecio, JoinType.LEFT).get(DetalleListaPrecio_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

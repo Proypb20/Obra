@@ -25,9 +25,11 @@ public class AcopioCriteria implements Serializable, Criteria {
 
     private LocalDateFilter date;
 
-    private LongFilter totalAmount;
+    private DoubleFilter totalAmount;
 
     private LongFilter obraId;
+
+    private LongFilter listaprecioId;
 
     private LongFilter proveedorId;
 
@@ -40,6 +42,7 @@ public class AcopioCriteria implements Serializable, Criteria {
         this.date = other.date == null ? null : other.date.copy();
         this.totalAmount = other.totalAmount == null ? null : other.totalAmount.copy();
         this.obraId = other.obraId == null ? null : other.obraId.copy();
+        this.listaprecioId = other.listaprecioId == null ? null : other.listaprecioId.copy();
         this.proveedorId = other.proveedorId == null ? null : other.proveedorId.copy();
         this.distinct = other.distinct;
     }
@@ -79,18 +82,18 @@ public class AcopioCriteria implements Serializable, Criteria {
         this.date = date;
     }
 
-    public LongFilter getTotalAmount() {
+    public DoubleFilter getTotalAmount() {
         return totalAmount;
     }
 
-    public LongFilter totalAmount() {
+    public DoubleFilter totalAmount() {
         if (totalAmount == null) {
-            totalAmount = new LongFilter();
+            totalAmount = new DoubleFilter();
         }
         return totalAmount;
     }
 
-    public void setTotalAmount(LongFilter totalAmount) {
+    public void setTotalAmount(DoubleFilter totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -107,6 +110,21 @@ public class AcopioCriteria implements Serializable, Criteria {
 
     public void setObraId(LongFilter obraId) {
         this.obraId = obraId;
+    }
+
+    public LongFilter getListaprecioId() {
+        return listaprecioId;
+    }
+
+    public LongFilter listaprecioId() {
+        if (listaprecioId == null) {
+            listaprecioId = new LongFilter();
+        }
+        return listaprecioId;
+    }
+
+    public void setListaprecioId(LongFilter listaprecioId) {
+        this.listaprecioId = listaprecioId;
     }
 
     public LongFilter getProveedorId() {
@@ -146,6 +164,7 @@ public class AcopioCriteria implements Serializable, Criteria {
             Objects.equals(date, that.date) &&
             Objects.equals(totalAmount, that.totalAmount) &&
             Objects.equals(obraId, that.obraId) &&
+            Objects.equals(listaprecioId, that.listaprecioId) &&
             Objects.equals(proveedorId, that.proveedorId) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -153,7 +172,7 @@ public class AcopioCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, totalAmount, obraId, proveedorId, distinct);
+        return Objects.hash(id, date, totalAmount, obraId, listaprecioId, proveedorId, distinct);
     }
 
     // prettier-ignore
@@ -164,6 +183,7 @@ public class AcopioCriteria implements Serializable, Criteria {
             (date != null ? "date=" + date + ", " : "") +
             (totalAmount != null ? "totalAmount=" + totalAmount + ", " : "") +
             (obraId != null ? "obraId=" + obraId + ", " : "") +
+            (listaprecioId != null ? "listaprecioId=" + listaprecioId + ", " : "") +
             (proveedorId != null ? "proveedorId=" + proveedorId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

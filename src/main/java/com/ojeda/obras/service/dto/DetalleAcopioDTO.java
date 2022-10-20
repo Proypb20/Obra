@@ -19,13 +19,13 @@ public class DetalleAcopioDTO implements Serializable {
     private String description;
 
     @NotNull
-    private Float quantity;
+    private Double quantity;
 
     @NotNull
-    private Float unitPrice;
+    private Double unitPrice;
 
     @NotNull
-    private Float amount;
+    private Double amount;
 
     @NotNull
     private LocalDate requestDate;
@@ -35,6 +35,8 @@ public class DetalleAcopioDTO implements Serializable {
     private Estado deliveryStatus;
 
     private AcopioDTO acopio;
+
+    private DetalleListaPrecioDTO detalleListaPrecio;
 
     public Long getId() {
         return id;
@@ -60,27 +62,27 @@ public class DetalleAcopioDTO implements Serializable {
         this.description = description;
     }
 
-    public Float getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Float quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
-    public Float getUnitPrice() {
+    public Double getUnitPrice() {
         return unitPrice;
     }
 
-    public void setUnitPrice(Float unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -114,6 +116,14 @@ public class DetalleAcopioDTO implements Serializable {
 
     public void setAcopio(AcopioDTO acopio) {
         this.acopio = acopio;
+    }
+
+    public DetalleListaPrecioDTO getDetalleListaPrecio() {
+        return detalleListaPrecio;
+    }
+
+    public void setDetalleListaPrecio(DetalleListaPrecioDTO detalleListaPrecio) {
+        this.detalleListaPrecio = detalleListaPrecio;
     }
 
     @Override
@@ -151,6 +161,7 @@ public class DetalleAcopioDTO implements Serializable {
             ", promiseDate='" + getPromiseDate() + "'" +
             ", deliveryStatus='" + getDeliveryStatus() + "'" +
             ", acopio=" + getAcopio() +
+            ", detalleListaPrecio=" + getDetalleListaPrecio() +
             "}";
     }
 }

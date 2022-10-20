@@ -14,9 +14,11 @@ public class AcopioDTO implements Serializable {
 
     private LocalDate date;
 
-    private Long totalAmount;
+    private Double totalAmount;
 
     private ObraDTO obra;
+
+    private ListaPrecioDTO listaprecio;
 
     private ProveedorDTO proveedor;
 
@@ -36,11 +38,11 @@ public class AcopioDTO implements Serializable {
         this.date = date;
     }
 
-    public Long getTotalAmount() {
+    public Double getTotalAmount() {
         return totalAmount;
     }
 
-    public void setTotalAmount(Long totalAmount) {
+    public void setTotalAmount(Double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -50,6 +52,14 @@ public class AcopioDTO implements Serializable {
 
     public void setObra(ObraDTO obra) {
         this.obra = obra;
+    }
+
+    public ListaPrecioDTO getListaprecio() {
+        return listaprecio;
+    }
+
+    public void setListaprecio(ListaPrecioDTO listaprecio) {
+        this.listaprecio = listaprecio;
     }
 
     public ProveedorDTO getProveedor() {
@@ -89,6 +99,7 @@ public class AcopioDTO implements Serializable {
             ", date='" + getDate() + "'" +
             ", totalAmount=" + getTotalAmount() +
             ", obra=" + getObra() +
+            ", listaprecio=" + getListaprecio() +
             ", proveedor=" + getProveedor() +
             "}";
     }

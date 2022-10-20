@@ -17,10 +17,13 @@
             <column name="date" type="date">
                 <constraints nullable="true" />
             </column>
-            <column name="total_amount" type="bigint">
+            <column name="total_amount" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="obra_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="listaprecio_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <column name="proveedor_id" type="bigint">

@@ -21,6 +21,7 @@ export class ObraComponent implements OnInit {
   ascending = true;
   sId = 0;
   oId = 0;
+  cId = 0;
 
   constructor(
     protected obraService: ObraService,
@@ -35,6 +36,7 @@ export class ObraComponent implements OnInit {
   ngOnInit(): void {
     this.sId = history.state.sId ?? 0;
     this.oId = history.state.oId ?? 0;
+    this.cId = history.state.cId ?? 0;
     this.load();
   }
 
@@ -103,6 +105,7 @@ export class ObraComponent implements OnInit {
       sort: this.getSortQueryParam(predicate, ascending),
       'subcontratistaId.equals': this.sId ?? 0,
       'id.equals': this.oId ?? 0,
+      'clienteId.equals': this.cId ?? 0,
     };
     return this.obraService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

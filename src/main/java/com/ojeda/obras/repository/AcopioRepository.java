@@ -27,14 +27,18 @@ public interface AcopioRepository extends JpaRepository<Acopio, Long>, JpaSpecif
     }
 
     @Query(
-        value = "select distinct acopio from Acopio acopio left join fetch acopio.obra left join fetch acopio.proveedor",
+        value = "select distinct acopio from Acopio acopio left join fetch acopio.obra left join fetch acopio.listaprecio left join fetch acopio.proveedor",
         countQuery = "select count(distinct acopio) from Acopio acopio"
     )
     Page<Acopio> findAllWithToOneRelationships(Pageable pageable);
 
-    @Query("select distinct acopio from Acopio acopio left join fetch acopio.obra left join fetch acopio.proveedor")
+    @Query(
+        "select distinct acopio from Acopio acopio left join fetch acopio.obra left join fetch acopio.listaprecio left join fetch acopio.proveedor"
+    )
     List<Acopio> findAllWithToOneRelationships();
 
-    @Query("select acopio from Acopio acopio left join fetch acopio.obra left join fetch acopio.proveedor where acopio.id =:id")
+    @Query(
+        "select acopio from Acopio acopio left join fetch acopio.obra left join fetch acopio.listaprecio left join fetch acopio.proveedor where acopio.id =:id"
+    )
     Optional<Acopio> findOneWithToOneRelationships(@Param("id") Long id);
 }

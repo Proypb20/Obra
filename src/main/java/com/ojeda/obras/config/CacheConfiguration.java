@@ -67,6 +67,7 @@ public class CacheConfiguration {
             createCache(cm, com.ojeda.obras.domain.Cliente.class.getName() + ".obras");
             createCache(cm, com.ojeda.obras.domain.Obra.class.getName() + ".clientes");
             createCache(cm, com.ojeda.obras.domain.DetalleListaPrecio.class.getName());
+            createCache(cm, com.ojeda.obras.domain.Movimiento.class.getName());
             // jhipster-needle-caffeine-add-entry
         };
     }

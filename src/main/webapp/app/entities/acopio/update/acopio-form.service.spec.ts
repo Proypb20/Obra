@@ -23,6 +23,7 @@ describe('Acopio Form Service', () => {
             date: expect.any(Object),
             totalAmount: expect.any(Object),
             obra: expect.any(Object),
+            listaprecio: expect.any(Object),
             proveedor: expect.any(Object),
           })
         );
@@ -37,6 +38,7 @@ describe('Acopio Form Service', () => {
             date: expect.any(Object),
             totalAmount: expect.any(Object),
             obra: expect.any(Object),
+            listaprecio: expect.any(Object),
             proveedor: expect.any(Object),
           })
         );

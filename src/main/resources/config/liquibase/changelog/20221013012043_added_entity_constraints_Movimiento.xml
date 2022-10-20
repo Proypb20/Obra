@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<databaseChangeLog
+    xmlns="http://www.liquibase.org/xml/ns/dbchangelog"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="http://www.liquibase.org/xml/ns/dbchangelog http://www.liquibase.org/xml/ns/dbchangelog/dbchangelog-latest.xsd">
+    <!--
+        Added the constraints for entity Movimiento.
+    -->
+    <changeSet id="20221013012043-2" author="jhipster">
+
+        <addForeignKeyConstraint baseColumnNames="obra_id"
+                                 baseTableName="movimiento"
+                                 constraintName="fk_movimiento__obra_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="obra"/>
+
+        <addForeignKeyConstraint baseColumnNames="subcontratista_id"
+                                 baseTableName="movimiento"
+                                 constraintName="fk_movimiento__subcontratista_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="subcontratista"/>
+    </changeSet>
+</databaseChangeLog>

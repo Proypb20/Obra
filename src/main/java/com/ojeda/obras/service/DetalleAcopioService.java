@@ -10,6 +10,8 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -89,6 +91,15 @@ public class DetalleAcopioService {
     }
 
     /**
+     * Get all the detalleAcopios with eager load of many-to-many relationships.
+     *
+     * @return the list of entities.
+     */
+    public Page<DetalleAcopioDTO> findAllWithEagerRelationships(Pageable pageable) {
+        return detalleAcopioRepository.findAllWithEagerRelationships(pageable).map(detalleAcopioMapper::toDto);
+    }
+
+    /**
      * Get one detalleAcopio by id.
      *
      * @param id the id of the entity.
@@ -97,7 +108,7 @@ public class DetalleAcopioService {
     @Transactional(readOnly = true)
     public Optional<DetalleAcopioDTO> findOne(Long id) {
         log.debug("Request to get DetalleAcopio : {}", id);
-        return detalleAcopioRepository.findById(id).map(detalleAcopioMapper::toDto);
+        return detalleAcopioRepository.findOneWithEagerRelationships(id).map(detalleAcopioMapper::toDto);
     }
 
     /**

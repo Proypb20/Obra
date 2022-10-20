@@ -33,15 +33,15 @@ public class DetalleAcopio implements Serializable {
 
     @NotNull
     @Column(name = "quantity", nullable = false)
-    private Float quantity;
+    private Double quantity;
 
     @NotNull
     @Column(name = "unit_price", nullable = false)
-    private Float unitPrice;
+    private Double unitPrice;
 
     @NotNull
     @Column(name = "amount", nullable = false)
-    private Float amount;
+    private Double amount;
 
     @NotNull
     @Column(name = "request_date", nullable = false)
@@ -55,8 +55,12 @@ public class DetalleAcopio implements Serializable {
     private Estado deliveryStatus;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "obra", "proveedor" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "obra", "listaprecio", "proveedor" }, allowSetters = true)
     private Acopio acopio;
+
+    @ManyToOne
+    @JsonIgnoreProperties(value = { "listaPrecio" }, allowSetters = true)
+    private DetalleListaPrecio detalleListaPrecio;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -99,42 +103,42 @@ public class DetalleAcopio implements Serializable {
         this.description = description;
     }
 
-    public Float getQuantity() {
+    public Double getQuantity() {
         return this.quantity;
     }
 
-    public DetalleAcopio quantity(Float quantity) {
+    public DetalleAcopio quantity(Double quantity) {
         this.setQuantity(quantity);
         return this;
     }
 
-    public void setQuantity(Float quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
-    public Float getUnitPrice() {
+    public Double getUnitPrice() {
         return this.unitPrice;
     }
 
-    public DetalleAcopio unitPrice(Float unitPrice) {
+    public DetalleAcopio unitPrice(Double unitPrice) {
         this.setUnitPrice(unitPrice);
         return this;
     }
 
-    public void setUnitPrice(Float unitPrice) {
+    public void setUnitPrice(Double unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return this.amount;
     }
 
-    public DetalleAcopio amount(Float amount) {
+    public DetalleAcopio amount(Double amount) {
         this.setAmount(amount);
         return this;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 
@@ -187,6 +191,19 @@ public class DetalleAcopio implements Serializable {
 
     public DetalleAcopio acopio(Acopio acopio) {
         this.setAcopio(acopio);
+        return this;
+    }
+
+    public DetalleListaPrecio getDetalleListaPrecio() {
+        return this.detalleListaPrecio;
+    }
+
+    public void setDetalleListaPrecio(DetalleListaPrecio detalleListaPrecio) {
+        this.detalleListaPrecio = detalleListaPrecio;
+    }
+
+    public DetalleAcopio detalleListaPrecio(DetalleListaPrecio detalleListaPrecio) {
+        this.setDetalleListaPrecio(detalleListaPrecio);
         return this;
     }
 

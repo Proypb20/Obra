@@ -70,14 +70,24 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./detalle-lista-precio/detalle-lista-precio.module').then(m => m.DetalleListaPrecioModule),
       },
       {
+        path: 'cliente',
+        data: { pageTitle: 'Clientes' },
+        loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule),
+      },
+      {
         path: 'adv-pend-rep',
         data: { pageTitle: 'Reporte de Estado de Avance' },
         loadChildren: () => import('./adv-pend-rep/adv-pend-rep.module').then(m => m.AdvPendRepModule),
       },
       {
-        path: 'cliente',
-        data: { pageTitle: 'Clientes' },
-        loadChildren: () => import('./cliente/cliente.module').then(m => m.ClienteModule),
+        path: 'sum-trx-rep',
+        data: { pageTitle: 'Reporte de Seguimiento de Obra' },
+        loadChildren: () => import('./sum-trx-rep/sum-trx-rep.module').then(m => m.SumTrxRepModule),
+      },
+      {
+        path: 'movimiento',
+        data: { pageTitle: 'Movimientos' },
+        loadChildren: () => import('./movimiento/movimiento.module').then(m => m.MovimientoModule),
       },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),

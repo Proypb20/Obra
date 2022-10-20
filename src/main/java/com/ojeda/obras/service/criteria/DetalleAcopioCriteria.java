@@ -45,11 +45,11 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
 
     private StringFilter description;
 
-    private FloatFilter quantity;
+    private DoubleFilter quantity;
 
-    private FloatFilter unitPrice;
+    private DoubleFilter unitPrice;
 
-    private FloatFilter amount;
+    private DoubleFilter amount;
 
     private LocalDateFilter requestDate;
 
@@ -58,6 +58,8 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
     private EstadoFilter deliveryStatus;
 
     private LongFilter acopioId;
+
+    private LongFilter detalleListaPrecioId;
 
     private Boolean distinct;
 
@@ -74,6 +76,7 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
         this.promiseDate = other.promiseDate == null ? null : other.promiseDate.copy();
         this.deliveryStatus = other.deliveryStatus == null ? null : other.deliveryStatus.copy();
         this.acopioId = other.acopioId == null ? null : other.acopioId.copy();
+        this.detalleListaPrecioId = other.detalleListaPrecioId == null ? null : other.detalleListaPrecioId.copy();
         this.distinct = other.distinct;
     }
 
@@ -127,48 +130,48 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
         this.description = description;
     }
 
-    public FloatFilter getQuantity() {
+    public DoubleFilter getQuantity() {
         return quantity;
     }
 
-    public FloatFilter quantity() {
+    public DoubleFilter quantity() {
         if (quantity == null) {
-            quantity = new FloatFilter();
+            quantity = new DoubleFilter();
         }
         return quantity;
     }
 
-    public void setQuantity(FloatFilter quantity) {
+    public void setQuantity(DoubleFilter quantity) {
         this.quantity = quantity;
     }
 
-    public FloatFilter getUnitPrice() {
+    public DoubleFilter getUnitPrice() {
         return unitPrice;
     }
 
-    public FloatFilter unitPrice() {
+    public DoubleFilter unitPrice() {
         if (unitPrice == null) {
-            unitPrice = new FloatFilter();
+            unitPrice = new DoubleFilter();
         }
         return unitPrice;
     }
 
-    public void setUnitPrice(FloatFilter unitPrice) {
+    public void setUnitPrice(DoubleFilter unitPrice) {
         this.unitPrice = unitPrice;
     }
 
-    public FloatFilter getAmount() {
+    public DoubleFilter getAmount() {
         return amount;
     }
 
-    public FloatFilter amount() {
+    public DoubleFilter amount() {
         if (amount == null) {
-            amount = new FloatFilter();
+            amount = new DoubleFilter();
         }
         return amount;
     }
 
-    public void setAmount(FloatFilter amount) {
+    public void setAmount(DoubleFilter amount) {
         this.amount = amount;
     }
 
@@ -232,6 +235,21 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
         this.acopioId = acopioId;
     }
 
+    public LongFilter getDetalleListaPrecioId() {
+        return detalleListaPrecioId;
+    }
+
+    public LongFilter detalleListaPrecioId() {
+        if (detalleListaPrecioId == null) {
+            detalleListaPrecioId = new LongFilter();
+        }
+        return detalleListaPrecioId;
+    }
+
+    public void setDetalleListaPrecioId(LongFilter detalleListaPrecioId) {
+        this.detalleListaPrecioId = detalleListaPrecioId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -260,6 +278,7 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
             Objects.equals(promiseDate, that.promiseDate) &&
             Objects.equals(deliveryStatus, that.deliveryStatus) &&
             Objects.equals(acopioId, that.acopioId) &&
+            Objects.equals(detalleListaPrecioId, that.detalleListaPrecioId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
@@ -277,6 +296,7 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
             promiseDate,
             deliveryStatus,
             acopioId,
+            detalleListaPrecioId,
             distinct
         );
     }
@@ -295,6 +315,7 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
             (promiseDate != null ? "promiseDate=" + promiseDate + ", " : "") +
             (deliveryStatus != null ? "deliveryStatus=" + deliveryStatus + ", " : "") +
             (acopioId != null ? "acopioId=" + acopioId + ", " : "") +
+            (detalleListaPrecioId != null ? "detalleListaPrecioId=" + detalleListaPrecioId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

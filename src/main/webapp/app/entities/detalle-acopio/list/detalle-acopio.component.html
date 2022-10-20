@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="DetalleAcopioHeading">
-    <span>Detalle Acopios</span>
+    <span>Lineas Acopios</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -15,7 +15,7 @@
         [routerLink]="['/detalle-acopio/new']"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Crear nuevo Detalle Acopio </span>
+        <span> Agregar linea de Acopio </span>
       </button>
 
       <button
@@ -54,9 +54,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="description">
+          <th scope="col" jhiSortBy="detalleListaPrecio.product">
             <div class="d-flex">
-              <span>Descripcion</span>
+              <span>Producto</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -75,12 +75,6 @@
           <th scope="col" jhiSortBy="amount">
             <div class="d-flex">
               <span>Monto</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>
-          <th scope="col" jhiSortBy="requestDate">
-            <div class="d-flex">
-              <span>Fecha Solicitud</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -112,7 +106,7 @@
           </td>-->
           <!--<td>{{ detalleAcopio.date | formatMediumDate }}</td>-->
           <td>{{ detalleAcopio.requestDate | formatShortDate }}</td>
-          <td>{{ detalleAcopio.description }}</td>
+          <td>{{ detalleAcopio.detalleListaPrecio!.product }}</td>
           <td>{{ detalleAcopio.quantity }}</td>
           <td>{{ detalleAcopio.unitPrice }}</td>
           <td>{{ detalleAcopio.amount }}</td>

@@ -14,6 +14,12 @@
                                  referencedColumnNames="id"
                                  referencedTableName="obra"/>
 
+        <addForeignKeyConstraint baseColumnNames="listaprecio_id"
+                                 baseTableName="acopio"
+                                 constraintName="fk_acopio__listaprecio_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="lista_precio"/>
+
         <addForeignKeyConstraint baseColumnNames="proveedor_id"
                                  baseTableName="acopio"
                                  constraintName="fk_acopio__proveedor_id"

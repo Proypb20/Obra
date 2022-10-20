@@ -11,6 +11,8 @@ import { DetalleAcopioService } from '../service/detalle-acopio.service';
 import { IDetalleAcopio } from '../detalle-acopio.model';
 import { IAcopio } from 'app/entities/acopio/acopio.model';
 import { AcopioService } from 'app/entities/acopio/service/acopio.service';
+import { IDetalleListaPrecio } from 'app/entities/detalle-lista-precio/detalle-lista-precio.model';
+import { DetalleListaPrecioService } from 'app/entities/detalle-lista-precio/service/detalle-lista-precio.service';
 
 import { DetalleAcopioUpdateComponent } from './detalle-acopio-update.component';
 
@@ -21,6 +23,7 @@ describe('DetalleAcopio Management Update Component', () => {
   let detalleAcopioFormService: DetalleAcopioFormService;
   let detalleAcopioService: DetalleAcopioService;
   let acopioService: AcopioService;
+  let detalleListaPrecioService: DetalleListaPrecioService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -44,6 +47,7 @@ describe('DetalleAcopio Management Update Component', () => {
     detalleAcopioFormService = TestBed.inject(DetalleAcopioFormService);
     detalleAcopioService = TestBed.inject(DetalleAcopioService);
     acopioService = TestBed.inject(AcopioService);
+    detalleListaPrecioService = TestBed.inject(DetalleListaPrecioService);
 
     comp = fixture.componentInstance;
   });
@@ -71,15 +75,40 @@ describe('DetalleAcopio Management Update Component', () => {
       expect(comp.acopiosSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call DetalleListaPrecio query and add missing value', () => {
+      const detalleAcopio: IDetalleAcopio = { id: 456 };
+      const detalleListaPrecio: IDetalleListaPrecio = { id: 9332 };
+      detalleAcopio.detalleListaPrecio = detalleListaPrecio;
+
+      const detalleListaPrecioCollection: IDetalleListaPrecio[] = [{ id: 96201 }];
+      jest.spyOn(detalleListaPrecioService, 'query').mockReturnValue(of(new HttpResponse({ body: detalleListaPrecioCollection })));
+      const additionalDetalleListaPrecios = [detalleListaPrecio];
+      const expectedCollection: IDetalleListaPrecio[] = [...additionalDetalleListaPrecios, ...detalleListaPrecioCollection];
+      jest.spyOn(detalleListaPrecioService, 'addDetalleListaPrecioToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ detalleAcopio });
+      comp.ngOnInit();
+
+      expect(detalleListaPrecioService.query).toHaveBeenCalled();
+      expect(detalleListaPrecioService.addDetalleListaPrecioToCollectionIfMissing).toHaveBeenCalledWith(
+        detalleListaPrecioCollection,
+        ...additionalDetalleListaPrecios.map(expect.objectContaining)
+      );
+      expect(comp.detalleListaPreciosSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const detalleAcopio: IDetalleAcopio = { id: 456 };
       const acopio: IAcopio = { id: 92400 };
       detalleAcopio.acopio = acopio;
+      const detalleListaPrecio: IDetalleListaPrecio = { id: 34337 };
+      detalleAcopio.detalleListaPrecio = detalleListaPrecio;
 
       activatedRoute.data = of({ detalleAcopio });
       comp.ngOnInit();
 
       expect(comp.acopiosSharedCollection).toContain(acopio);
+      expect(comp.detalleListaPreciosSharedCollection).toContain(detalleListaPrecio);
       expect(comp.detalleAcopio).toEqual(detalleAcopio);
     });
   });
@@ -160,6 +189,16 @@ describe('DetalleAcopio Management Update Component', () => {
         jest.spyOn(acopioService, 'compareAcopio');
         comp.compareAcopio(entity, entity2);
         expect(acopioService.compareAcopio).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareDetalleListaPrecio', () => {
+      it('Should forward to detalleListaPrecioService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(detalleListaPrecioService, 'compareDetalleListaPrecio');
+        comp.compareDetalleListaPrecio(entity, entity2);
+        expect(detalleListaPrecioService.compareDetalleListaPrecio).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

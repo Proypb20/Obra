@@ -11,6 +11,8 @@ import { AcopioService } from '../service/acopio.service';
 import { IAcopio } from '../acopio.model';
 import { IObra } from 'app/entities/obra/obra.model';
 import { ObraService } from 'app/entities/obra/service/obra.service';
+import { IListaPrecio } from 'app/entities/lista-precio/lista-precio.model';
+import { ListaPrecioService } from 'app/entities/lista-precio/service/lista-precio.service';
 import { IProveedor } from 'app/entities/proveedor/proveedor.model';
 import { ProveedorService } from 'app/entities/proveedor/service/proveedor.service';
 
@@ -23,6 +25,7 @@ describe('Acopio Management Update Component', () => {
   let acopioFormService: AcopioFormService;
   let acopioService: AcopioService;
   let obraService: ObraService;
+  let listaPrecioService: ListaPrecioService;
   let proveedorService: ProveedorService;
 
   beforeEach(() => {
@@ -47,6 +50,7 @@ describe('Acopio Management Update Component', () => {
     acopioFormService = TestBed.inject(AcopioFormService);
     acopioService = TestBed.inject(AcopioService);
     obraService = TestBed.inject(ObraService);
+    listaPrecioService = TestBed.inject(ListaPrecioService);
     proveedorService = TestBed.inject(ProveedorService);
 
     comp = fixture.componentInstance;
@@ -75,6 +79,28 @@ describe('Acopio Management Update Component', () => {
       expect(comp.obrasSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call ListaPrecio query and add missing value', () => {
+      const acopio: IAcopio = { id: 456 };
+      const listaprecio: IListaPrecio = { id: 67011 };
+      acopio.listaprecio = listaprecio;
+
+      const listaPrecioCollection: IListaPrecio[] = [{ id: 18256 }];
+      jest.spyOn(listaPrecioService, 'query').mockReturnValue(of(new HttpResponse({ body: listaPrecioCollection })));
+      const additionalListaPrecios = [listaprecio];
+      const expectedCollection: IListaPrecio[] = [...additionalListaPrecios, ...listaPrecioCollection];
+      jest.spyOn(listaPrecioService, 'addListaPrecioToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ acopio });
+      comp.ngOnInit();
+
+      expect(listaPrecioService.query).toHaveBeenCalled();
+      expect(listaPrecioService.addListaPrecioToCollectionIfMissing).toHaveBeenCalledWith(
+        listaPrecioCollection,
+        ...additionalListaPrecios.map(expect.objectContaining)
+      );
+      expect(comp.listaPreciosSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should call Proveedor query and add missing value', () => {
       const acopio: IAcopio = { id: 456 };
       const proveedor: IProveedor = { id: 53765 };
@@ -101,6 +127,8 @@ describe('Acopio Management Update Component', () => {
       const acopio: IAcopio = { id: 456 };
       const obra: IObra = { id: 19427 };
       acopio.obra = obra;
+      const listaprecio: IListaPrecio = { id: 39295 };
+      acopio.listaprecio = listaprecio;
       const proveedor: IProveedor = { id: 71796 };
       acopio.proveedor = proveedor;
 
@@ -108,6 +136,7 @@ describe('Acopio Management Update Component', () => {
       comp.ngOnInit();
 
       expect(comp.obrasSharedCollection).toContain(obra);
+      expect(comp.listaPreciosSharedCollection).toContain(listaprecio);
       expect(comp.proveedorsSharedCollection).toContain(proveedor);
       expect(comp.acopio).toEqual(acopio);
     });
@@ -189,6 +218,16 @@ describe('Acopio Management Update Component', () => {
         jest.spyOn(obraService, 'compareObra');
         comp.compareObra(entity, entity2);
         expect(obraService.compareObra).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareListaPrecio', () => {
+      it('Should forward to listaPrecioService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(listaPrecioService, 'compareListaPrecio');
+        comp.compareListaPrecio(entity, entity2);
+        expect(listaPrecioService.compareListaPrecio).toHaveBeenCalledWith(entity, entity2);
       });
     });
 

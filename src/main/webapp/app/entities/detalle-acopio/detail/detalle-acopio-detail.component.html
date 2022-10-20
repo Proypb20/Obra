@@ -52,6 +52,14 @@
             <a [routerLink]="['/acopio', detalleAcopio.acopio.id, 'view']">{{ detalleAcopio.acopio.id }}</a>
           </div>
         </dd>
+        <dt><span>Detalle Lista Precio</span></dt>
+        <dd>
+          <div *ngIf="detalleAcopio.detalleListaPrecio">
+            <a [routerLink]="['/detalle-lista-precio', detalleAcopio.detalleListaPrecio.id, 'view']">{{
+              detalleAcopio.detalleListaPrecio.product
+            }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

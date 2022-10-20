@@ -15,17 +15,17 @@
     },
     {
       "fieldName": "quantity",
-      "fieldType": "Float",
+      "fieldType": "Double",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "unitPrice",
-      "fieldType": "Float",
+      "fieldType": "Double",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "amount",
-      "fieldType": "Float",
+      "fieldType": "Double",
       "fieldValidateRules": ["required"]
     },
     {
@@ -52,6 +52,12 @@
     {
       "otherEntityName": "acopio",
       "relationshipName": "acopio",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "product",
+      "otherEntityName": "detalleListaPrecio",
+      "relationshipName": "detalleListaPrecio",
       "relationshipType": "many-to-one"
     }
   ],

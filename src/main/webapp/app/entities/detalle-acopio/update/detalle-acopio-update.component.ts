@@ -9,6 +9,8 @@ import { IDetalleAcopio } from '../detalle-acopio.model';
 import { DetalleAcopioService } from '../service/detalle-acopio.service';
 import { IAcopio } from 'app/entities/acopio/acopio.model';
 import { AcopioService } from 'app/entities/acopio/service/acopio.service';
+import { IDetalleListaPrecio } from 'app/entities/detalle-lista-precio/detalle-lista-precio.model';
+import { DetalleListaPrecioService } from 'app/entities/detalle-lista-precio/service/detalle-lista-precio.service';
 import { Estado } from 'app/entities/enumerations/estado.model';
 
 @Component({
@@ -21,6 +23,7 @@ export class DetalleAcopioUpdateComponent implements OnInit {
   estadoValues = Object.keys(Estado);
 
   acopiosSharedCollection: IAcopio[] = [];
+  detalleListaPreciosSharedCollection: IDetalleListaPrecio[] = [];
 
   editForm: DetalleAcopioFormGroup = this.detalleAcopioFormService.createDetalleAcopioFormGroup();
 
@@ -28,10 +31,14 @@ export class DetalleAcopioUpdateComponent implements OnInit {
     protected detalleAcopioService: DetalleAcopioService,
     protected detalleAcopioFormService: DetalleAcopioFormService,
     protected acopioService: AcopioService,
+    protected detalleListaPrecioService: DetalleListaPrecioService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
   compareAcopio = (o1: IAcopio | null, o2: IAcopio | null): boolean => this.acopioService.compareAcopio(o1, o2);
+
+  compareDetalleListaPrecio = (o1: IDetalleListaPrecio | null, o2: IDetalleListaPrecio | null): boolean =>
+    this.detalleListaPrecioService.compareDetalleListaPrecio(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ detalleAcopio }) => {
@@ -55,6 +62,21 @@ export class DetalleAcopioUpdateComponent implements OnInit {
       this.subscribeToSaveResponse(this.detalleAcopioService.update(detalleAcopio));
     } else {
       this.subscribeToSaveResponse(this.detalleAcopioService.create(detalleAcopio));
+    }
+  }
+
+  onChangeProducto(): void {
+    this.editForm.patchValue({ unitPrice: this.editForm.get('detalleListaPrecio')!.value!.amount });
+    if (this.editForm.get('quantity')!.value! !== null) {
+      const amount1 = this.editForm.get('quantity')!.value! * this.editForm.get('detalleListaPrecio')!.value!.amount!;
+      this.editForm.patchValue({ amount: amount1 });
+    }
+  }
+
+  onChangeQuantity(): void {
+    if (this.editForm.get('unitPrice')!.value! !== null) {
+      const amount1 = this.editForm.get('quantity')!.value! * this.editForm.get('unitPrice')!.value!;
+      this.editForm.patchValue({ amount: amount1 });
     }
   }
 
@@ -85,6 +107,11 @@ export class DetalleAcopioUpdateComponent implements OnInit {
       this.acopiosSharedCollection,
       detalleAcopio.acopio
     );
+    this.detalleListaPreciosSharedCollection =
+      this.detalleListaPrecioService.addDetalleListaPrecioToCollectionIfMissing<IDetalleListaPrecio>(
+        this.detalleListaPreciosSharedCollection,
+        detalleAcopio.detalleListaPrecio
+      );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -93,5 +120,18 @@ export class DetalleAcopioUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<IAcopio[]>) => res.body ?? []))
       .pipe(map((acopios: IAcopio[]) => this.acopioService.addAcopioToCollectionIfMissing<IAcopio>(acopios, this.detalleAcopio?.acopio)))
       .subscribe((acopios: IAcopio[]) => (this.acopiosSharedCollection = acopios));
+
+    this.detalleListaPrecioService
+      .query()
+      .pipe(map((res: HttpResponse<IDetalleListaPrecio[]>) => res.body ?? []))
+      .pipe(
+        map((detalleListaPrecios: IDetalleListaPrecio[]) =>
+          this.detalleListaPrecioService.addDetalleListaPrecioToCollectionIfMissing<IDetalleListaPrecio>(
+            detalleListaPrecios,
+            this.detalleAcopio?.detalleListaPrecio
+          )
+        )
+      )
+      .subscribe((detalleListaPrecios: IDetalleListaPrecio[]) => (this.detalleListaPreciosSharedCollection = detalleListaPrecios));
   }
 }
