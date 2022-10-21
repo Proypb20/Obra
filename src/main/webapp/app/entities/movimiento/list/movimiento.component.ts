@@ -17,7 +17,7 @@ export class MovimientoComponent implements OnInit {
   movimientos?: IMovimiento[];
   isLoading = false;
 
-  predicate = 'id';
+  predicate = 'date';
   ascending = true;
 
   constructor(

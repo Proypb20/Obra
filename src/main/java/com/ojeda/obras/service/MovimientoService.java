@@ -1,6 +1,7 @@
 package com.ojeda.obras.service;
 
 import com.ojeda.obras.domain.Movimiento;
+import com.ojeda.obras.domain.Transaccion;
 import com.ojeda.obras.repository.MovimientoRepository;
 import com.ojeda.obras.service.dto.MovimientoDTO;
 import com.ojeda.obras.service.mapper.MovimientoMapper;
@@ -42,6 +43,10 @@ public class MovimientoService {
     public MovimientoDTO save(MovimientoDTO movimientoDTO) {
         log.debug("Request to save Movimiento : {}", movimientoDTO);
         Movimiento movimiento = movimientoMapper.toEntity(movimientoDTO);
+        if (movimiento.getObra().getId() != null) {
+            Transaccion trx = new Transaccion();
+            trx.setDate(movimiento.getDate());
+        }
         movimiento = movimientoRepository.save(movimiento);
         return movimientoMapper.toDto(movimiento);
     }

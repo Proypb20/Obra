@@ -73,20 +73,16 @@
       </thead>
       <tbody>
         <tr *ngFor="let movimiento of movimientos; trackBy: trackId" data-cy="entityTable">
-          <td>{{ movimiento.date | formatMediumDate }}</td>
+          <td>{{ movimiento.date | formatShortDate }}</td>
           <td>{{ movimiento.description }}</td>
           <td>{{ movimiento.metodoPago }}</td>
-          <td>{{ movimiento.amount }}</td>
+          <td align="right">{{ movimiento.amount }}</td>
           <td>
             <div *ngIf="movimiento.obra">
               <a [routerLink]="['/obra', movimiento.obra.id, 'view']">{{ movimiento.obra.name }}</a>
             </div>
           </td>
-          <td>
-            <div *ngIf="movimiento.subcontratista">
-              <a [routerLink]="['/subcontratista', movimiento.subcontratista.id, 'view']">{{ movimiento.subcontratista.lastName }}</a>
-            </div>
-          </td>
+          <td>{{ movimiento.subcontratista?.lastName }}, {{ movimiento.subcontratista?.firstName }}</td>
           <td class="text-end">
             <div class="btn-group">
               <!--<button

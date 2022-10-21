@@ -7,6 +7,8 @@ import com.ojeda.obras.service.criteria.AdvPendRepCriteria;
 import com.ojeda.obras.service.criteria.SumTrxRepCriteria;
 import com.ojeda.obras.service.dto.SumTrxRepDTO;
 import com.ojeda.obras.service.mapper.SumTrxRepMapper;
+import java.time.ZoneId;
+import java.util.Date;
 import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -46,8 +48,20 @@ public class SumTrxRepQueryService extends QueryService<SumTrxRep> {
     @Transactional(readOnly = true)
     public List<SumTrxRepDTO> findByCriteria(SumTrxRepCriteria criteria) {
         log.debug("find by criteria : {}", criteria);
-        final Specification<SumTrxRep> specification = createSpecification(criteria);
-        return sumTrxRepMapper.toDto(sumTrxRepRepository.findAll(specification));
+        log.debug(criteria.getFecha().getLessThan().toString());
+        log.debug(criteria.getFecha().getGreaterThan().toString());
+        if (criteria.getFecha().getLessThan() != null) {
+            //final Specification<SumTrxRep> specification = createSpecification(criteria);
+            ZoneId defaultZoneId = ZoneId.systemDefault();
+            Date dateFrom = Date.from(criteria.getFecha().getGreaterThan().atStartOfDay(defaultZoneId).toInstant());
+            Date dateTo = Date.from(criteria.getFecha().getLessThan().atStartOfDay(defaultZoneId).toInstant());
+            return sumTrxRepMapper.toDto(
+                sumTrxRepRepository.findByFechaBetweenAndObraId(dateFrom, dateTo, criteria.getObraId().getEquals())
+            );
+        } else {
+            final Specification<SumTrxRep> specification = createSpecification(criteria);
+            return sumTrxRepMapper.toDto(sumTrxRepRepository.findAll(specification));
+        }
     }
 
     /**

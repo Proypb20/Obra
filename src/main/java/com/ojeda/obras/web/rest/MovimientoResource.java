@@ -1,5 +1,6 @@
 package com.ojeda.obras.web.rest;
 
+import com.ojeda.obras.domain.XXHeaderUtil;
 import com.ojeda.obras.repository.MovimientoRepository;
 import com.ojeda.obras.service.MovimientoQueryService;
 import com.ojeda.obras.service.MovimientoService;
@@ -18,7 +19,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -67,7 +67,7 @@ public class MovimientoResource {
         MovimientoDTO result = movimientoService.save(movimientoDTO);
         return ResponseEntity
             .created(new URI("/api/movimientos/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .headers(XXHeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -101,7 +101,7 @@ public class MovimientoResource {
         MovimientoDTO result = movimientoService.update(movimientoDTO);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movimientoDTO.getId().toString()))
+            .headers(XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movimientoDTO.getId().toString()))
             .body(result);
     }
 
@@ -137,7 +137,7 @@ public class MovimientoResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movimientoDTO.getId().toString())
+            XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movimientoDTO.getId().toString())
         );
     }
 
@@ -191,7 +191,7 @@ public class MovimientoResource {
         movimientoService.delete(id);
         return ResponseEntity
             .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .headers(XXHeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
 }

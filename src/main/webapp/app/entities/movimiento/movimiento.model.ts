@@ -10,7 +10,7 @@ export interface IMovimiento {
   metodoPago?: MetodoPago | null;
   amount?: number | null;
   obra?: Pick<IObra, 'id' | 'name'> | null;
-  subcontratista?: Pick<ISubcontratista, 'id' | 'lastName'> | null;
+  subcontratista?: Pick<ISubcontratista, 'id' | 'lastName' | 'firstName'> | null;
 }
 
 export type NewMovimiento = Omit<IMovimiento, 'id'> & { id: null };

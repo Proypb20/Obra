@@ -8,11 +8,11 @@
     -->
     <changeSet id="20220913014453-2" author="jhipster">
 
-        <addForeignKeyConstraint baseColumnNames="subcontratista_id"
+        <!--<addForeignKeyConstraint baseColumnNames="subcontratista_id"
                                  baseTableName="rel_subcontratista__obra"
                                  constraintName="fk_rel_subcontratista__obra__subcontratista_id"
                                  referencedColumnNames="id"
-                                 referencedTableName="subcontratista"/>
+                                 referencedTableName="subcontratista"/>-->
 
         <addForeignKeyConstraint baseColumnNames="obra_id"
                                  baseTableName="rel_subcontratista__obra"

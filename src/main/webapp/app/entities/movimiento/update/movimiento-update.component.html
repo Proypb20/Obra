@@ -6,17 +6,25 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" hidden>
+        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
-        <br />
-
         <div class="row mb-3">
-          <label class="form-label" for="field_date">Fecha</label>
+          <label class="form-label" for="field_date">Date</label>
           <div class="input-group">
-            <input id="field_date" data-cy="date" type="date" class="form-control" name="date" formControlName="date" />
+            <input
+              id="field_date"
+              data-cy="date"
+              type="date"
+              class="form-control"
+              name="date"
+              ngbDatepicker
+              #dateDp="ngbDatepicker"
+              formControlName="date"
+            />
+            <!--<button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>-->
           </div>
           <div *ngIf="editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('date')?.errors?.required"> Este campo es obligatorio. </small>
@@ -24,7 +32,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_description">Descripcion</label>
+          <label class="form-label" for="field_description">Description</label>
           <input
             type="text"
             class="form-control"
@@ -35,6 +43,25 @@
           />
           <div *ngIf="editForm.get('description')!.invalid && (editForm.get('description')!.dirty || editForm.get('description')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('description')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_metodoPago">Forma de Pago</label>
+          <select class="form-control" name="metodoPago" formControlName="metodoPago" id="field_metodoPago" data-cy="metodoPago">
+            <option *ngFor="let metodoPago of metodoPagoValues" [ngValue]="metodoPago">{{ metodoPago }}</option>
+          </select>
+          <div *ngIf="editForm.get('metodoPago')!.invalid && (editForm.get('metodoPago')!.dirty || editForm.get('metodoPago')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('metodoPago')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_amount">Importe</label>
+          <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
+          <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('amount')?.errors?.required"> Este campo es obligatorio. </small>
+            <small class="form-text text-danger" [hidden]="!editForm.get('amount')?.errors?.number"> Este campo debe ser un número. </small>
           </div>
         </div>
 
@@ -58,28 +85,9 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="subcontratistaOption" *ngFor="let subcontratistaOption of subcontratistasSharedCollection">
-              {{ subcontratistaOption.lastName }}, {{ subcontratistaOption.firstName }}
+              {{ subcontratistaOption.lastName }}
             </option>
           </select>
-        </div>
-      </div>
-
-      <div class="row mb-3">
-        <label class="form-label" for="field_metodoPago">Metodo de Pago</label>
-        <select class="form-control" name="metodoPago" formControlName="metodoPago" id="field_metodoPago" data-cy="metodoPago">
-          <option *ngFor="let metodoPago of metodoPagoValues" [ngValue]="metodoPago">{{ metodoPago }}</option>
-        </select>
-        <div *ngIf="editForm.get('metodoPago')!.invalid && (editForm.get('metodoPago')!.dirty || editForm.get('metodoPago')!.touched)">
-          <small class="form-text text-danger" *ngIf="editForm.get('metodoPago')?.errors?.required"> Este campo es obligatorio. </small>
-        </div>
-      </div>
-
-      <div class="row mb-3">
-        <label class="form-label" for="field_amount">Importe</label>
-        <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
-        <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
-          <small class="form-text text-danger" *ngIf="editForm.get('amount')?.errors?.required"> Este campo es obligatorio. </small>
-          <small class="form-text text-danger" [hidden]="!editForm.get('amount')?.errors?.number"> Este campo debe ser un número. </small>
         </div>
       </div>
 
