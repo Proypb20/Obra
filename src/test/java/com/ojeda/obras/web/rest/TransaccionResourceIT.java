@@ -59,9 +59,9 @@ class TransaccionResourceIT {
     private static final String DEFAULT_TRANSACTION_NUMBER = "AAAAAAAAAA";
     private static final String UPDATED_TRANSACTION_NUMBER = "BBBBBBBBBB";
 
-    private static final Float DEFAULT_AMOUNT = 1F;
-    private static final Float UPDATED_AMOUNT = 2F;
-    private static final Float SMALLER_AMOUNT = 1F - 1F;
+    private static final Double DEFAULT_AMOUNT = 1D;
+    private static final Double UPDATED_AMOUNT = 2D;
+    private static final Double SMALLER_AMOUNT = 1D - 1D;
 
     private static final String DEFAULT_NOTE = "AAAAAAAAAA";
     private static final String UPDATED_NOTE = "BBBBBBBBBB";

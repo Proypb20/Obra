@@ -30,6 +30,8 @@ public class MovimientoDTO implements Serializable {
 
     private SubcontratistaDTO subcontratista;
 
+    private ConceptoDTO concepto;
+
     public Long getId() {
         return id;
     }
@@ -86,6 +88,14 @@ public class MovimientoDTO implements Serializable {
         this.subcontratista = subcontratista;
     }
 
+    public ConceptoDTO getConcepto() {
+        return concepto;
+    }
+
+    public void setConcepto(ConceptoDTO concepto) {
+        this.concepto = concepto;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -118,6 +128,7 @@ public class MovimientoDTO implements Serializable {
             ", amount=" + getAmount() +
             ", obra=" + getObra() +
             ", subcontratista=" + getSubcontratista() +
+            ", concepto=" + getConcepto() +
             "}";
     }
 }

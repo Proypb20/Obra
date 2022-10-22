@@ -40,6 +40,12 @@
       "otherEntityName": "subcontratista",
       "relationshipName": "subcontratista",
       "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "concepto",
+      "relationshipName": "concepto",
+      "relationshipType": "many-to-one"
     }
   ],
   "service": "serviceClass"

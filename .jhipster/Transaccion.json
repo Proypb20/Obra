@@ -20,7 +20,8 @@
     },
     {
       "fieldName": "amount",
-      "fieldType": "Float"
+      "fieldType": "Double",
+      "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "note",

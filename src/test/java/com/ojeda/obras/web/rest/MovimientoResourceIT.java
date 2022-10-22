@@ -7,6 +7,7 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.ojeda.obras.IntegrationTest;
+import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.domain.Movimiento;
 import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.domain.Subcontratista;
@@ -634,6 +635,29 @@ class MovimientoResourceIT {
 
         // Get all the movimientoList where subcontratista equals to (subcontratistaId + 1)
         defaultMovimientoShouldNotBeFound("subcontratistaId.equals=" + (subcontratistaId + 1));
+    }
+
+    @Test
+    @Transactional
+    void getAllMovimientosByConceptoIsEqualToSomething() throws Exception {
+        Concepto concepto;
+        if (TestUtil.findAll(em, Concepto.class).isEmpty()) {
+            movimientoRepository.saveAndFlush(movimiento);
+            concepto = ConceptoResourceIT.createEntity(em);
+        } else {
+            concepto = TestUtil.findAll(em, Concepto.class).get(0);
+        }
+        em.persist(concepto);
+        em.flush();
+        movimiento.setConcepto(concepto);
+        movimientoRepository.saveAndFlush(movimiento);
+        Long conceptoId = concepto.getId();
+
+        // Get all the movimientoList where concepto equals to conceptoId
+        defaultMovimientoShouldBeFound("conceptoId.equals=" + conceptoId);
+
+        // Get all the movimientoList where concepto equals to (conceptoId + 1)
+        defaultMovimientoShouldNotBeFound("conceptoId.equals=" + (conceptoId + 1));
     }
 
     /**

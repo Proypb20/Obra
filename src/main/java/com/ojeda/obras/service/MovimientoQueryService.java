@@ -117,6 +117,15 @@ public class MovimientoQueryService extends QueryService<Movimiento> {
                         )
                     );
             }
+            if (criteria.getConceptoId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getConceptoId(),
+                            root -> root.join(Movimiento_.concepto, JoinType.LEFT).get(Concepto_.id)
+                        )
+                    );
+            }
         }
         return specification;
     }

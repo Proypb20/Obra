@@ -19,5 +19,11 @@
                                  constraintName="fk_movimiento__subcontratista_id"
                                  referencedColumnNames="id"
                                  referencedTableName="subcontratista"/>
+
+        <addForeignKeyConstraint baseColumnNames="concepto_id"
+                                 baseTableName="movimiento"
+                                 constraintName="fk_movimiento__concepto_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="concepto"/>
     </changeSet>
 </databaseChangeLog>

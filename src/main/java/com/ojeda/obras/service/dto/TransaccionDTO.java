@@ -19,7 +19,7 @@ public class TransaccionDTO implements Serializable {
 
     private String transactionNumber;
 
-    private Float amount;
+    private Double amount;
 
     private String note;
 
@@ -63,11 +63,11 @@ public class TransaccionDTO implements Serializable {
         this.transactionNumber = transactionNumber;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

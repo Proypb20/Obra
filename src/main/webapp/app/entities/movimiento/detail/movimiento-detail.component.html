@@ -42,6 +42,12 @@
             <a [routerLink]="['/subcontratista', movimiento.subcontratista.id, 'view']">{{ movimiento.subcontratista.lastName }}</a>
           </div>
         </dd>
+        <dt><span>Concepto</span></dt>
+        <dd>
+          <div *ngIf="movimiento.concepto">
+            <a [routerLink]="['/concepto', movimiento.concepto.id, 'view']">{{ movimiento.concepto.name }}</a>
+          </div>
+        </dd>
       </dl>
 
       <button type="submit" (click)="previousState()" class="btn btn-info" data-cy="entityDetailsBackButton">

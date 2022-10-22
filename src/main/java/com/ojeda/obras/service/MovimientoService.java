@@ -3,6 +3,7 @@ package com.ojeda.obras.service;
 import com.ojeda.obras.domain.Movimiento;
 import com.ojeda.obras.domain.Transaccion;
 import com.ojeda.obras.repository.MovimientoRepository;
+import com.ojeda.obras.repository.TransaccionRepository;
 import com.ojeda.obras.service.dto.MovimientoDTO;
 import com.ojeda.obras.service.mapper.MovimientoMapper;
 import java.util.LinkedList;
@@ -27,10 +28,17 @@ public class MovimientoService {
 
     private final MovimientoRepository movimientoRepository;
 
+    private final TransaccionRepository transaccionRepository;
+
     private final MovimientoMapper movimientoMapper;
 
-    public MovimientoService(MovimientoRepository movimientoRepository, MovimientoMapper movimientoMapper) {
+    public MovimientoService(
+        MovimientoRepository movimientoRepository,
+        TransaccionRepository transaccionRepository,
+        MovimientoMapper movimientoMapper
+    ) {
         this.movimientoRepository = movimientoRepository;
+        this.transaccionRepository = transaccionRepository;
         this.movimientoMapper = movimientoMapper;
     }
 
@@ -45,7 +53,14 @@ public class MovimientoService {
         Movimiento movimiento = movimientoMapper.toEntity(movimientoDTO);
         if (movimiento.getObra().getId() != null) {
             Transaccion trx = new Transaccion();
+            trx.setObra(movimiento.getObra());
+            trx.setSubcontratista(movimiento.getSubcontratista());
             trx.setDate(movimiento.getDate());
+            trx.setConcepto(movimiento.getConcepto());
+            trx.setNote(movimiento.getDescription());
+            trx.setAmount(movimiento.getAmount());
+            trx.setPaymentMethod(movimiento.getMetodoPago());
+            trx = transaccionRepository.save(trx);
         }
         movimiento = movimientoRepository.save(movimiento);
         return movimientoMapper.toDto(movimiento);

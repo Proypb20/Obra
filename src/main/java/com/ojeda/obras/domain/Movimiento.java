@@ -50,6 +50,9 @@ public class Movimiento implements Serializable {
     @JsonIgnoreProperties(value = { "obras" }, allowSetters = true)
     private Subcontratista subcontratista;
 
+    @ManyToOne
+    private Concepto concepto;
+
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
     public Long getId() {
@@ -140,6 +143,19 @@ public class Movimiento implements Serializable {
 
     public Movimiento subcontratista(Subcontratista subcontratista) {
         this.setSubcontratista(subcontratista);
+        return this;
+    }
+
+    public Concepto getConcepto() {
+        return this.concepto;
+    }
+
+    public void setConcepto(Concepto concepto) {
+        this.concepto = concepto;
+    }
+
+    public Movimiento concepto(Concepto concepto) {
+        this.setConcepto(concepto);
         return this;
     }
 

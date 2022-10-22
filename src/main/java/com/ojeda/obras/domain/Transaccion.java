@@ -35,7 +35,7 @@ public class Transaccion implements Serializable {
     private String transactionNumber;
 
     @Column(name = "amount")
-    private Float amount;
+    private Double amount;
 
     @Column(name = "note")
     private String note;
@@ -108,16 +108,16 @@ public class Transaccion implements Serializable {
         this.transactionNumber = transactionNumber;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return this.amount;
     }
 
-    public Transaccion amount(Float amount) {
+    public Transaccion amount(Double amount) {
         this.setAmount(amount);
         return this;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

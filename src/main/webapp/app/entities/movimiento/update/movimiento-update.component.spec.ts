@@ -13,6 +13,8 @@ import { IObra } from 'app/entities/obra/obra.model';
 import { ObraService } from 'app/entities/obra/service/obra.service';
 import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.model';
 import { SubcontratistaService } from 'app/entities/subcontratista/service/subcontratista.service';
+import { IConcepto } from 'app/entities/concepto/concepto.model';
+import { ConceptoService } from 'app/entities/concepto/service/concepto.service';
 
 import { MovimientoUpdateComponent } from './movimiento-update.component';
 
@@ -24,6 +26,7 @@ describe('Movimiento Management Update Component', () => {
   let movimientoService: MovimientoService;
   let obraService: ObraService;
   let subcontratistaService: SubcontratistaService;
+  let conceptoService: ConceptoService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -48,6 +51,7 @@ describe('Movimiento Management Update Component', () => {
     movimientoService = TestBed.inject(MovimientoService);
     obraService = TestBed.inject(ObraService);
     subcontratistaService = TestBed.inject(SubcontratistaService);
+    conceptoService = TestBed.inject(ConceptoService);
 
     comp = fixture.componentInstance;
   });
@@ -97,18 +101,43 @@ describe('Movimiento Management Update Component', () => {
       expect(comp.subcontratistasSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call Concepto query and add missing value', () => {
+      const movimiento: IMovimiento = { id: 456 };
+      const concepto: IConcepto = { id: 42462 };
+      movimiento.concepto = concepto;
+
+      const conceptoCollection: IConcepto[] = [{ id: 43921 }];
+      jest.spyOn(conceptoService, 'query').mockReturnValue(of(new HttpResponse({ body: conceptoCollection })));
+      const additionalConceptos = [concepto];
+      const expectedCollection: IConcepto[] = [...additionalConceptos, ...conceptoCollection];
+      jest.spyOn(conceptoService, 'addConceptoToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ movimiento });
+      comp.ngOnInit();
+
+      expect(conceptoService.query).toHaveBeenCalled();
+      expect(conceptoService.addConceptoToCollectionIfMissing).toHaveBeenCalledWith(
+        conceptoCollection,
+        ...additionalConceptos.map(expect.objectContaining)
+      );
+      expect(comp.conceptosSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const movimiento: IMovimiento = { id: 456 };
       const obra: IObra = { id: 62647 };
       movimiento.obra = obra;
       const subcontratista: ISubcontratista = { id: 67201 };
       movimiento.subcontratista = subcontratista;
+      const concepto: IConcepto = { id: 99305 };
+      movimiento.concepto = concepto;
 
       activatedRoute.data = of({ movimiento });
       comp.ngOnInit();
 
       expect(comp.obrasSharedCollection).toContain(obra);
       expect(comp.subcontratistasSharedCollection).toContain(subcontratista);
+      expect(comp.conceptosSharedCollection).toContain(concepto);
       expect(comp.movimiento).toEqual(movimiento);
     });
   });
@@ -199,6 +228,16 @@ describe('Movimiento Management Update Component', () => {
         jest.spyOn(subcontratistaService, 'compareSubcontratista');
         comp.compareSubcontratista(entity, entity2);
         expect(subcontratistaService.compareSubcontratista).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareConcepto', () => {
+      it('Should forward to conceptoService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(conceptoService, 'compareConcepto');
+        comp.compareConcepto(entity, entity2);
+        expect(conceptoService.compareConcepto).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

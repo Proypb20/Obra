@@ -27,18 +27,18 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Long>, J
     }
 
     @Query(
-        value = "select distinct movimiento from Movimiento movimiento left join fetch movimiento.obra left join fetch movimiento.subcontratista",
+        value = "select distinct movimiento from Movimiento movimiento left join fetch movimiento.obra left join fetch movimiento.subcontratista left join fetch movimiento.concepto",
         countQuery = "select count(distinct movimiento) from Movimiento movimiento"
     )
     Page<Movimiento> findAllWithToOneRelationships(Pageable pageable);
 
     @Query(
-        "select distinct movimiento from Movimiento movimiento left join fetch movimiento.obra left join fetch movimiento.subcontratista"
+        "select distinct movimiento from Movimiento movimiento left join fetch movimiento.obra left join fetch movimiento.subcontratista left join fetch movimiento.concepto"
     )
     List<Movimiento> findAllWithToOneRelationships();
 
     @Query(
-        "select movimiento from Movimiento movimiento left join fetch movimiento.obra left join fetch movimiento.subcontratista where movimiento.id =:id"
+        "select movimiento from Movimiento movimiento left join fetch movimiento.obra left join fetch movimiento.subcontratista left join fetch movimiento.concepto where movimiento.id =:id"
     )
     Optional<Movimiento> findOneWithToOneRelationships(@Param("id") Long id);
 }

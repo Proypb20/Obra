@@ -53,6 +53,8 @@ public class MovimientoCriteria implements Serializable, Criteria {
 
     private LongFilter subcontratistaId;
 
+    private LongFilter conceptoId;
+
     private Boolean distinct;
 
     public MovimientoCriteria() {}
@@ -65,6 +67,7 @@ public class MovimientoCriteria implements Serializable, Criteria {
         this.amount = other.amount == null ? null : other.amount.copy();
         this.obraId = other.obraId == null ? null : other.obraId.copy();
         this.subcontratistaId = other.subcontratistaId == null ? null : other.subcontratistaId.copy();
+        this.conceptoId = other.conceptoId == null ? null : other.conceptoId.copy();
         this.distinct = other.distinct;
     }
 
@@ -178,6 +181,21 @@ public class MovimientoCriteria implements Serializable, Criteria {
         this.subcontratistaId = subcontratistaId;
     }
 
+    public LongFilter getConceptoId() {
+        return conceptoId;
+    }
+
+    public LongFilter conceptoId() {
+        if (conceptoId == null) {
+            conceptoId = new LongFilter();
+        }
+        return conceptoId;
+    }
+
+    public void setConceptoId(LongFilter conceptoId) {
+        this.conceptoId = conceptoId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -203,13 +221,14 @@ public class MovimientoCriteria implements Serializable, Criteria {
             Objects.equals(amount, that.amount) &&
             Objects.equals(obraId, that.obraId) &&
             Objects.equals(subcontratistaId, that.subcontratistaId) &&
+            Objects.equals(conceptoId, that.conceptoId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, description, metodoPago, amount, obraId, subcontratistaId, distinct);
+        return Objects.hash(id, date, description, metodoPago, amount, obraId, subcontratistaId, conceptoId, distinct);
     }
 
     // prettier-ignore
@@ -223,6 +242,7 @@ public class MovimientoCriteria implements Serializable, Criteria {
             (amount != null ? "amount=" + amount + ", " : "") +
             (obraId != null ? "obraId=" + obraId + ", " : "") +
             (subcontratistaId != null ? "subcontratistaId=" + subcontratistaId + ", " : "") +
+            (conceptoId != null ? "conceptoId=" + conceptoId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

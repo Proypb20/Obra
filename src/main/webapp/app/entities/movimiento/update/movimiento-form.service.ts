@@ -24,6 +24,7 @@ type MovimientoFormGroupContent = {
   amount: FormControl<IMovimiento['amount']>;
   obra: FormControl<IMovimiento['obra']>;
   subcontratista: FormControl<IMovimiento['subcontratista']>;
+  concepto: FormControl<IMovimiento['concepto']>;
 };
 
 export type MovimientoFormGroup = FormGroup<MovimientoFormGroupContent>;
@@ -57,6 +58,7 @@ export class MovimientoFormService {
       }),
       obra: new FormControl(movimientoRawValue.obra),
       subcontratista: new FormControl(movimientoRawValue.subcontratista),
+      concepto: new FormControl(movimientoRawValue.concepto),
     });
   }
 

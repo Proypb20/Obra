@@ -26,6 +26,7 @@ describe('Movimiento Form Service', () => {
             amount: expect.any(Object),
             obra: expect.any(Object),
             subcontratista: expect.any(Object),
+            concepto: expect.any(Object),
           })
         );
       });
@@ -42,6 +43,7 @@ describe('Movimiento Form Service', () => {
             amount: expect.any(Object),
             obra: expect.any(Object),
             subcontratista: expect.any(Object),
+            concepto: expect.any(Object),
           })
         );
       });

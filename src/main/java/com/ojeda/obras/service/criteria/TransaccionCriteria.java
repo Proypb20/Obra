@@ -47,7 +47,7 @@ public class TransaccionCriteria implements Serializable, Criteria {
 
     private StringFilter transactionNumber;
 
-    private FloatFilter amount;
+    private DoubleFilter amount;
 
     private StringFilter note;
 
@@ -142,18 +142,18 @@ public class TransaccionCriteria implements Serializable, Criteria {
         this.transactionNumber = transactionNumber;
     }
 
-    public FloatFilter getAmount() {
+    public DoubleFilter getAmount() {
         return amount;
     }
 
-    public FloatFilter amount() {
+    public DoubleFilter amount() {
         if (amount == null) {
-            amount = new FloatFilter();
+            amount = new DoubleFilter();
         }
         return amount;
     }
 
-    public void setAmount(FloatFilter amount) {
+    public void setAmount(DoubleFilter amount) {
         this.amount = amount;
     }
 

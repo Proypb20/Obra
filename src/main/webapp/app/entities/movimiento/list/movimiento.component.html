@@ -68,6 +68,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="concepto.name">
+            <div class="d-flex">
+              <span>Concepto</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -83,6 +89,7 @@
             </div>
           </td>
           <td>{{ movimiento.subcontratista?.lastName }}, {{ movimiento.subcontratista?.firstName }}</td>
+          <td>{{ movimiento.concepto?.name }}</td>
           <td class="text-end">
             <div class="btn-group">
               <!--<button

@@ -6,13 +6,15 @@
       <div>
         <jhi-alert-error></jhi-alert-error>
 
-        <div class="row mb-3" *ngIf="editForm.controls.id.value !== null">
+        <div class="row mb-3" hidden>
           <label class="form-label" for="field_id">ID</label>
           <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id" [readonly]="true" />
         </div>
 
+        <br />
+
         <div class="row mb-3">
-          <label class="form-label" for="field_date">Date</label>
+          <label class="form-label" for="field_date">Fecha</label>
           <div class="input-group">
             <input
               id="field_date"
@@ -32,7 +34,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_description">Description</label>
+          <label class="form-label" for="field_description">Descripcion</label>
           <input
             type="text"
             class="form-control"
@@ -85,8 +87,23 @@
           >
             <option [ngValue]="null"></option>
             <option [ngValue]="subcontratistaOption" *ngFor="let subcontratistaOption of subcontratistasSharedCollection">
-              {{ subcontratistaOption.lastName }}
+              {{ subcontratistaOption.lastName }}, {{ subcontratistaOption.firstName }}
             </option>
+          </select>
+        </div>
+
+        <div class="row mb-3">
+          <label class="form-label" for="field_concepto">Concepto</label>
+          <select
+            class="form-control"
+            id="field_concepto"
+            data-cy="concepto"
+            name="concepto"
+            formControlName="concepto"
+            [compareWith]="compareConcepto"
+          >
+            <option [ngValue]="null"></option>
+            <option [ngValue]="conceptoOption" *ngFor="let conceptoOption of conceptosSharedCollection">{{ conceptoOption.name }}</option>
           </select>
         </div>
       </div>

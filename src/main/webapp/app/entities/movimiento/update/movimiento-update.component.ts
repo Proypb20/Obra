@@ -11,6 +11,8 @@ import { IObra } from 'app/entities/obra/obra.model';
 import { ObraService } from 'app/entities/obra/service/obra.service';
 import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.model';
 import { SubcontratistaService } from 'app/entities/subcontratista/service/subcontratista.service';
+import { IConcepto } from 'app/entities/concepto/concepto.model';
+import { ConceptoService } from 'app/entities/concepto/service/concepto.service';
 import { MetodoPago } from 'app/entities/enumerations/metodo-pago.model';
 
 @Component({
@@ -24,6 +26,7 @@ export class MovimientoUpdateComponent implements OnInit {
 
   obrasSharedCollection: IObra[] = [];
   subcontratistasSharedCollection: ISubcontratista[] = [];
+  conceptosSharedCollection: IConcepto[] = [];
 
   editForm: MovimientoFormGroup = this.movimientoFormService.createMovimientoFormGroup();
 
@@ -32,6 +35,7 @@ export class MovimientoUpdateComponent implements OnInit {
     protected movimientoFormService: MovimientoFormService,
     protected obraService: ObraService,
     protected subcontratistaService: SubcontratistaService,
+    protected conceptoService: ConceptoService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
@@ -39,6 +43,8 @@ export class MovimientoUpdateComponent implements OnInit {
 
   compareSubcontratista = (o1: ISubcontratista | null, o2: ISubcontratista | null): boolean =>
     this.subcontratistaService.compareSubcontratista(o1, o2);
+
+  compareConcepto = (o1: IConcepto | null, o2: IConcepto | null): boolean => this.conceptoService.compareConcepto(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ movimiento }) => {
@@ -93,6 +99,10 @@ export class MovimientoUpdateComponent implements OnInit {
       this.subcontratistasSharedCollection,
       movimiento.subcontratista
     );
+    this.conceptosSharedCollection = this.conceptoService.addConceptoToCollectionIfMissing<IConcepto>(
+      this.conceptosSharedCollection,
+      movimiento.concepto
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -114,5 +124,15 @@ export class MovimientoUpdateComponent implements OnInit {
         )
       )
       .subscribe((subcontratistas: ISubcontratista[]) => (this.subcontratistasSharedCollection = subcontratistas));
+
+    this.conceptoService
+      .query()
+      .pipe(map((res: HttpResponse<IConcepto[]>) => res.body ?? []))
+      .pipe(
+        map((conceptos: IConcepto[]) =>
+          this.conceptoService.addConceptoToCollectionIfMissing<IConcepto>(conceptos, this.movimiento?.concepto)
+        )
+      )
+      .subscribe((conceptos: IConcepto[]) => (this.conceptosSharedCollection = conceptos));
   }
 }
