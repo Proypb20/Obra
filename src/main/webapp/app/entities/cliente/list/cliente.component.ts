@@ -34,8 +34,8 @@ export class ClienteComponent implements OnInit {
   trackId = (_index: number, item: ICliente): number => this.clienteService.getClienteIdentifier(item);
 
   ngOnInit(): void {
-    this.cId = history.state.cId ?? 0;
-    this.oId = history.state.oId ?? 0;
+    this.cId = history.state?.cId;
+    this.oId = history.state?.oId;
     this.load();
   }
 
@@ -102,8 +102,8 @@ export class ClienteComponent implements OnInit {
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.oId ?? 0,
-      'id.equals': this.cId ?? 0,
+      'obraId.equals': this.oId,
+      'id.equals': this.cId,
     };
     return this.clienteService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

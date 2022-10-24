@@ -33,7 +33,7 @@ export class DetalleListaPrecioUpdateComponent implements OnInit {
   compareListaPrecio = (o1: IListaPrecio | null, o2: IListaPrecio | null): boolean => this.listaPrecioService.compareListaPrecio(o1, o2);
 
   ngOnInit(): void {
-    this.lpId = history.state.lpId ?? 0;
+    this.lpId = history.state?.lpId;
     this.activatedRoute.data.subscribe(({ detalleListaPrecio }) => {
       this.detalleListaPrecio = detalleListaPrecio;
       if (detalleListaPrecio) {

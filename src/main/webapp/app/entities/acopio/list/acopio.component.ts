@@ -33,8 +33,8 @@ export class AcopioComponent implements OnInit {
   trackId = (_index: number, item: IAcopio): number => this.acopioService.getAcopioIdentifier(item);
 
   ngOnInit(): void {
-    this.oId = history.state.oId ?? 0;
-    this.pId = history.state.pId ?? 0;
+    this.oId = history.state?.oId;
+    this.pId = history.state?.pId;
     this.load();
   }
 
@@ -101,8 +101,8 @@ export class AcopioComponent implements OnInit {
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.oId ?? 0,
-      'proveedorId.equals': this.pId ?? 0,
+      'obraId.equals': this.oId,
+      'proveedorId.equals': this.pId,
     };
     return this.acopioService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

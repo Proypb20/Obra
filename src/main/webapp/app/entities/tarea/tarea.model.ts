@@ -1,4 +1,3 @@
-import { IUnidadMedida } from 'app/entities/unidad-medida/unidad-medida.model';
 import { IObra } from 'app/entities/obra/obra.model';
 import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.model';
 import { IConcepto } from 'app/entities/concepto/concepto.model';

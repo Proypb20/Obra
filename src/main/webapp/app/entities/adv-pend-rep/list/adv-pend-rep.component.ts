@@ -64,8 +64,8 @@ export class AdvPendRepComponent implements OnInit {
       this.ChildSId = 0;
     } else {
       this.showDet = true;
-      this.ChildOId = oId ?? 0;
-      this.ChildSId = sId ?? 0;
+      this.ChildOId = oId;
+      this.ChildSId = sId;
       this.loadFromBackendWithRouteInformationsTarea().subscribe({
         next: (res: EntityArrayResponseType2) => {
           this.onResponseSuccessTarea(res);
@@ -132,8 +132,8 @@ export class AdvPendRepComponent implements OnInit {
     this.isLoadingTarea = true;
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.ChildOId ?? 0,
-      'subcontratistaId.equals': this.ChildSId ?? 0,
+      'obraId.equals': this.ChildOId,
+      'subcontratistaId.equals': this.ChildSId,
     };
     return this.tareaService.query(queryObject).pipe(tap(() => (this.isLoadingTarea = false)));
   }

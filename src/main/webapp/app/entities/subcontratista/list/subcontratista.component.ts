@@ -32,7 +32,7 @@ export class SubcontratistaComponent implements OnInit {
   trackId = (_index: number, item: ISubcontratista): number => this.subcontratistaService.getSubcontratistaIdentifier(item);
 
   ngOnInit(): void {
-    this.oId = history.state.oId ?? 0;
+    this.oId = history.state?.oId;
     this.load();
   }
 
@@ -98,7 +98,7 @@ export class SubcontratistaComponent implements OnInit {
     this.isLoading = true;
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.oId ?? 0,
+      'obraId.equals': this.oId,
     };
     return this.subcontratistaService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

@@ -33,7 +33,7 @@ export class ListaPrecioComponent implements OnInit {
   trackId = (_index: number, item: IListaPrecio): number => this.listaPrecioService.getListaPrecioIdentifier(item);
 
   ngOnInit(): void {
-    this.pId = history.state.pId ?? 0;
+    this.pId = history.state?.pId;
     this.load();
   }
 
@@ -112,7 +112,7 @@ export class ListaPrecioComponent implements OnInit {
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
-      'proveedorId.equals': this.pId ?? 0,
+      'proveedorId.equals': this.pId,
     };
     return this.listaPrecioService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

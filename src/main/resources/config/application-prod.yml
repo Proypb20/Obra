@@ -24,7 +24,7 @@ eureka:
     prefer-ip-address: true
   client:
     service-url:
-      defaultZone: http://admin:${jhipster.registry.password}@localhost:8761/eureka/
+      defaultZone: http://admin:${jhipster.registry.password}@localhost:8080/eureka/
 
 management:
   metrics:
@@ -53,8 +53,8 @@ spring:
   datasource:
     type: com.zaxxer.hikari.HikariDataSource
     url: jdbc:mysql://localhost:3306/obras?useUnicode=true&characterEncoding=utf8&useSSL=false&useLegacyDatetimeCode=false&serverTimezone=UTC&createDatabaseIfNotExist=true
-    username: root
-    password:
+    username: obras
+    password: obras1234
     hikari:
       poolName: Hikari
       auto-commit: false

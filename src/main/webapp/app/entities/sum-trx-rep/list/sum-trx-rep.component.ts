@@ -2,14 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder, Validators } from '@angular/forms';
 import { ISumTrxRep } from '../sum-trx-rep.model';
 import { ASC, DESC, SORT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, SumTrxRepService } from '../service/sum-trx-rep.service';
 import { EntityArrayResponseType as EntityArrayResponseType2, ObraService } from 'app/entities/obra/service/obra.service';
 import { SortService } from 'app/shared/sort/sort.service';
-import dayjs from 'dayjs/esm';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IObra } from 'app/entities/obra/obra.model';
 
 @Component({
@@ -123,7 +121,7 @@ export class SumTrxRepComponent implements OnInit {
 
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.findForm.get('obra')!.value ?? 0,
+      'obraId.equals': this.findForm.get('obra')!.value!,
       'fecha.greaterThan': this.findForm.get('dateFrom')!.value!,
       'fecha.lessThan': this.findForm.get('dateTo')!.value!,
     };

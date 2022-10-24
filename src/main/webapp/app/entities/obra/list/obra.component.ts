@@ -34,9 +34,9 @@ export class ObraComponent implements OnInit {
   trackId = (_index: number, item: IObra): number => this.obraService.getObraIdentifier(item);
 
   ngOnInit(): void {
-    this.sId = history.state.sId ?? 0;
-    this.oId = history.state.oId ?? 0;
-    this.cId = history.state.cId ?? 0;
+    this.sId = history.state?.sId;
+    this.oId = history.state?.oId;
+    this.cId = history.state?.cId;
     this.load();
   }
 
@@ -103,9 +103,9 @@ export class ObraComponent implements OnInit {
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
-      'subcontratistaId.equals': this.sId ?? 0,
-      'id.equals': this.oId ?? 0,
-      'clienteId.equals': this.cId ?? 0,
+      'subcontratistaId.equals': this.sId,
+      'id.equals': this.oId,
+      'clienteId.equals': this.cId,
     };
     return this.obraService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

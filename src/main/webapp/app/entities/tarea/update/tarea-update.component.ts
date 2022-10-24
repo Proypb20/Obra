@@ -47,7 +47,7 @@ export class TareaUpdateComponent implements OnInit {
   compareConcepto = (o1: IConcepto | null, o2: IConcepto | null): boolean => this.conceptoService.compareConcepto(o1, o2);
 
   ngOnInit(): void {
-    this.oId = history.state.oId ?? 0;
+    this.oId = history.state?.oId;
     this.activatedRoute.data.subscribe(({ tarea }) => {
       this.tarea = tarea;
       if (tarea) {

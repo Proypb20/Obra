@@ -33,7 +33,7 @@ export class ProveedorComponent implements OnInit {
   trackId = (_index: number, item: IProveedor): number => this.proveedorService.getProveedorIdentifier(item);
 
   ngOnInit(): void {
-    this.pId = history.state.pId ?? 0;
+    this.pId = history.state?.pId;
     this.load();
   }
 
@@ -100,7 +100,7 @@ export class ProveedorComponent implements OnInit {
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
-      'id.equals': this.pId ?? 0,
+      'id.equals': this.pId,
     };
     return this.proveedorService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

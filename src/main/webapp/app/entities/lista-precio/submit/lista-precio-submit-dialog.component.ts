@@ -1,11 +1,11 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { FormControl, FormBuilder, Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
 import { HttpResponse } from '@angular/common/http';
 import { ListaPrecioService } from '../service/lista-precio.service';
 import { IProveedor } from 'app/entities/proveedor/proveedor.model';
 import { ProveedorService } from 'app/entities/proveedor/service/proveedor.service';
-import { finalize, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './lista-precio-submit-dialog.component.html',

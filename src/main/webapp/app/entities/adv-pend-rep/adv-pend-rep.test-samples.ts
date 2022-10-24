@@ -4,27 +4,27 @@ export const sampleWithRequiredData: IAdvPendRep = {
   id: 26273,
   obra: 'benficios transparent',
   subcontratista: 'Sub1',
-  advance_status: 1,
+  advanceStatus: 1,
 };
 
 export const sampleWithPartialData: IAdvPendRep = {
   id: 24368,
   obra: 'benficios transparent',
   subcontratista: 'Sub1',
-  advance_status: 1,
+  advanceStatus: 1,
 };
 
 export const sampleWithFullData: IAdvPendRep = {
   id: 53247,
   obra: 'benficios transparent',
   subcontratista: 'Sub1',
-  advance_status: 1,
+  advanceStatus: 1,
 };
 
 export const sampleWithNewData: NewAdvPendRep = {
   obra: 'benficios transparent',
   subcontratista: 'Sub1',
-  advance_status: 1,
+  advanceStatus: 1,
   id: null,
 };
 

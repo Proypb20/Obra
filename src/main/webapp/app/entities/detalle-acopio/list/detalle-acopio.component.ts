@@ -32,7 +32,7 @@ export class DetalleAcopioComponent implements OnInit {
   trackId = (_index: number, item: IDetalleAcopio): number => this.detalleAcopioService.getDetalleAcopioIdentifier(item);
 
   ngOnInit(): void {
-    this.aId = history.state.aId ?? 0;
+    this.aId = history.state?.aId;
     this.load();
   }
 
@@ -99,7 +99,7 @@ export class DetalleAcopioComponent implements OnInit {
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
-      'acopioId.equals': this.aId ?? 0,
+      'acopioId.equals': this.aId,
     };
     return this.detalleAcopioService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

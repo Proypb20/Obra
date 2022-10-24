@@ -103,7 +103,6 @@ export class ListaPrecioService {
     const formData: FormData = new FormData();
     formData.append('file', file);
     formData.append('idProv', idProv.toString());
-    /*const copy = {file, idProv };*/
     return this.http.post<RestListaPrecio>(`${this.resourceUrl}/importXLS`, formData, { observe: 'response' });
   }
 

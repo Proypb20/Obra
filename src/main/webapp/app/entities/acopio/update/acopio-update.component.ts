@@ -47,8 +47,8 @@ export class AcopioUpdateComponent implements OnInit {
   compareProveedor = (o1: IProveedor | null, o2: IProveedor | null): boolean => this.proveedorService.compareProveedor(o1, o2);
 
   ngOnInit(): void {
-    this.pId = history.state.pId;
-    this.oId = history.state.oId;
+    this.pId = history.state?.pId;
+    this.oId = history.state?.oId;
     this.activatedRoute.data.subscribe(({ acopio }) => {
       this.acopio = acopio;
       if (acopio) {

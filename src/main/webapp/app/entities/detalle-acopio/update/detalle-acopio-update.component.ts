@@ -67,14 +67,14 @@ export class DetalleAcopioUpdateComponent implements OnInit {
 
   onChangeProducto(): void {
     this.editForm.patchValue({ unitPrice: this.editForm.get('detalleListaPrecio')!.value!.amount });
-    if (this.editForm.get('quantity')!.value! !== null) {
+    if (this.editForm.get('quantity')!.value !== null) {
       const amount1 = this.editForm.get('quantity')!.value! * this.editForm.get('detalleListaPrecio')!.value!.amount!;
       this.editForm.patchValue({ amount: amount1 });
     }
   }
 
   onChangeQuantity(): void {
-    if (this.editForm.get('unitPrice')!.value! !== null) {
+    if (this.editForm.get('unitPrice')!.value !== null) {
       const amount1 = this.editForm.get('quantity')!.value! * this.editForm.get('unitPrice')!.value!;
       this.editForm.patchValue({ amount: amount1 });
     }
