@@ -22,9 +22,11 @@ type MovimientoFormGroupContent = {
   description: FormControl<IMovimiento['description']>;
   metodoPago: FormControl<IMovimiento['metodoPago']>;
   amount: FormControl<IMovimiento['amount']>;
+  transactionNumber: FormControl<IMovimiento['transactionNumber']>;
   obra: FormControl<IMovimiento['obra']>;
   subcontratista: FormControl<IMovimiento['subcontratista']>;
   concepto: FormControl<IMovimiento['concepto']>;
+  tipoComprobante: FormControl<IMovimiento['tipoComprobante']>;
 };
 
 export type MovimientoFormGroup = FormGroup<MovimientoFormGroupContent>;
@@ -56,9 +58,11 @@ export class MovimientoFormService {
       amount: new FormControl(movimientoRawValue.amount, {
         validators: [Validators.required],
       }),
+      transactionNumber: new FormControl(movimientoRawValue.transactionNumber),
       obra: new FormControl(movimientoRawValue.obra),
       subcontratista: new FormControl(movimientoRawValue.subcontratista),
       concepto: new FormControl(movimientoRawValue.concepto),
+      tipoComprobante: new FormControl(movimientoRawValue.tipoComprobante),
     });
   }
 

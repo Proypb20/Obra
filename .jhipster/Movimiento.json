@@ -22,6 +22,10 @@
       "fieldName": "amount",
       "fieldType": "Double",
       "fieldValidateRules": ["required"]
+    },
+    {
+      "fieldName": "transactionNumber",
+      "fieldType": "String"
     }
   ],
   "jpaMetamodelFiltering": true,
@@ -45,6 +49,12 @@
       "otherEntityField": "name",
       "otherEntityName": "concepto",
       "relationshipName": "concepto",
+      "relationshipType": "many-to-one"
+    },
+    {
+      "otherEntityField": "name",
+      "otherEntityName": "tipoComprobante",
+      "relationshipName": "tipoComprobante",
       "relationshipType": "many-to-one"
     }
   ],

@@ -17,7 +17,7 @@ export class MovimientoComponent implements OnInit {
   movimientos?: IMovimiento[];
   isLoading = false;
 
-  predicate = 'id';
+  predicate = 'date';
   ascending = true;
 
   constructor(
@@ -71,8 +71,8 @@ export class MovimientoComponent implements OnInit {
 
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
     const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(',');
-    this.predicate = sort[0];
-    this.ascending = sort[1] === ASC;
+    this.predicate = 'date';
+    this.ascending = sort[1] === DESC;
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
@@ -81,7 +81,7 @@ export class MovimientoComponent implements OnInit {
   }
 
   protected refineData(data: IMovimiento[]): IMovimiento[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    return data.sort(this.sortService.startSortDate(this.predicate, this.ascending ? 1 : -1));
   }
 
   protected fillComponentAttributesFromResponseBody(data: IMovimiento[] | null): IMovimiento[] {

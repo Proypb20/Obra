@@ -33,6 +33,7 @@ public interface TransaccionMapper extends EntityMapper<TransaccionDTO, Transacc
     @BeanMapping(ignoreByDefault = true)
     @Mapping(target = "id", source = "id")
     @Mapping(target = "lastName", source = "lastName")
+    @Mapping(target = "firstName", source = "firstName")
     SubcontratistaDTO toDtoSubcontratistaLastName(Subcontratista subcontratista);
 
     @Named("tipoComprobanteName")

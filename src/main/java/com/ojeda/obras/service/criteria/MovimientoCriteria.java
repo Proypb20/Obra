@@ -49,11 +49,15 @@ public class MovimientoCriteria implements Serializable, Criteria {
 
     private DoubleFilter amount;
 
+    private StringFilter transactionNumber;
+
     private LongFilter obraId;
 
     private LongFilter subcontratistaId;
 
     private LongFilter conceptoId;
+
+    private LongFilter tipoComprobanteId;
 
     private Boolean distinct;
 
@@ -65,9 +69,11 @@ public class MovimientoCriteria implements Serializable, Criteria {
         this.description = other.description == null ? null : other.description.copy();
         this.metodoPago = other.metodoPago == null ? null : other.metodoPago.copy();
         this.amount = other.amount == null ? null : other.amount.copy();
+        this.transactionNumber = other.transactionNumber == null ? null : other.transactionNumber.copy();
         this.obraId = other.obraId == null ? null : other.obraId.copy();
         this.subcontratistaId = other.subcontratistaId == null ? null : other.subcontratistaId.copy();
         this.conceptoId = other.conceptoId == null ? null : other.conceptoId.copy();
+        this.tipoComprobanteId = other.tipoComprobanteId == null ? null : other.tipoComprobanteId.copy();
         this.distinct = other.distinct;
     }
 
@@ -151,6 +157,21 @@ public class MovimientoCriteria implements Serializable, Criteria {
         this.amount = amount;
     }
 
+    public StringFilter getTransactionNumber() {
+        return transactionNumber;
+    }
+
+    public StringFilter transactionNumber() {
+        if (transactionNumber == null) {
+            transactionNumber = new StringFilter();
+        }
+        return transactionNumber;
+    }
+
+    public void setTransactionNumber(StringFilter transactionNumber) {
+        this.transactionNumber = transactionNumber;
+    }
+
     public LongFilter getObraId() {
         return obraId;
     }
@@ -196,6 +217,21 @@ public class MovimientoCriteria implements Serializable, Criteria {
         this.conceptoId = conceptoId;
     }
 
+    public LongFilter getTipoComprobanteId() {
+        return tipoComprobanteId;
+    }
+
+    public LongFilter tipoComprobanteId() {
+        if (tipoComprobanteId == null) {
+            tipoComprobanteId = new LongFilter();
+        }
+        return tipoComprobanteId;
+    }
+
+    public void setTipoComprobanteId(LongFilter tipoComprobanteId) {
+        this.tipoComprobanteId = tipoComprobanteId;
+    }
+
     public Boolean getDistinct() {
         return distinct;
     }
@@ -219,16 +255,30 @@ public class MovimientoCriteria implements Serializable, Criteria {
             Objects.equals(description, that.description) &&
             Objects.equals(metodoPago, that.metodoPago) &&
             Objects.equals(amount, that.amount) &&
+            Objects.equals(transactionNumber, that.transactionNumber) &&
             Objects.equals(obraId, that.obraId) &&
             Objects.equals(subcontratistaId, that.subcontratistaId) &&
             Objects.equals(conceptoId, that.conceptoId) &&
+            Objects.equals(tipoComprobanteId, that.tipoComprobanteId) &&
             Objects.equals(distinct, that.distinct)
         );
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, description, metodoPago, amount, obraId, subcontratistaId, conceptoId, distinct);
+        return Objects.hash(
+            id,
+            date,
+            description,
+            metodoPago,
+            amount,
+            transactionNumber,
+            obraId,
+            subcontratistaId,
+            conceptoId,
+            tipoComprobanteId,
+            distinct
+        );
     }
 
     // prettier-ignore
@@ -240,9 +290,11 @@ public class MovimientoCriteria implements Serializable, Criteria {
             (description != null ? "description=" + description + ", " : "") +
             (metodoPago != null ? "metodoPago=" + metodoPago + ", " : "") +
             (amount != null ? "amount=" + amount + ", " : "") +
+            (transactionNumber != null ? "transactionNumber=" + transactionNumber + ", " : "") +
             (obraId != null ? "obraId=" + obraId + ", " : "") +
             (subcontratistaId != null ? "subcontratistaId=" + subcontratistaId + ", " : "") +
             (conceptoId != null ? "conceptoId=" + conceptoId + ", " : "") +
+            (tipoComprobanteId != null ? "tipoComprobanteId=" + tipoComprobanteId + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";
     }

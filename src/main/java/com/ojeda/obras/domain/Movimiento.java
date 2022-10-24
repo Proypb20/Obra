@@ -42,6 +42,9 @@ public class Movimiento implements Serializable {
     @Column(name = "amount", nullable = false)
     private Double amount;
 
+    @Column(name = "transaction_number")
+    private String transactionNumber;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "provincia", "subcontratistas", "clientes" }, allowSetters = true)
     private Obra obra;
@@ -52,6 +55,9 @@ public class Movimiento implements Serializable {
 
     @ManyToOne
     private Concepto concepto;
+
+    @ManyToOne
+    private TipoComprobante tipoComprobante;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -120,6 +126,19 @@ public class Movimiento implements Serializable {
         this.amount = amount;
     }
 
+    public String getTransactionNumber() {
+        return this.transactionNumber;
+    }
+
+    public Movimiento transactionNumber(String transactionNumber) {
+        this.setTransactionNumber(transactionNumber);
+        return this;
+    }
+
+    public void setTransactionNumber(String transactionNumber) {
+        this.transactionNumber = transactionNumber;
+    }
+
     public Obra getObra() {
         return this.obra;
     }
@@ -159,6 +178,19 @@ public class Movimiento implements Serializable {
         return this;
     }
 
+    public TipoComprobante getTipoComprobante() {
+        return this.tipoComprobante;
+    }
+
+    public void setTipoComprobante(TipoComprobante tipoComprobante) {
+        this.tipoComprobante = tipoComprobante;
+    }
+
+    public Movimiento tipoComprobante(TipoComprobante tipoComprobante) {
+        this.setTipoComprobante(tipoComprobante);
+        return this;
+    }
+
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -187,6 +219,7 @@ public class Movimiento implements Serializable {
             ", description='" + getDescription() + "'" +
             ", metodoPago='" + getMetodoPago() + "'" +
             ", amount=" + getAmount() +
+            ", transactionNumber='" + getTransactionNumber() + "'" +
             "}";
     }
 }

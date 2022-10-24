@@ -32,7 +32,7 @@ export class TransaccionComponent implements OnInit {
   trackId = (_index: number, item: ITransaccion): number => this.transaccionService.getTransaccionIdentifier(item);
 
   ngOnInit(): void {
-    this.oId = history.state.oId ?? 0;
+    this.oId = history.state?.oId;
     this.load();
   }
 
@@ -99,7 +99,7 @@ export class TransaccionComponent implements OnInit {
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.oId ?? 0,
+      'obraId.equals': this.oId,
     };
     return this.transaccionService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

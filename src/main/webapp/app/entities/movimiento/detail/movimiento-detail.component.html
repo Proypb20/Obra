@@ -30,6 +30,10 @@
         <dd>
           <span>{{ movimiento.amount }}</span>
         </dd>
+        <dt><span>Transaction Number</span></dt>
+        <dd>
+          <span>{{ movimiento.transactionNumber }}</span>
+        </dd>
         <dt><span>Obra</span></dt>
         <dd>
           <div *ngIf="movimiento.obra">
@@ -46,6 +50,12 @@
         <dd>
           <div *ngIf="movimiento.concepto">
             <a [routerLink]="['/concepto', movimiento.concepto.id, 'view']">{{ movimiento.concepto.name }}</a>
+          </div>
+        </dd>
+        <dt><span>Tipo Comprobante</span></dt>
+        <dd>
+          <div *ngIf="movimiento.tipoComprobante">
+            <a [routerLink]="['/tipo-comprobante', movimiento.tipoComprobante.id, 'view']">{{ movimiento.tipoComprobante.name }}</a>
           </div>
         </dd>
       </dl>

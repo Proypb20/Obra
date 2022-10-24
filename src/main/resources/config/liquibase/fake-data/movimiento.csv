@@ -1,11 +1,11 @@
-id;date;description;metodo_pago;amount
-1;2022-10-12;Berkshire Extrarradio overriding;BANCO;70135
-2;2022-10-12;end-to-end Profundo online;BANCO;98567
-3;2022-10-12;redefine Ghana AI;BANCO;14875
-4;2022-10-12;Hogar;BANCO;80729
-5;2022-10-12;Pakistan Aldea Guapa;EFECTIVO;66056
-6;2022-10-12;Increible;EFECTIVO;67787
-7;2022-10-12;networks Blanco;EFECTIVO;19606
-8;2022-10-13;Account redundant Verde;BANCO;90715
-9;2022-10-12;Cliente;EFECTIVO;11701
-10;2022-10-12;invoice Baleares;EFECTIVO;99202
+id;date;description;metodo_pago;amount;transaction_number
+1;2022-10-12;Berkshire Extrarradio overriding;BANCO;70135;Tácticas Gerente networks
+2;2022-10-12;Funcionario redefine;BANCO;35273;AI Relacciones
+3;2022-10-12;Senior;BANCO;96185;Pakistan Aldea Guapa
+4;2022-10-12;Paradigma mejora;EFECTIVO;24807;Borders indexing Chile
+5;2022-10-12;Inversor;BANCO;79168;Koruna matrix
+6;2022-10-12;Cliente;EFECTIVO;11701;payment front-end
+7;2022-10-12;Planificador synergies;EFECTIVO;63458;Descentralizado Pelota Blanco
+8;2022-10-12;Seguridada transmitting;EFECTIVO;47868;Buckinghamshire Chalet Práctico
+9;2022-10-12;Corporativo;EFECTIVO;73291;Negro Verde
+10;2022-10-12;engage;BANCO;27836;capacitor Ensalada payment

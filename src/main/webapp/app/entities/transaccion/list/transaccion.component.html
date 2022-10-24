@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="TransaccionHeading">
-    <span>Transacciones</span>
+    <span>Pagos a subcontratistas</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -16,7 +16,7 @@
         [state]="{ oId: this.oId }"
       >
         <fa-icon icon="plus"></fa-icon>
-        <span> Crear nuevo Transaccion </span>
+        <span> Nuevo pago </span>
       </button>
 
       <button
@@ -36,7 +36,7 @@
   <jhi-alert></jhi-alert>
 
   <div class="alert alert-warning" id="no-result" *ngIf="transaccions?.length === 0">
-    <span>No hay Transacciones</span>
+    <span>No hay Pagos a subcontratistas</span>
   </div>
 
   <div class="table-responsive table-entities" id="entities" *ngIf="transaccions && transaccions.length > 0">

@@ -15,6 +15,8 @@ import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.mode
 import { SubcontratistaService } from 'app/entities/subcontratista/service/subcontratista.service';
 import { IConcepto } from 'app/entities/concepto/concepto.model';
 import { ConceptoService } from 'app/entities/concepto/service/concepto.service';
+import { ITipoComprobante } from 'app/entities/tipo-comprobante/tipo-comprobante.model';
+import { TipoComprobanteService } from 'app/entities/tipo-comprobante/service/tipo-comprobante.service';
 
 import { MovimientoUpdateComponent } from './movimiento-update.component';
 
@@ -27,6 +29,7 @@ describe('Movimiento Management Update Component', () => {
   let obraService: ObraService;
   let subcontratistaService: SubcontratistaService;
   let conceptoService: ConceptoService;
+  let tipoComprobanteService: TipoComprobanteService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
@@ -52,6 +55,7 @@ describe('Movimiento Management Update Component', () => {
     obraService = TestBed.inject(ObraService);
     subcontratistaService = TestBed.inject(SubcontratistaService);
     conceptoService = TestBed.inject(ConceptoService);
+    tipoComprobanteService = TestBed.inject(TipoComprobanteService);
 
     comp = fixture.componentInstance;
   });
@@ -123,6 +127,28 @@ describe('Movimiento Management Update Component', () => {
       expect(comp.conceptosSharedCollection).toEqual(expectedCollection);
     });
 
+    it('Should call TipoComprobante query and add missing value', () => {
+      const movimiento: IMovimiento = { id: 456 };
+      const tipoComprobante: ITipoComprobante = { id: 25097 };
+      movimiento.tipoComprobante = tipoComprobante;
+
+      const tipoComprobanteCollection: ITipoComprobante[] = [{ id: 89251 }];
+      jest.spyOn(tipoComprobanteService, 'query').mockReturnValue(of(new HttpResponse({ body: tipoComprobanteCollection })));
+      const additionalTipoComprobantes = [tipoComprobante];
+      const expectedCollection: ITipoComprobante[] = [...additionalTipoComprobantes, ...tipoComprobanteCollection];
+      jest.spyOn(tipoComprobanteService, 'addTipoComprobanteToCollectionIfMissing').mockReturnValue(expectedCollection);
+
+      activatedRoute.data = of({ movimiento });
+      comp.ngOnInit();
+
+      expect(tipoComprobanteService.query).toHaveBeenCalled();
+      expect(tipoComprobanteService.addTipoComprobanteToCollectionIfMissing).toHaveBeenCalledWith(
+        tipoComprobanteCollection,
+        ...additionalTipoComprobantes.map(expect.objectContaining)
+      );
+      expect(comp.tipoComprobantesSharedCollection).toEqual(expectedCollection);
+    });
+
     it('Should update editForm', () => {
       const movimiento: IMovimiento = { id: 456 };
       const obra: IObra = { id: 62647 };
@@ -131,6 +157,8 @@ describe('Movimiento Management Update Component', () => {
       movimiento.subcontratista = subcontratista;
       const concepto: IConcepto = { id: 99305 };
       movimiento.concepto = concepto;
+      const tipoComprobante: ITipoComprobante = { id: 32740 };
+      movimiento.tipoComprobante = tipoComprobante;
 
       activatedRoute.data = of({ movimiento });
       comp.ngOnInit();
@@ -138,6 +166,7 @@ describe('Movimiento Management Update Component', () => {
       expect(comp.obrasSharedCollection).toContain(obra);
       expect(comp.subcontratistasSharedCollection).toContain(subcontratista);
       expect(comp.conceptosSharedCollection).toContain(concepto);
+      expect(comp.tipoComprobantesSharedCollection).toContain(tipoComprobante);
       expect(comp.movimiento).toEqual(movimiento);
     });
   });
@@ -238,6 +267,16 @@ describe('Movimiento Management Update Component', () => {
         jest.spyOn(conceptoService, 'compareConcepto');
         comp.compareConcepto(entity, entity2);
         expect(conceptoService.compareConcepto).toHaveBeenCalledWith(entity, entity2);
+      });
+    });
+
+    describe('compareTipoComprobante', () => {
+      it('Should forward to tipoComprobanteService', () => {
+        const entity = { id: 123 };
+        const entity2 = { id: 456 };
+        jest.spyOn(tipoComprobanteService, 'compareTipoComprobante');
+        comp.compareTipoComprobante(entity, entity2);
+        expect(tipoComprobanteService.compareTipoComprobante).toHaveBeenCalledWith(entity, entity2);
       });
     });
   });

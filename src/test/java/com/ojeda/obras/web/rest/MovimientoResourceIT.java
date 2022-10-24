@@ -11,6 +11,7 @@ import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.domain.Movimiento;
 import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.domain.Subcontratista;
+import com.ojeda.obras.domain.TipoComprobante;
 import com.ojeda.obras.domain.enumeration.MetodoPago;
 import com.ojeda.obras.repository.MovimientoRepository;
 import com.ojeda.obras.service.MovimientoService;
@@ -62,6 +63,9 @@ class MovimientoResourceIT {
     private static final Double UPDATED_AMOUNT = 2D;
     private static final Double SMALLER_AMOUNT = 1D - 1D;
 
+    private static final String DEFAULT_TRANSACTION_NUMBER = "AAAAAAAAAA";
+    private static final String UPDATED_TRANSACTION_NUMBER = "BBBBBBBBBB";
+
     private static final String ENTITY_API_URL = "/api/movimientos";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -99,7 +103,8 @@ class MovimientoResourceIT {
             .date(DEFAULT_DATE)
             .description(DEFAULT_DESCRIPTION)
             .metodoPago(DEFAULT_METODO_PAGO)
-            .amount(DEFAULT_AMOUNT);
+            .amount(DEFAULT_AMOUNT)
+            .transactionNumber(DEFAULT_TRANSACTION_NUMBER);
         return movimiento;
     }
 
@@ -114,7 +119,8 @@ class MovimientoResourceIT {
             .date(UPDATED_DATE)
             .description(UPDATED_DESCRIPTION)
             .metodoPago(UPDATED_METODO_PAGO)
-            .amount(UPDATED_AMOUNT);
+            .amount(UPDATED_AMOUNT)
+            .transactionNumber(UPDATED_TRANSACTION_NUMBER);
         return movimiento;
     }
 
@@ -141,6 +147,7 @@ class MovimientoResourceIT {
         assertThat(testMovimiento.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testMovimiento.getMetodoPago()).isEqualTo(DEFAULT_METODO_PAGO);
         assertThat(testMovimiento.getAmount()).isEqualTo(DEFAULT_AMOUNT);
+        assertThat(testMovimiento.getTransactionNumber()).isEqualTo(DEFAULT_TRANSACTION_NUMBER);
     }
 
     @Test
@@ -249,7 +256,8 @@ class MovimientoResourceIT {
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].metodoPago").value(hasItem(DEFAULT_METODO_PAGO.toString())))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())));
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].transactionNumber").value(hasItem(DEFAULT_TRANSACTION_NUMBER)));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -284,7 +292,8 @@ class MovimientoResourceIT {
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
             .andExpect(jsonPath("$.description").value(DEFAULT_DESCRIPTION))
             .andExpect(jsonPath("$.metodoPago").value(DEFAULT_METODO_PAGO.toString()))
-            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.doubleValue()));
+            .andExpect(jsonPath("$.amount").value(DEFAULT_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.transactionNumber").value(DEFAULT_TRANSACTION_NUMBER));
     }
 
     @Test
@@ -593,6 +602,71 @@ class MovimientoResourceIT {
 
     @Test
     @Transactional
+    void getAllMovimientosByTransactionNumberIsEqualToSomething() throws Exception {
+        // Initialize the database
+        movimientoRepository.saveAndFlush(movimiento);
+
+        // Get all the movimientoList where transactionNumber equals to DEFAULT_TRANSACTION_NUMBER
+        defaultMovimientoShouldBeFound("transactionNumber.equals=" + DEFAULT_TRANSACTION_NUMBER);
+
+        // Get all the movimientoList where transactionNumber equals to UPDATED_TRANSACTION_NUMBER
+        defaultMovimientoShouldNotBeFound("transactionNumber.equals=" + UPDATED_TRANSACTION_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllMovimientosByTransactionNumberIsInShouldWork() throws Exception {
+        // Initialize the database
+        movimientoRepository.saveAndFlush(movimiento);
+
+        // Get all the movimientoList where transactionNumber in DEFAULT_TRANSACTION_NUMBER or UPDATED_TRANSACTION_NUMBER
+        defaultMovimientoShouldBeFound("transactionNumber.in=" + DEFAULT_TRANSACTION_NUMBER + "," + UPDATED_TRANSACTION_NUMBER);
+
+        // Get all the movimientoList where transactionNumber equals to UPDATED_TRANSACTION_NUMBER
+        defaultMovimientoShouldNotBeFound("transactionNumber.in=" + UPDATED_TRANSACTION_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllMovimientosByTransactionNumberIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        movimientoRepository.saveAndFlush(movimiento);
+
+        // Get all the movimientoList where transactionNumber is not null
+        defaultMovimientoShouldBeFound("transactionNumber.specified=true");
+
+        // Get all the movimientoList where transactionNumber is null
+        defaultMovimientoShouldNotBeFound("transactionNumber.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllMovimientosByTransactionNumberContainsSomething() throws Exception {
+        // Initialize the database
+        movimientoRepository.saveAndFlush(movimiento);
+
+        // Get all the movimientoList where transactionNumber contains DEFAULT_TRANSACTION_NUMBER
+        defaultMovimientoShouldBeFound("transactionNumber.contains=" + DEFAULT_TRANSACTION_NUMBER);
+
+        // Get all the movimientoList where transactionNumber contains UPDATED_TRANSACTION_NUMBER
+        defaultMovimientoShouldNotBeFound("transactionNumber.contains=" + UPDATED_TRANSACTION_NUMBER);
+    }
+
+    @Test
+    @Transactional
+    void getAllMovimientosByTransactionNumberNotContainsSomething() throws Exception {
+        // Initialize the database
+        movimientoRepository.saveAndFlush(movimiento);
+
+        // Get all the movimientoList where transactionNumber does not contain DEFAULT_TRANSACTION_NUMBER
+        defaultMovimientoShouldNotBeFound("transactionNumber.doesNotContain=" + DEFAULT_TRANSACTION_NUMBER);
+
+        // Get all the movimientoList where transactionNumber does not contain UPDATED_TRANSACTION_NUMBER
+        defaultMovimientoShouldBeFound("transactionNumber.doesNotContain=" + UPDATED_TRANSACTION_NUMBER);
+    }
+
+    @Test
+    @Transactional
     void getAllMovimientosByObraIsEqualToSomething() throws Exception {
         Obra obra;
         if (TestUtil.findAll(em, Obra.class).isEmpty()) {
@@ -660,6 +734,29 @@ class MovimientoResourceIT {
         defaultMovimientoShouldNotBeFound("conceptoId.equals=" + (conceptoId + 1));
     }
 
+    @Test
+    @Transactional
+    void getAllMovimientosByTipoComprobanteIsEqualToSomething() throws Exception {
+        TipoComprobante tipoComprobante;
+        if (TestUtil.findAll(em, TipoComprobante.class).isEmpty()) {
+            movimientoRepository.saveAndFlush(movimiento);
+            tipoComprobante = TipoComprobanteResourceIT.createEntity(em);
+        } else {
+            tipoComprobante = TestUtil.findAll(em, TipoComprobante.class).get(0);
+        }
+        em.persist(tipoComprobante);
+        em.flush();
+        movimiento.setTipoComprobante(tipoComprobante);
+        movimientoRepository.saveAndFlush(movimiento);
+        Long tipoComprobanteId = tipoComprobante.getId();
+
+        // Get all the movimientoList where tipoComprobante equals to tipoComprobanteId
+        defaultMovimientoShouldBeFound("tipoComprobanteId.equals=" + tipoComprobanteId);
+
+        // Get all the movimientoList where tipoComprobante equals to (tipoComprobanteId + 1)
+        defaultMovimientoShouldNotBeFound("tipoComprobanteId.equals=" + (tipoComprobanteId + 1));
+    }
+
     /**
      * Executes the search, and checks that the default entity is returned.
      */
@@ -672,7 +769,8 @@ class MovimientoResourceIT {
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
             .andExpect(jsonPath("$.[*].description").value(hasItem(DEFAULT_DESCRIPTION)))
             .andExpect(jsonPath("$.[*].metodoPago").value(hasItem(DEFAULT_METODO_PAGO.toString())))
-            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())));
+            .andExpect(jsonPath("$.[*].amount").value(hasItem(DEFAULT_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].transactionNumber").value(hasItem(DEFAULT_TRANSACTION_NUMBER)));
 
         // Check, that the count call also returns 1
         restMovimientoMockMvc
@@ -720,7 +818,12 @@ class MovimientoResourceIT {
         Movimiento updatedMovimiento = movimientoRepository.findById(movimiento.getId()).get();
         // Disconnect from session so that the updates on updatedMovimiento are not directly saved in db
         em.detach(updatedMovimiento);
-        updatedMovimiento.date(UPDATED_DATE).description(UPDATED_DESCRIPTION).metodoPago(UPDATED_METODO_PAGO).amount(UPDATED_AMOUNT);
+        updatedMovimiento
+            .date(UPDATED_DATE)
+            .description(UPDATED_DESCRIPTION)
+            .metodoPago(UPDATED_METODO_PAGO)
+            .amount(UPDATED_AMOUNT)
+            .transactionNumber(UPDATED_TRANSACTION_NUMBER);
         MovimientoDTO movimientoDTO = movimientoMapper.toDto(updatedMovimiento);
 
         restMovimientoMockMvc
@@ -739,6 +842,7 @@ class MovimientoResourceIT {
         assertThat(testMovimiento.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testMovimiento.getMetodoPago()).isEqualTo(UPDATED_METODO_PAGO);
         assertThat(testMovimiento.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testMovimiento.getTransactionNumber()).isEqualTo(UPDATED_TRANSACTION_NUMBER);
     }
 
     @Test
@@ -818,7 +922,7 @@ class MovimientoResourceIT {
         Movimiento partialUpdatedMovimiento = new Movimiento();
         partialUpdatedMovimiento.setId(movimiento.getId());
 
-        partialUpdatedMovimiento.amount(UPDATED_AMOUNT);
+        partialUpdatedMovimiento.amount(UPDATED_AMOUNT).transactionNumber(UPDATED_TRANSACTION_NUMBER);
 
         restMovimientoMockMvc
             .perform(
@@ -836,6 +940,7 @@ class MovimientoResourceIT {
         assertThat(testMovimiento.getDescription()).isEqualTo(DEFAULT_DESCRIPTION);
         assertThat(testMovimiento.getMetodoPago()).isEqualTo(DEFAULT_METODO_PAGO);
         assertThat(testMovimiento.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testMovimiento.getTransactionNumber()).isEqualTo(UPDATED_TRANSACTION_NUMBER);
     }
 
     @Test
@@ -850,7 +955,12 @@ class MovimientoResourceIT {
         Movimiento partialUpdatedMovimiento = new Movimiento();
         partialUpdatedMovimiento.setId(movimiento.getId());
 
-        partialUpdatedMovimiento.date(UPDATED_DATE).description(UPDATED_DESCRIPTION).metodoPago(UPDATED_METODO_PAGO).amount(UPDATED_AMOUNT);
+        partialUpdatedMovimiento
+            .date(UPDATED_DATE)
+            .description(UPDATED_DESCRIPTION)
+            .metodoPago(UPDATED_METODO_PAGO)
+            .amount(UPDATED_AMOUNT)
+            .transactionNumber(UPDATED_TRANSACTION_NUMBER);
 
         restMovimientoMockMvc
             .perform(
@@ -868,6 +978,7 @@ class MovimientoResourceIT {
         assertThat(testMovimiento.getDescription()).isEqualTo(UPDATED_DESCRIPTION);
         assertThat(testMovimiento.getMetodoPago()).isEqualTo(UPDATED_METODO_PAGO);
         assertThat(testMovimiento.getAmount()).isEqualTo(UPDATED_AMOUNT);
+        assertThat(testMovimiento.getTransactionNumber()).isEqualTo(UPDATED_TRANSACTION_NUMBER);
     }
 
     @Test

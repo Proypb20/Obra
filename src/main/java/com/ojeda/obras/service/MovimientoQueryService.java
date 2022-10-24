@@ -102,6 +102,9 @@ public class MovimientoQueryService extends QueryService<Movimiento> {
             if (criteria.getAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAmount(), Movimiento_.amount));
             }
+            if (criteria.getTransactionNumber() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getTransactionNumber(), Movimiento_.transactionNumber));
+            }
             if (criteria.getObraId() != null) {
                 specification =
                     specification.and(
@@ -123,6 +126,15 @@ public class MovimientoQueryService extends QueryService<Movimiento> {
                         buildSpecification(
                             criteria.getConceptoId(),
                             root -> root.join(Movimiento_.concepto, JoinType.LEFT).get(Concepto_.id)
+                        )
+                    );
+            }
+            if (criteria.getTipoComprobanteId() != null) {
+                specification =
+                    specification.and(
+                        buildSpecification(
+                            criteria.getTipoComprobanteId(),
+                            root -> root.join(Movimiento_.tipoComprobante, JoinType.LEFT).get(TipoComprobante_.id)
                         )
                     );
             }

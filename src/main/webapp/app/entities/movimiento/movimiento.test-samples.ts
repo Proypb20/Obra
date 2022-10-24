@@ -8,31 +8,33 @@ export const sampleWithRequiredData: IMovimiento = {
   id: 73821,
   date: dayjs('2022-10-12'),
   description: 'Kwanza tiempo',
-  metodoPago: MetodoPago['BANCO'],
+  metodoPago: MetodoPago['Banco'],
   amount: 58255,
 };
 
 export const sampleWithPartialData: IMovimiento = {
-  id: 75956,
+  id: 24380,
   date: dayjs('2022-10-12'),
-  description: 'Kuwait',
-  metodoPago: MetodoPago['BANCO'],
-  amount: 34391,
+  description: 'Berkshire proactive',
+  metodoPago: MetodoPago['Efectivo'],
+  amount: 26868,
+  transactionNumber: 'Vasco navigating Increible',
 };
 
 export const sampleWithFullData: IMovimiento = {
-  id: 4978,
+  id: 47766,
   date: dayjs('2022-10-12'),
-  description: 'añadido Gerente',
-  metodoPago: MetodoPago['EFECTIVO'],
-  amount: 99630,
+  description: 'Colegio Guapo Creativo',
+  metodoPago: MetodoPago['Banco'],
+  amount: 53127,
+  transactionNumber: 'auxiliary',
 };
 
 export const sampleWithNewData: NewMovimiento = {
   date: dayjs('2022-10-12'),
-  description: 'override',
-  metodoPago: MetodoPago['EFECTIVO'],
-  amount: 8647,
+  description: 'Groenlandia Cine',
+  metodoPago: MetodoPago['Banco'],
+  amount: 58098,
   id: null,
 };
 

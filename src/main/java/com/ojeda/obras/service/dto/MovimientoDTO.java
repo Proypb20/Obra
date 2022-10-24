@@ -26,11 +26,15 @@ public class MovimientoDTO implements Serializable {
     @NotNull
     private Double amount;
 
+    private String transactionNumber;
+
     private ObraDTO obra;
 
     private SubcontratistaDTO subcontratista;
 
     private ConceptoDTO concepto;
+
+    private TipoComprobanteDTO tipoComprobante;
 
     public Long getId() {
         return id;
@@ -72,6 +76,14 @@ public class MovimientoDTO implements Serializable {
         this.amount = amount;
     }
 
+    public String getTransactionNumber() {
+        return transactionNumber;
+    }
+
+    public void setTransactionNumber(String transactionNumber) {
+        this.transactionNumber = transactionNumber;
+    }
+
     public ObraDTO getObra() {
         return obra;
     }
@@ -94,6 +106,14 @@ public class MovimientoDTO implements Serializable {
 
     public void setConcepto(ConceptoDTO concepto) {
         this.concepto = concepto;
+    }
+
+    public TipoComprobanteDTO getTipoComprobante() {
+        return tipoComprobante;
+    }
+
+    public void setTipoComprobante(TipoComprobanteDTO tipoComprobante) {
+        this.tipoComprobante = tipoComprobante;
     }
 
     @Override
@@ -126,9 +146,11 @@ public class MovimientoDTO implements Serializable {
             ", description='" + getDescription() + "'" +
             ", metodoPago='" + getMetodoPago() + "'" +
             ", amount=" + getAmount() +
+            ", transactionNumber='" + getTransactionNumber() + "'" +
             ", obra=" + getObra() +
             ", subcontratista=" + getSubcontratista() +
             ", concepto=" + getConcepto() +
+            ", tipoComprobante=" + getTipoComprobante() +
             "}";
     }
 }

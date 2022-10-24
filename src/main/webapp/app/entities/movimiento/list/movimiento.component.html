@@ -32,46 +32,44 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col" jhiSortBy="date">
+          <th scope="col">
             <div class="d-flex">
               <span>Fecha</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="description">
+          <th scope="col">
             <div class="d-flex">
               <span>Descripcion</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="metodoPago">
+          <th scope="col">
             <div class="d-flex">
               <span>Metodo Pago</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="amount">
+          <th scope="col">
+            <div class="d-flex">
+              <span>Tipo Comprobante</span>
+            </div>
+          </th>
+          <th scope="col">
             <div class="d-flex">
               <span>Importe</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="obra.name">
+          <th scope="col">
             <div class="d-flex">
               <span>Obra</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="subcontratista.lastName">
+          <th scope="col">
             <div class="d-flex">
               <span>Subcontratista</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="concepto.name">
+          <th scope="col">
             <div class="d-flex">
               <span>Concepto</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col"></th>
@@ -82,12 +80,9 @@
           <td>{{ movimiento.date | formatShortDate }}</td>
           <td>{{ movimiento.description }}</td>
           <td>{{ movimiento.metodoPago }}</td>
+          <td>{{ movimiento.tipoComprobante?.name }}</td>
           <td align="right">{{ movimiento.amount }}</td>
-          <td>
-            <div *ngIf="movimiento.obra">
-              <a [routerLink]="['/obra', movimiento.obra.id, 'view']">{{ movimiento.obra.name }}</a>
-            </div>
-          </td>
+          <td>{{ movimiento.obra?.name }}</td>
           <td>{{ movimiento.subcontratista?.lastName }}, {{ movimiento.subcontratista?.firstName }}</td>
           <td>{{ movimiento.concepto?.name }}</td>
           <td class="text-end">

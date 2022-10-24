@@ -51,17 +51,6 @@ public class MovimientoService {
     public MovimientoDTO save(MovimientoDTO movimientoDTO) {
         log.debug("Request to save Movimiento : {}", movimientoDTO);
         Movimiento movimiento = movimientoMapper.toEntity(movimientoDTO);
-        if (movimiento.getObra().getId() != null) {
-            Transaccion trx = new Transaccion();
-            trx.setObra(movimiento.getObra());
-            trx.setSubcontratista(movimiento.getSubcontratista());
-            trx.setDate(movimiento.getDate());
-            trx.setConcepto(movimiento.getConcepto());
-            trx.setNote(movimiento.getDescription());
-            trx.setAmount(movimiento.getAmount());
-            trx.setPaymentMethod(movimiento.getMetodoPago());
-            trx = transaccionRepository.save(trx);
-        }
         movimiento = movimientoRepository.save(movimiento);
         return movimientoMapper.toDto(movimiento);
     }

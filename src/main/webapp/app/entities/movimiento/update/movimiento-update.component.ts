@@ -13,6 +13,8 @@ import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.mode
 import { SubcontratistaService } from 'app/entities/subcontratista/service/subcontratista.service';
 import { IConcepto } from 'app/entities/concepto/concepto.model';
 import { ConceptoService } from 'app/entities/concepto/service/concepto.service';
+import { ITipoComprobante } from 'app/entities/tipo-comprobante/tipo-comprobante.model';
+import { TipoComprobanteService } from 'app/entities/tipo-comprobante/service/tipo-comprobante.service';
 import { MetodoPago } from 'app/entities/enumerations/metodo-pago.model';
 
 @Component({
@@ -27,6 +29,7 @@ export class MovimientoUpdateComponent implements OnInit {
   obrasSharedCollection: IObra[] = [];
   subcontratistasSharedCollection: ISubcontratista[] = [];
   conceptosSharedCollection: IConcepto[] = [];
+  tipoComprobantesSharedCollection: ITipoComprobante[] = [];
 
   editForm: MovimientoFormGroup = this.movimientoFormService.createMovimientoFormGroup();
 
@@ -36,6 +39,7 @@ export class MovimientoUpdateComponent implements OnInit {
     protected obraService: ObraService,
     protected subcontratistaService: SubcontratistaService,
     protected conceptoService: ConceptoService,
+    protected tipoComprobanteService: TipoComprobanteService,
     protected activatedRoute: ActivatedRoute
   ) {}
 
@@ -45,6 +49,9 @@ export class MovimientoUpdateComponent implements OnInit {
     this.subcontratistaService.compareSubcontratista(o1, o2);
 
   compareConcepto = (o1: IConcepto | null, o2: IConcepto | null): boolean => this.conceptoService.compareConcepto(o1, o2);
+
+  compareTipoComprobante = (o1: ITipoComprobante | null, o2: ITipoComprobante | null): boolean =>
+    this.tipoComprobanteService.compareTipoComprobante(o1, o2);
 
   ngOnInit(): void {
     this.activatedRoute.data.subscribe(({ movimiento }) => {
@@ -103,6 +110,10 @@ export class MovimientoUpdateComponent implements OnInit {
       this.conceptosSharedCollection,
       movimiento.concepto
     );
+    this.tipoComprobantesSharedCollection = this.tipoComprobanteService.addTipoComprobanteToCollectionIfMissing<ITipoComprobante>(
+      this.tipoComprobantesSharedCollection,
+      movimiento.tipoComprobante
+    );
   }
 
   protected loadRelationshipsOptions(): void {
@@ -134,5 +145,18 @@ export class MovimientoUpdateComponent implements OnInit {
         )
       )
       .subscribe((conceptos: IConcepto[]) => (this.conceptosSharedCollection = conceptos));
+
+    this.tipoComprobanteService
+      .query()
+      .pipe(map((res: HttpResponse<ITipoComprobante[]>) => res.body ?? []))
+      .pipe(
+        map((tipoComprobantes: ITipoComprobante[]) =>
+          this.tipoComprobanteService.addTipoComprobanteToCollectionIfMissing<ITipoComprobante>(
+            tipoComprobantes,
+            this.movimiento?.tipoComprobante
+          )
+        )
+      )
+      .subscribe((tipoComprobantes: ITipoComprobante[]) => (this.tipoComprobantesSharedCollection = tipoComprobantes));
   }
 }

@@ -57,8 +57,8 @@ export class TransaccionUpdateComponent implements OnInit {
   compareConcepto = (o1: IConcepto | null, o2: IConcepto | null): boolean => this.conceptoService.compareConcepto(o1, o2);
 
   ngOnInit(): void {
-    this.oId = history.state.oId ?? 0;
-    this.sId = history.state.sId ?? 0;
+    this.oId = history.state?.oId;
+    this.sId = history.state?.sId;
     this.activatedRoute.data.subscribe(({ transaccion }) => {
       this.transaccion = transaccion;
       if (transaccion) {
