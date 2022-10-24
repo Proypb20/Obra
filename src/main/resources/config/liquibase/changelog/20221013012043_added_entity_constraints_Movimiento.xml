@@ -25,5 +25,11 @@
                                  constraintName="fk_movimiento__concepto_id"
                                  referencedColumnNames="id"
                                  referencedTableName="concepto"/>
+
+        <addForeignKeyConstraint baseColumnNames="tipo_comprobante_id"
+                                 baseTableName="movimiento"
+                                 constraintName="fk_movimiento__tipo_comprobante_id"
+                                 referencedColumnNames="id"
+                                 referencedTableName="tipo_comprobante"/>
     </changeSet>
 </databaseChangeLog>

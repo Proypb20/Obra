@@ -26,6 +26,9 @@
             <column name="amount" type="double">
                 <constraints nullable="false" />
             </column>
+            <column name="transaction_number" type="varchar(255)">
+                <constraints nullable="true" />
+            </column>
             <column name="obra_id" type="bigint">
                 <constraints nullable="true" />
             </column>
@@ -33,6 +36,9 @@
                 <constraints nullable="true" />
             </column>
             <column name="concepto_id" type="bigint">
+                <constraints nullable="true" />
+            </column>
+            <column name="tipo_comprobante_id" type="bigint">
                 <constraints nullable="true" />
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
@@ -60,6 +66,7 @@
             <column name="description" type="string"/>
             <column name="metodo_pago" type="string"/>
             <column name="amount" type="numeric"/>
+            <column name="transaction_number" type="string"/>
             <!-- jhipster-needle-liquibase-add-loadcolumn - JHipster (and/or extensions) can add load columns here -->
         </loadData>
     </changeSet>
