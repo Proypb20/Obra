@@ -1,0 +1,97 @@
+<div>
+  <h2 id="page-heading" data-cy="AdvPendRepHeading">
+    <span>Reporte Avance de Obra</span>
+
+    <div class="d-flex justify-content-end">
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-adv-pend-rep"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <form name="findForm" role="form" novalidate (ngSubmit)="find()" [formGroup]="findForm">
+    <div class="row mb-3">
+      <label class="form-label" for="field_obra">Obra</label>
+      <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra">
+        <option [ngValue]="obraOption.id" *ngFor="let obraOption of obras; trackBy: trackIdObra">{{ obraOption.name }}</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit" id="find" data-cy="FindButton" [disabled]="findForm.invalid" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Buscar</span>
+      </button>
+    </div>
+  </form>
+
+  <br />
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="advObraReps && advObraReps.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col">
+            <div class="d-flex">
+              <span>Tarea</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Concepto</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Cantidad</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Costo</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Estado de Avance</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Porcentaje Tarea</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Porcentaje Avance</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let advObraRep of advObraReps; trackBy: trackId" data-cy="entityTable">
+          <td>{{ advObraRep.taskName }}</td>
+          <td>{{ advObraRep.concepto }}</td>
+          <td>{{ advObraRep.quantity }}</td>
+          <td>{{ advObraRep.cost }}</td>
+          <td>{{ advObraRep.advanceStatus }}</td>
+          <td>{{ advObraRep.porcTarea }}</td>
+          <td>{{ advObraRep.porcAdv }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  <div id="entityButton" *ngIf="advObraReps && advObraReps.length > 0">
+    <button id="export" data-cy="ExportButton" [disabled]="findForm.invalid" class="btn btn-primary" (click)="exportXLS()">
+      <fa-icon icon="download"></fa-icon>&nbsp;<span>Exportar</span>
+    </button>
+  </div>
+</div>

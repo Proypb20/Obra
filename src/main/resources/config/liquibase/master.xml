@@ -33,6 +33,7 @@
     <include file="config/liquibase/changelog/20220913014503_added_entity_SubCostSummary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014504_added_entity_SubPaidSummary.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014505_added_entity_SumTrxRep.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014506_added_entity_AdvObraRep.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220920114056_added_entity_DetalleListaPrecio.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220929214608_added_entity_Cliente.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20221013012043_added_entity_Movimiento.xml" relativeToChangelogFile="false"/>

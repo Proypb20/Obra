@@ -85,6 +85,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./sum-trx-rep/sum-trx-rep.module').then(m => m.SumTrxRepModule),
       },
       {
+        path: 'adv-obra-rep',
+        data: { pageTitle: 'Reporte de Avance de Obra' },
+        loadChildren: () => import('./adv-obra-rep/adv-obra-rep.module').then(m => m.AdvObraRepModule),
+      },
+      {
         path: 'movimiento',
         data: { pageTitle: 'Movimientos' },
         loadChildren: () => import('./movimiento/movimiento.module').then(m => m.MovimientoModule),

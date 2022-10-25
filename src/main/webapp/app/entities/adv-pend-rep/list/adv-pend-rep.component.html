@@ -1,6 +1,6 @@
 <div>
   <h2 id="page-heading" data-cy="AdvPendRepHeading">
-    <span>Reporte Estado de Avance</span>
+    <span>Tareas pendientes</span>
 
     <div class="d-flex justify-content-end">
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
@@ -32,12 +32,6 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <!--<th scope="col" jhiSortBy="id">
-            <div class="d-flex">
-              <span>ID</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
-            </div>
-          </th>--->
           <th scope="col" jhiSortBy="obra">
             <div class="d-flex">
               <span>Obra</span>
@@ -52,7 +46,7 @@
           </th>
           <th scope="col" jhiSortBy="advanceStatus">
             <div class="d-flex">
-              <span>Avance Acumulado</span>
+              <span> Porcentaje Avance</span>
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
@@ -61,22 +55,11 @@
       </thead>
       <tbody>
         <tr *ngFor="let advPendRep of advPendReps; trackBy: trackId" data-cy="entityTable">
-          <td>
-            <a [routerLink]="['/obra']" [state]="{ oId: advPendRep.obraId }">{{ advPendRep.obra }}</a>
-          </td>
+          <td>{{ advPendRep.obra }}</td>
           <td>{{ advPendRep.subcontratista }}</td>
           <td>{{ advPendRep.advanceStatus }}</td>
           <td class="text-end">
             <div class="btn-group">
-              <button
-                type="submit"
-                (click)="showDetails(advPendRep.obraId!, advPendRep.subcontratistaId!)"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Detalle</span>
-              </button>
               <button
                 type="submit"
                 [routerLink]="['/tarea']"
@@ -85,7 +68,7 @@
                 data-cy="entityDetailsButton"
               >
                 <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Tareas</span>
+                <span class="d-none d-md-inline">Ver Tareas</span>
               </button>
             </div>
           </td>
