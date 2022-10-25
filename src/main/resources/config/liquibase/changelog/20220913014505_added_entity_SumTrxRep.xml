@@ -7,7 +7,7 @@
     <!--
         Added the entity SumTrxRep.
     -->
-    <changeSet id="20220913014502-1" author="Sly">
+    <changeSet id="20220913014505-1" author="Sly">
         <createView viewName="sum_trx_rep" path="config/liquibase/changelog/summary_transaction_report.sql">
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createView>

@@ -69,7 +69,7 @@ public class TipoComprobanteResource {
         TipoComprobanteDTO result = tipoComprobanteService.save(tipoComprobanteDTO);
         return ResponseEntity
             .created(new URI("/api/tipo-comprobantes/" + result.getId()))
-            .headers(XXHeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .headers(XXHeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getName()))
             .body(result);
     }
 
@@ -103,7 +103,7 @@ public class TipoComprobanteResource {
         TipoComprobanteDTO result = tipoComprobanteService.update(tipoComprobanteDTO);
         return ResponseEntity
             .ok()
-            .headers(XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tipoComprobanteDTO.getId().toString()))
+            .headers(XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tipoComprobanteDTO.getName()))
             .body(result);
     }
 
@@ -139,7 +139,7 @@ public class TipoComprobanteResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tipoComprobanteDTO.getId().toString())
+            XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, tipoComprobanteDTO.getName())
         );
     }
 
@@ -190,10 +190,11 @@ public class TipoComprobanteResource {
     @DeleteMapping("/tipo-comprobantes/{id}")
     public ResponseEntity<Void> deleteTipoComprobante(@PathVariable Long id) {
         log.debug("REST request to delete TipoComprobante : {}", id);
+        Optional<TipoComprobanteDTO> tipoComprobante = tipoComprobanteService.findOne(id);
         tipoComprobanteService.delete(id);
         return ResponseEntity
             .noContent()
-            .headers(XXHeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .headers(XXHeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, tipoComprobante.get().getName()))
             .build();
     }
 }
