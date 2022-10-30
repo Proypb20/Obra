@@ -44,27 +44,27 @@ public class AdvObraRep implements Serializable {
 
     @NotNull
     @Column(name = "quantity", nullable = false)
-    private Float quantity;
+    private Double quantity;
 
     @NotNull
     @Column(name = "cost", nullable = false)
-    private Float cost;
+    private Double cost;
 
     @NotNull
     @Column(name = "advance_status", nullable = false)
-    private Float advanceStatus;
+    private Double advanceStatus;
 
     @NotNull
     @Column(name = "total", nullable = false)
-    private Float total;
+    private Double total;
 
     @NotNull
     @Column(name = "porc_tarea", nullable = false)
-    private Float porcTarea;
+    private Double porcTarea;
 
     @NotNull
     @Column(name = "porc_adv", nullable = false)
-    private Float porcAdv;
+    private Double porcAdv;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -85,7 +85,7 @@ public class AdvObraRep implements Serializable {
         return this.obra;
     }
 
-    public Float getAdvanceStatus() {
+    public Double getAdvanceStatus() {
         return this.advanceStatus;
     }
 
@@ -98,12 +98,12 @@ public class AdvObraRep implements Serializable {
         this.obra = obra;
     }
 
-    public AdvObraRep advanceStatus(Float advanceStatus) {
+    public AdvObraRep advanceStatus(Double advanceStatus) {
         this.setAdvanceStatus(advanceStatus);
         return this;
     }
 
-    public void setAdvanceStatus(Float advanceStatus) {
+    public void setAdvanceStatus(Double advanceStatus) {
         this.advanceStatus = advanceStatus;
     }
 
@@ -127,23 +127,23 @@ public class AdvObraRep implements Serializable {
         return taskName;
     }
 
-    public Float getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public Float getCost() {
+    public Double getCost() {
         return cost;
     }
 
-    public Float getTotal() {
+    public Double getTotal() {
         return total;
     }
 
-    public Float getPorcTarea() {
+    public Double getPorcTarea() {
         return porcTarea;
     }
 
-    public Float getPorcAdv() {
+    public Double getPorcAdv() {
         return porcAdv;
     }
 
@@ -159,23 +159,23 @@ public class AdvObraRep implements Serializable {
         this.taskName = taskName;
     }
 
-    public void setQuantity(Float quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
-    public void setCost(Float cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
     }
 
-    public void setTotal(Float total) {
+    public void setTotal(Double total) {
         this.total = total;
     }
 
-    public void setPorcTarea(Float porcTarea) {
+    public void setPorcTarea(Double porcTarea) {
         this.porcTarea = porcTarea;
     }
 
-    public void setPorcAdv(Float porcAdv) {
+    public void setPorcAdv(Double porcAdv) {
         this.porcAdv = porcAdv;
     }
 

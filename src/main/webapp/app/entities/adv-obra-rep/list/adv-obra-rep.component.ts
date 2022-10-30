@@ -9,6 +9,7 @@ import { EntityArrayResponseType, AdvObraRepService } from '../service/adv-obra-
 import { EntityArrayResponseType as EntityArrayResponseType2, ObraService } from 'app/entities/obra/service/obra.service';
 import { SortService } from 'app/shared/sort/sort.service';
 import { IObra } from 'app/entities/obra/obra.model';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'jhi-adv-obra-rep',
@@ -19,10 +20,9 @@ export class AdvObraRepComponent implements OnInit {
   obras?: IObra[];
   isLoading = false;
   isLoadingObra = false;
-  showDet = false;
   predicate = 'id';
   ascending = true;
-  ChildOId = 0;
+  ob?: any;
 
   findForm = this.fb.group({
     obra: [null, Validators.required],
@@ -62,6 +62,7 @@ export class AdvObraRepComponent implements OnInit {
   }
 
   find(): void {
+    this.ob = this.findForm.get('obra')!.value!;
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
@@ -70,13 +71,12 @@ export class AdvObraRepComponent implements OnInit {
   }
 
   exportXLS(): void {
-    alert(this.findForm.get('obra')!.value!);
-    /* this.advObrarepService.generateXLS(this.findForm.get('obra')!.value!).subscribe((data: any) => {
-        saveAs(data, 'Seguimiento_' + this.findForm.get('obra')!.value! + '.xls');
-      }),
-        () => {
-          alert('Error al generar el archivo');
-        };*/
+    this.advObraRepService.generateXLS(this.ob!.id!).subscribe((data: any) => {
+      saveAs(data, 'Avance_Obra_' + this.ob!.name! + '.xls');
+    }),
+      () => {
+        alert('Error al generar el archivo');
+      };
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
@@ -127,10 +127,9 @@ export class AdvObraRepComponent implements OnInit {
 
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
-
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.findForm.get('obra')!.value!,
+      'obraId.equals': this.ob!.id!,
     };
     return this.advObraRepService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }

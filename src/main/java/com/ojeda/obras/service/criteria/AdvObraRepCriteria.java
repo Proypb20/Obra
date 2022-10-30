@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.util.Objects;
 import org.springdoc.api.annotations.ParameterObject;
 import tech.jhipster.service.Criteria;
+import tech.jhipster.service.filter.DoubleFilter;
 import tech.jhipster.service.filter.Filter;
-import tech.jhipster.service.filter.FloatFilter;
 import tech.jhipster.service.filter.LongFilter;
 import tech.jhipster.service.filter.StringFilter;
 
@@ -36,17 +36,17 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
 
     private StringFilter taskName;
 
-    private FloatFilter quantity;
+    private DoubleFilter quantity;
 
-    private FloatFilter cost;
+    private DoubleFilter cost;
 
-    private FloatFilter advanceStatus;
+    private DoubleFilter advanceStatus;
 
-    private FloatFilter total;
+    private DoubleFilter total;
 
-    private FloatFilter porcTarea;
+    private DoubleFilter porcTarea;
 
-    private FloatFilter porcAdv;
+    private DoubleFilter porcAdv;
 
     private Boolean distinct;
 
@@ -131,44 +131,44 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
         return conceptoId;
     }
 
-    public FloatFilter advanceStatus() {
+    public DoubleFilter advanceStatus() {
         if (advanceStatus == null) {
-            advanceStatus = new FloatFilter();
+            advanceStatus = new DoubleFilter();
         }
         return advanceStatus;
     }
 
-    public FloatFilter quantity() {
+    public DoubleFilter quantity() {
         if (quantity == null) {
-            quantity = new FloatFilter();
+            quantity = new DoubleFilter();
         }
         return quantity;
     }
 
-    public FloatFilter cost() {
+    public DoubleFilter cost() {
         if (cost == null) {
-            cost = new FloatFilter();
+            cost = new DoubleFilter();
         }
         return cost;
     }
 
-    public FloatFilter total() {
+    public DoubleFilter total() {
         if (total == null) {
-            total = new FloatFilter();
+            total = new DoubleFilter();
         }
         return total;
     }
 
-    public FloatFilter porcTarea() {
+    public DoubleFilter porcTarea() {
         if (porcTarea == null) {
-            porcTarea = new FloatFilter();
+            porcTarea = new DoubleFilter();
         }
         return porcTarea;
     }
 
-    public FloatFilter porcAdv() {
+    public DoubleFilter porcAdv() {
         if (porcAdv == null) {
-            porcAdv = new FloatFilter();
+            porcAdv = new DoubleFilter();
         }
         return porcAdv;
     }
@@ -181,7 +181,7 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
         this.obra = obra;
     }
 
-    public void setadvanceStatus(FloatFilter advanceStatus) {
+    public void setadvanceStatus(DoubleFilter advanceStatus) {
         this.advanceStatus = advanceStatus;
     }
 
@@ -209,51 +209,51 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
         this.taskName = taskName;
     }
 
-    public FloatFilter getQuantity() {
+    public DoubleFilter getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(FloatFilter quantity) {
+    public void setQuantity(DoubleFilter quantity) {
         this.quantity = quantity;
     }
 
-    public FloatFilter getCost() {
+    public DoubleFilter getCost() {
         return cost;
     }
 
-    public void setCost(FloatFilter cost) {
+    public void setCost(DoubleFilter cost) {
         this.cost = cost;
     }
 
-    public FloatFilter getAdvanceStatus() {
+    public DoubleFilter getAdvanceStatus() {
         return advanceStatus;
     }
 
-    public void setAdvanceStatus(FloatFilter advanceStatus) {
+    public void setAdvanceStatus(DoubleFilter advanceStatus) {
         this.advanceStatus = advanceStatus;
     }
 
-    public FloatFilter getTotal() {
+    public DoubleFilter getTotal() {
         return total;
     }
 
-    public void setTotal(FloatFilter total) {
+    public void setTotal(DoubleFilter total) {
         this.total = total;
     }
 
-    public FloatFilter getPorcTarea() {
+    public DoubleFilter getPorcTarea() {
         return porcTarea;
     }
 
-    public void setPorcTarea(FloatFilter porcTarea) {
+    public void setPorcTarea(DoubleFilter porcTarea) {
         this.porcTarea = porcTarea;
     }
 
-    public FloatFilter getPorcAdv() {
+    public DoubleFilter getPorcAdv() {
         return porcAdv;
     }
 
-    public void setPorcAdv(FloatFilter porcAdv) {
+    public void setPorcAdv(DoubleFilter porcAdv) {
         this.porcAdv = porcAdv;
     }
 

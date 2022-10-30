@@ -23,7 +23,7 @@
     <div class="row mb-3">
       <label class="form-label" for="field_obra">Obra</label>
       <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra">
-        <option [ngValue]="obraOption.id" *ngFor="let obraOption of obras; trackBy: trackIdObra">{{ obraOption.name }}</option>
+        <option [ngValue]="obraOption" *ngFor="let obraOption of obras; trackBy: trackIdObra">{{ obraOption.name }}</option>
       </select>
     </div>
     <div>

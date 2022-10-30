@@ -37,6 +37,10 @@ export class AdvObraRepService {
     return this.http.get<IAdvObraRep[]>(this.resourceUrl, { params: options, observe: 'response' });
   }
 
+  generateXLS(id: number): any {
+    return this.http.get(`${this.resourceUrl}/generateFile/${id}`, { responseType: 'blob' });
+  }
+
   getAdvObraRepIdentifier(advObraRep: Pick<IAdvObraRep, 'id'>): number {
     return advObraRep.id;
   }
