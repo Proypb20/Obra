@@ -8,7 +8,7 @@
         Added the entity AdvPendRep.
     -->
     <changeSet id="20220913014503-1" author="Sly">
-        <createView viewName="subcontratista_cost_summary" path="config/liquibase/changelog/subcontratista_cost_summary.sql">
+        <createView viewName="subco_pay_concepts" path="config/liquibase/changelog/subco_pay_concepts.sql">
         </createView>
     </changeSet>
 

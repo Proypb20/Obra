@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-
+import { HttpClient, HttpResponse } from '@angular/common/http';
+import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { VERSION } from 'app/app.constants';
 import { Account } from 'app/core/auth/account.model';
 import { AccountService } from 'app/core/auth/account.service';
@@ -25,7 +26,9 @@ export class NavbarComponent implements OnInit {
     private loginService: LoginService,
     private accountService: AccountService,
     private profileService: ProfileService,
-    private router: Router
+    private router: Router,
+    protected http: HttpClient,
+    protected applicationConfigService: ApplicationConfigService
   ) {
     if (VERSION) {
       this.version = VERSION.toLowerCase().startsWith('v') ? VERSION : `v${VERSION}`;

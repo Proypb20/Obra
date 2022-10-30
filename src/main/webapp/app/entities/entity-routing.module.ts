@@ -94,6 +94,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Movimientos' },
         loadChildren: () => import('./movimiento/movimiento.module').then(m => m.MovimientoModule),
       },
+      {
+        path: 'subco-pay-rep',
+        data: { pageTitle: 'Reporte de Pagos a Proveedores' },
+        loadChildren: () => import('./subco-pay-rep/subco-pay-rep.module').then(m => m.SubcoPayRepModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

@@ -196,7 +196,7 @@
           </ul>
         </li>
         <!--Reportes-->
-        <!--<li
+        <li
           *ngSwitchCase="true"
           ngbDropdown
           class="nav-item dropdown pointer"
@@ -220,23 +220,35 @@
                 (click)="collapseNavbar()"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Estado Obras</span>
+                <span>Tareas Inconclusas</span>
               </a>
             </li>
             <li>
               <a
                 class="dropdown-item"
-                routerLink="sum-trx-rep"
+                routerLink="adv-obra-rep"
                 routerLinkActive="active"
                 [routerLinkActiveOptions]="{ exact: true }"
                 (click)="collapseNavbar()"
               >
                 <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
-                <span>Seguimiento Obras</span>
+                <span>Avance de Obra</span>
+              </a>
+            </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="subco-pay-rep"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span>Pago a Subcontratistas</span>
               </a>
             </li>
           </ul>
-        </li>-->
+        </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->
         <li
           *ngSwitchCase="true"

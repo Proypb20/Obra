@@ -175,7 +175,7 @@ public class ListaPrecioService {
                 dlp.setProduct(row.getCell(0).getStringCellValue());
             }
             if (row.getCell(1).getCellType() == CellType.NUMERIC) {
-                dlp.setAmount((float) row.getCell(1).getNumericCellValue());
+                dlp.setAmount((double) row.getCell(1).getNumericCellValue());
             }
             dlp.listaPrecio(lp);
             dlp = detalleListaPrecioRepository.save(dlp);

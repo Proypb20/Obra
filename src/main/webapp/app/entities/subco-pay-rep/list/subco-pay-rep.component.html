@@ -1,0 +1,36 @@
+<div>
+  <h2 id="page-heading" data-cy="SubcoPayRepHeading">
+    <span>Reporte Avance de Obra</span>
+
+    <div class="d-flex justify-content-end">
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-subco-pay-rep"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <form name="findForm" role="form" novalidate (ngSubmit)="exportXLS()" [formGroup]="findForm">
+    <div class="row mb-3">
+      <label class="form-label" for="field_obra">Obra</label>
+      <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra">
+        <option [ngValue]="null">Todos</option>
+        <option [ngValue]="obraOption" *ngFor="let obraOption of obras; trackBy: trackId">{{ obraOption.name }}</option>
+      </select>
+    </div>
+    <div>
+      <button type="submit" id="find" data-cy="FindButton" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Exportar</span>
+      </button>
+    </div>
+  </form>
+</div>
