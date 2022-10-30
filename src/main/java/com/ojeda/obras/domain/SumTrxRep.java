@@ -44,10 +44,10 @@ public class SumTrxRep implements Serializable {
     private String concepto;
 
     @Column(name = "debit_amount")
-    private Float debitAmount;
+    private Double debitAmount;
 
     @Column(name = "credit_amount")
-    private Float creditAmount;
+    private Double creditAmount;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -90,29 +90,29 @@ public class SumTrxRep implements Serializable {
         this.subcontratista = subcontratista;
     }
 
-    public Float getDebitAmount() {
+    public Double getDebitAmount() {
         return this.debitAmount;
     }
 
-    public SumTrxRep debitAmount(Float debitAmount) {
+    public SumTrxRep debitAmount(Double debitAmount) {
         this.setDebitAmount(debitAmount);
         return this;
     }
 
-    public void setDebitAmount(Float debitAmount) {
+    public void setDebitAmount(Double debitAmount) {
         this.debitAmount = debitAmount;
     }
 
-    public Float getCreditAmount() {
+    public Double getCreditAmount() {
         return this.creditAmount;
     }
 
-    public SumTrxRep creditAmount(Float creditAmount) {
+    public SumTrxRep creditAmount(Double creditAmount) {
         this.setCreditAmount(creditAmount);
         return this;
     }
 
-    public void setCreditAmount(Float creditAmount) {
+    public void setCreditAmount(Double creditAmount) {
         this.creditAmount = creditAmount;
     }
 

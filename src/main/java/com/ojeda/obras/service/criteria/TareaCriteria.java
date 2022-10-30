@@ -25,11 +25,11 @@ public class TareaCriteria implements Serializable, Criteria {
 
     private StringFilter name;
 
-    private FloatFilter quantity;
+    private DoubleFilter quantity;
 
-    private FloatFilter cost;
+    private DoubleFilter cost;
 
-    private FloatFilter advanceStatus;
+    private DoubleFilter advanceStatus;
 
     private LongFilter obraId;
 
@@ -88,48 +88,48 @@ public class TareaCriteria implements Serializable, Criteria {
         this.name = name;
     }
 
-    public FloatFilter getQuantity() {
+    public DoubleFilter getQuantity() {
         return quantity;
     }
 
-    public FloatFilter quantity() {
+    public DoubleFilter quantity() {
         if (quantity == null) {
-            quantity = new FloatFilter();
+            quantity = new DoubleFilter();
         }
         return quantity;
     }
 
-    public void setQuantity(FloatFilter quantity) {
+    public void setQuantity(DoubleFilter quantity) {
         this.quantity = quantity;
     }
 
-    public FloatFilter getCost() {
+    public DoubleFilter getCost() {
         return cost;
     }
 
-    public FloatFilter cost() {
+    public DoubleFilter cost() {
         if (cost == null) {
-            cost = new FloatFilter();
+            cost = new DoubleFilter();
         }
         return cost;
     }
 
-    public void setCost(FloatFilter cost) {
+    public void setCost(DoubleFilter cost) {
         this.cost = cost;
     }
 
-    public FloatFilter getAdvanceStatus() {
+    public DoubleFilter getAdvanceStatus() {
         return advanceStatus;
     }
 
-    public FloatFilter advanceStatus() {
+    public DoubleFilter advanceStatus() {
         if (advanceStatus == null) {
-            advanceStatus = new FloatFilter();
+            advanceStatus = new DoubleFilter();
         }
         return advanceStatus;
     }
 
-    public void setAdvanceStatus(FloatFilter advanceStatus) {
+    public void setAdvanceStatus(DoubleFilter advanceStatus) {
         this.advanceStatus = advanceStatus;
     }
 

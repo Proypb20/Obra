@@ -26,7 +26,7 @@ public class DetalleListaPrecio implements Serializable {
     private String product;
 
     @Column(name = "amount")
-    private Float amount;
+    private Double amount;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "proveedor" }, allowSetters = true)
@@ -60,16 +60,16 @@ public class DetalleListaPrecio implements Serializable {
         this.product = product;
     }
 
-    public Float getAmount() {
+    public Double getAmount() {
         return this.amount;
     }
 
-    public DetalleListaPrecio amount(Float amount) {
+    public DetalleListaPrecio amount(Double amount) {
         this.setAmount(amount);
         return this;
     }
 
-    public void setAmount(Float amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

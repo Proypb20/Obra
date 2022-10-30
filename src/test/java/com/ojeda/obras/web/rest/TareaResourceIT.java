@@ -48,17 +48,17 @@ class TareaResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final Float DEFAULT_QUANTITY = 1F;
-    private static final Float UPDATED_QUANTITY = 2F;
-    private static final Float SMALLER_QUANTITY = 1F - 1F;
+    private static final Double DEFAULT_QUANTITY = 1D;
+    private static final Double UPDATED_QUANTITY = 2D;
+    private static final Double SMALLER_QUANTITY = 1D - 1D;
 
-    private static final Float DEFAULT_COST = 1F;
-    private static final Float UPDATED_COST = 2F;
-    private static final Float SMALLER_COST = 1F - 1F;
+    private static final Double DEFAULT_COST = 1D;
+    private static final Double UPDATED_COST = 2D;
+    private static final Double SMALLER_COST = 1D - 1D;
 
-    private static final Float DEFAULT_ADVANCE_STATUS = 100F;
-    private static final Float UPDATED_ADVANCE_STATUS = 99F;
-    private static final Float SMALLER_ADVANCE_STATUS = 100F - 1F;
+    private static final Double DEFAULT_ADVANCE_STATUS = 100D;
+    private static final Double UPDATED_ADVANCE_STATUS = 99D;
+    private static final Double SMALLER_ADVANCE_STATUS = 100D - 1D;
 
     private static final String ENTITY_API_URL = "/api/tareas";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";

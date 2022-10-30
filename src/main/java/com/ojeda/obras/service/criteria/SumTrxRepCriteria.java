@@ -37,9 +37,9 @@ public class SumTrxRepCriteria implements Serializable, Criteria {
 
     private StringFilter concepto;
 
-    private FloatFilter debitAmount;
+    private DoubleFilter debitAmount;
 
-    private FloatFilter creditAmount;
+    private DoubleFilter creditAmount;
 
     private Boolean distinct;
 
@@ -107,11 +107,11 @@ public class SumTrxRepCriteria implements Serializable, Criteria {
         return concepto;
     }
 
-    public FloatFilter getDebitAmount() {
+    public DoubleFilter getDebitAmount() {
         return debitAmount;
     }
 
-    public FloatFilter getCreditAmount() {
+    public DoubleFilter getCreditAmount() {
         return creditAmount;
     }
 

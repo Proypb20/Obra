@@ -27,7 +27,7 @@ public class DetalleListaPrecioCriteria implements Serializable, Criteria {
 
     private StringFilter product;
 
-    private FloatFilter amount;
+    private DoubleFilter amount;
 
     private LongFilter listaPrecioId;
 
@@ -94,18 +94,18 @@ public class DetalleListaPrecioCriteria implements Serializable, Criteria {
         this.product = product;
     }
 
-    public FloatFilter getAmount() {
+    public DoubleFilter getAmount() {
         return amount;
     }
 
-    public FloatFilter amount() {
+    public DoubleFilter amount() {
         if (amount == null) {
-            amount = new FloatFilter();
+            amount = new DoubleFilter();
         }
         return amount;
     }
 
-    public void setAmount(FloatFilter amount) {
+    public void setAmount(DoubleFilter amount) {
         this.amount = amount;
     }
 

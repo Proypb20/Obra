@@ -28,14 +28,14 @@ public class Tarea implements Serializable {
     private String name;
 
     @Column(name = "quantity")
-    private Float quantity;
+    private Double quantity;
 
     @Column(name = "cost")
-    private Float cost;
+    private Double cost;
 
     @Max(value = 100)
     @Column(name = "advance_status")
-    private Float advanceStatus;
+    private Double advanceStatus;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "provincia", "subcontratistas" }, allowSetters = true)
@@ -76,42 +76,42 @@ public class Tarea implements Serializable {
         this.name = name;
     }
 
-    public Float getQuantity() {
+    public Double getQuantity() {
         return this.quantity;
     }
 
-    public Tarea quantity(Float quantity) {
+    public Tarea quantity(Double quantity) {
         this.setQuantity(quantity);
         return this;
     }
 
-    public void setQuantity(Float quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
-    public Float getCost() {
+    public Double getCost() {
         return this.cost;
     }
 
-    public Tarea cost(Float cost) {
+    public Tarea cost(Double cost) {
         this.setCost(cost);
         return this;
     }
 
-    public void setCost(Float cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
     }
 
-    public Float getAdvanceStatus() {
+    public Double getAdvanceStatus() {
         return this.advanceStatus;
     }
 
-    public Tarea advanceStatus(Float advanceStatus) {
+    public Tarea advanceStatus(Double advanceStatus) {
         this.setAdvanceStatus(advanceStatus);
         return this;
     }
 
-    public void setAdvanceStatus(Float advanceStatus) {
+    public void setAdvanceStatus(Double advanceStatus) {
         this.advanceStatus = advanceStatus;
     }
 

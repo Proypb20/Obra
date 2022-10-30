@@ -88,6 +88,7 @@
           <small class="form-text text-danger" [hidden]="!editForm.get('advanceStatus')?.errors?.number">
             Este campo debe ser un número.
           </small>
+          <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> Este campo es obligatorio. </small>
         </div>
       </div>
 

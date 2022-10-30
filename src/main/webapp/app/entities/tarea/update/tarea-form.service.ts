@@ -50,7 +50,7 @@ export class TareaFormService {
       quantity: new FormControl(tareaRawValue.quantity),
       cost: new FormControl(tareaRawValue.cost),
       advanceStatus: new FormControl(tareaRawValue.advanceStatus, {
-        validators: [Validators.max(100)],
+        validators: [Validators.max(100), Validators.required],
       }),
       obra: new FormControl(tareaRawValue.obra),
       subcontratista: new FormControl(tareaRawValue.subcontratista),

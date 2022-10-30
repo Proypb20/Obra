@@ -12,7 +12,7 @@
     },
     {
       "fieldName": "amount",
-      "fieldType": "Float"
+      "fieldType": "Double"
     }
   ],
   "jpaMetamodelFiltering": true,
