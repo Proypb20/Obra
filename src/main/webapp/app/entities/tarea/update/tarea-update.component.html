@@ -56,17 +56,28 @@
           >
             <option [ngValue]="conceptoOption" *ngFor="let conceptoOption of conceptosSharedCollection">{{ conceptoOption.name }}</option>
           </select>
+          <div *ngIf="editForm.get('concepto')!.invalid && (editForm.get('concepto')!.dirty || editForm.get('concepto')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('concepto')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
         </div>
       </div>
 
       <div class="row mb-3">
         <label class="form-label" for="field_quantity">Cantidad</label>
         <input type="number" class="form-control" name="quantity" id="field_quantity" data-cy="quantity" formControlName="quantity" />
+        <div *ngIf="editForm.get('quantity')!.invalid && (editForm.get('quantity')!.dirty || editForm.get('quantity')!.touched)">
+          <small class="form-text text-danger" [hidden]="!editForm.get('quantity')?.errors?.number"> Este campo debe ser un número. </small>
+          <small class="form-text text-danger" *ngIf="editForm.get('quantity')?.errors?.required"> Este campo es obligatorio. </small>
+        </div>
       </div>
 
       <div class="row mb-3">
         <label class="form-label" for="field_cost">Costo Mano de Obra</label>
         <input type="number" class="form-control" name="cost" id="field_cost" data-cy="cost" formControlName="cost" />
+        <div *ngIf="editForm.get('cost')!.invalid && (editForm.get('cost')!.dirty || editForm.get('cost')!.touched)">
+          <small class="form-text text-danger" [hidden]="!editForm.get('cost')?.errors?.number"> Este campo debe ser un número. </small>
+          <small class="form-text text-danger" *ngIf="editForm.get('cost')?.errors?.required"> Este campo es obligatorio. </small>
+        </div>
       </div>
 
       <div class="row mb-3">

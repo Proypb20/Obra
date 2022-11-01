@@ -18,6 +18,9 @@
           <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra" [compareWith]="compareObra">
             <option [ngValue]="obraOption" *ngFor="let obraOption of obrasSharedCollection">{{ obraOption.name }}</option>
           </select>
+          <div *ngIf="editForm.get('obra')!.invalid && (editForm.get('obra')!.dirty || editForm.get('obra')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('obra')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -35,6 +38,9 @@
               {{ proveedorOption.name }}
             </option>
           </select>
+          <div *ngIf="editForm.get('proveedor')!.invalid && (editForm.get('proveedor')!.dirty || editForm.get('proveedor')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('proveedor')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
         </div>
 
         <div class="row mb-3" *ngIf="editForm.controls.proveedor.value !== null">
@@ -51,6 +57,9 @@
               {{ ListaPrecioOption.name }}
             </option>
           </select>
+          <div *ngIf="editForm.get('listaprecio')!.invalid && (editForm.get('listaprecio')!.dirty || editForm.get('listaprecio')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('listaprecio')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -68,6 +77,9 @@
             />
             <!--<button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>-->
           </div>
+          <div *ngIf="editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('date')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
         </div>
 
         <div class="row mb-3">
@@ -80,6 +92,9 @@
             data-cy="totalAmount"
             formControlName="totalAmount"
           />
+          <div *ngIf="editForm.get('totalAmount')!.invalid && (editForm.get('totalAmount')!.dirty || editForm.get('totalAmount')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('totalAmount')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
         </div>
       </div>
 

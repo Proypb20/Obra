@@ -61,18 +61,12 @@ export class SubcoPayRepComponent implements OnInit {
     if (this.findForm.get('obra')?.value === null) {
       this.subcoPayRepService.generateXLS(0).subscribe((data: any) => {
         saveAs(data, 'Pagos_subcontratistas.xls');
-      }),
-        () => {
-          alert('Error al generar el archivo');
-        };
+      });
     } else {
       this.ob = this.findForm.get('obra')!.value!;
       this.subcoPayRepService.generateXLS(this.ob!.id!).subscribe((data: any) => {
         saveAs(data, 'Pagos_subcontratistas_' + this.ob!.name! + '.xls');
-      }),
-        () => {
-          alert('Error al generar el archivo');
-        };
+      });
     }
   }
 

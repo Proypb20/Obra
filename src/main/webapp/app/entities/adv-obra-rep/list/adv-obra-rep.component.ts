@@ -73,10 +73,7 @@ export class AdvObraRepComponent implements OnInit {
   exportXLS(): void {
     this.advObraRepService.generateXLS(this.ob!.id!).subscribe((data: any) => {
       saveAs(data, 'Avance_Obra_' + this.ob!.name! + '.xls');
-    }),
-      () => {
-        alert('Error al generar el archivo');
-      };
+    });
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {

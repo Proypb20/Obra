@@ -3,6 +3,11 @@
     <span>Movimientos</span>
 
     <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="showFilters()">
+        <fa-icon icon="filter"></fa-icon>
+        <span>Filtrar</span>
+      </button>
+
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refrescar lista</span>
@@ -23,6 +28,135 @@
   <jhi-alert-error></jhi-alert-error>
 
   <jhi-alert></jhi-alert>
+
+  <div class="table-responsive table-entities" id="entitiesFind" *ngIf="this.showFilter">
+    <form name="findForm" role="form" novalidate [formGroup]="findForm">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr>
+            <th scope="col">
+              <label class="form-label" for="field_date">Fecha</label>
+              <div class="input-group">
+                <input
+                  id="field_date"
+                  data-cy="date"
+                  type="date"
+                  class="form-control"
+                  name="date"
+                  formControlName="date"
+                  (ngModelChange)="onChangeDate()"
+                />
+              </div>
+            </th>
+
+            <th scope="col">
+              <label class="form-label" for="field_description">Descripcion</label>
+              <input
+                type="text"
+                class="form-control"
+                name="description"
+                id="field_description"
+                data-cy="description"
+                formControlName="description"
+                (ngModelChange)="onChangeDescripcion()"
+              />
+            </th>
+            <th scope="col">
+              <label class="form-label" for="field_metodoPago">Metodo Pago</label>
+              <select
+                class="form-control"
+                name="metodoPago"
+                formControlName="metodoPago"
+                id="field_metodoPago"
+                data-cy="metodoPago"
+                (ngModelChange)="onChangeMetodoPago()"
+              >
+                <option [ngValue]="null"></option>
+                <option *ngFor="let metodoPago of metodoPagoValues" [ngValue]="metodoPago">{{ metodoPago }}</option>
+              </select>
+            </th>
+            <th>
+              <label class="form-label" for="field_tipoComprobante">Tipo Comprobante</label>
+              <select
+                class="form-control"
+                id="field_tipoComprobante"
+                data-cy="tipoComprobante"
+                name="tipoComprobante"
+                formControlName="tipoComprobante"
+                (ngModelChange)="onChangeTipoComprobante()"
+              >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="tipoComprobanteOption" *ngFor="let tipoComprobanteOption of tipoComprobantes">
+                  {{ tipoComprobanteOption.name }}
+                </option>
+              </select>
+            </th>
+            <th scope="col">
+              <label class="form-label" for="field_amount">Importe</label>
+              <input
+                type="number"
+                class="form-control"
+                name="amount"
+                id="field_amount"
+                data-cy="amount"
+                formControlName="amount"
+                (ngModelChange)="onChangeAmount()"
+              />
+            </th>
+            <th scope="col">
+              <label class="form-label" for="field_subcontratista">Obra</label>
+              <select
+                class="form-control"
+                id="field_obra"
+                data-cy="obra"
+                name="obra"
+                formControlName="obra"
+                (ngModelChange)="onChangeObra()"
+              >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="obraOption" *ngFor="let obraOption of obras">
+                  {{ obraOption.name }}
+                </option>
+              </select>
+            </th>
+            <th scope="col">
+              <label class="form-label" for="field_subcontratista">Subcontratista</label>
+              <select
+                class="form-control"
+                id="field_subcontratista"
+                data-cy="subcontratista"
+                name="subcontratista"
+                formControlName="subcontratista"
+                (ngModelChange)="onChangeSubcontratista()"
+              >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="subcontratistaOption" *ngFor="let subcontratistaOption of subcontratistas">
+                  {{ subcontratistaOption.lastName }}, {{ subcontratistaOption.firstName }}
+                </option>
+              </select>
+            </th>
+            <th scope="col">
+              <label class="form-label" for="field_concepto">Concepto</label>
+              <select
+                class="form-control"
+                id="field_concepto"
+                data-cy="concepto"
+                name="concepto"
+                formControlName="concepto"
+                (ngModelChange)="onChangeConcepto()"
+              >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="conceptoOption" *ngFor="let conceptoOption of conceptos">
+                  {{ conceptoOption.name }}
+                </option>
+              </select>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+      </table>
+    </form>
+  </div>
 
   <div class="alert alert-warning" id="no-result" *ngIf="movimientos?.length === 0">
     <span>Ningún Movimientos encontrado</span>

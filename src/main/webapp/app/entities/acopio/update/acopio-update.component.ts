@@ -121,7 +121,7 @@ export class AcopioUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.obraService
-      .query({ 'obraId.equals': this.oId })
+      .query({ 'id.equals': this.oId })
       .pipe(map((res: HttpResponse<IObra[]>) => res.body ?? []))
       .pipe(map((obras: IObra[]) => this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.acopio?.obra)))
       .subscribe((obras: IObra[]) => (this.obrasSharedCollection = obras));

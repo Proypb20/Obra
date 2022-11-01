@@ -7,7 +7,15 @@ import { IAdvPendRep } from '../adv-pend-rep.model';
 import { ASC, DESC, SORT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, AdvPendRepService } from '../service/adv-pend-rep.service';
 import { EntityArrayResponseType2, TareaService } from 'app/entities/tarea/service/tarea.service';
+import { EntityArrayResponseType as EntityArrayResponseType3, ObraService } from 'app/entities/obra/service/obra.service';
+import {
+  EntityArrayResponseType as EntityArrayResponseType4,
+  SubcontratistaService,
+} from 'app/entities/subcontratista/service/subcontratista.service';
+import { IObra } from 'app/entities/obra/obra.model';
+import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.model';
 import { SortService } from 'app/shared/sort/sort.service';
+import { FormBuilder, Validators } from '@angular/forms';
 
 import { ITarea } from 'app/entities/tarea/tarea.model';
 
@@ -18,13 +26,25 @@ import { ITarea } from 'app/entities/tarea/tarea.model';
 export class AdvPendRepComponent implements OnInit {
   advPendReps?: IAdvPendRep[];
   tareas?: ITarea[];
+  obras?: IObra[];
+  subcontratistas?: ISubcontratista[];
   isLoading = false;
   isLoadingTarea = false;
+  isLoadingObra = false;
+  isLoadingSubcontratista = false;
   showDet = false;
   predicate = 'id';
   ascending = true;
   ChildOId = 0;
   ChildSId = 0;
+  showFilter = false;
+  obra: any;
+  subco: any;
+
+  findForm = this.fb.group({
+    obra: [null, Validators.required],
+    subcontratista: [null, Validators.required],
+  });
 
   constructor(
     protected advPendRepService: AdvPendRepService,
@@ -32,7 +52,10 @@ export class AdvPendRepComponent implements OnInit {
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal,
-    protected tareaService: TareaService
+    protected tareaService: TareaService,
+    protected obraService: ObraService,
+    protected subcontratistaService: SubcontratistaService,
+    protected fb: FormBuilder
   ) {}
   trackId = (_index: number, item: IAdvPendRep): number => this.advPendRepService.getAdvPendRepIdentifier(item);
 
@@ -41,10 +64,21 @@ export class AdvPendRepComponent implements OnInit {
   ngOnInit(): void {
     this.load();
   }
+
   load(): void {
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
+      },
+    });
+    this.loadFromBackendWithRouteInformationsObra().subscribe({
+      next: (res: EntityArrayResponseType3) => {
+        this.onResponseSuccessObra(res);
+      },
+    });
+    this.loadFromBackendWithRouteInformationsSubcontratista().subscribe({
+      next: (res: EntityArrayResponseType4) => {
+        this.onResponseSuccessSubcontratista(res);
       },
     });
   }
@@ -57,20 +91,47 @@ export class AdvPendRepComponent implements OnInit {
     window.history.back();
   }
 
-  showDetails(oId: number, sId: number): void {
-    if (this.showDet) {
-      this.showDet = false;
+  onChangeObra(): void {
+    if (this.findForm.get('obra')!.value! == null) {
       this.ChildOId = 0;
+    } else {
+      this.obra = this.findForm.get('obra')!.value!;
+      this.ChildOId = this.obra!.id;
+    }
+    this.loadFromBackendWithRouteInformations().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  onChangeSubcontratista(): void {
+    if (this.findForm.get('subcontratista')!.value! == null) {
       this.ChildSId = 0;
     } else {
-      this.showDet = true;
-      this.ChildOId = oId;
-      this.ChildSId = sId;
-      this.loadFromBackendWithRouteInformationsTarea().subscribe({
-        next: (res: EntityArrayResponseType2) => {
-          this.onResponseSuccessTarea(res);
+      this.subco = this.findForm.get('subcontratista')!.value!;
+      this.ChildSId = this.subco!.id;
+    }
+
+    this.loadFromBackendWithRouteInformations().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  showFilters(): void {
+    if (this.showFilter) {
+      this.showFilter = false;
+      this.ChildOId = 0;
+      this.ChildSId = 0;
+      this.loadFromBackendWithRouteInformations().subscribe({
+        next: (res: EntityArrayResponseType) => {
+          this.onResponseSuccess(res);
         },
       });
+    } else {
+      this.showFilter = true;
     }
   }
 
@@ -85,6 +146,20 @@ export class AdvPendRepComponent implements OnInit {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
       tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
       switchMap(() => this.queryBackendTarea(this.predicate, this.ascending))
+    );
+  }
+
+  protected loadFromBackendWithRouteInformationsObra(): Observable<EntityArrayResponseType3> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackendObra(this.predicate, this.ascending))
+    );
+  }
+
+  protected loadFromBackendWithRouteInformationsSubcontratista(): Observable<EntityArrayResponseType4> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackendSubcontratista(this.predicate, this.ascending))
     );
   }
 
@@ -104,11 +179,29 @@ export class AdvPendRepComponent implements OnInit {
     this.tareas = this.refineDataTarea(dataFromBody);
   }
 
+  protected onResponseSuccessObra(response: EntityArrayResponseType3): void {
+    const dataFromBody = this.fillComponentAttributesFromResponseBodyObra(response.body);
+    this.obras = this.refineDataObra(dataFromBody);
+  }
+
+  protected onResponseSuccessSubcontratista(response: EntityArrayResponseType4): void {
+    const dataFromBody = this.fillComponentAttributesFromResponseBodySubcontratista(response.body);
+    this.subcontratistas = this.refineDataSubcontratista(dataFromBody);
+  }
+
   protected refineData(data: IAdvPendRep[]): IAdvPendRep[] {
     return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
   protected refineDataTarea(data: ITarea[]): ITarea[] {
+    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+  }
+
+  protected refineDataObra(data: IObra[]): IObra[] {
+    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+  }
+
+  protected refineDataSubcontratista(data: ISubcontratista[]): ISubcontratista[] {
     return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
@@ -120,10 +213,20 @@ export class AdvPendRepComponent implements OnInit {
     return data ?? [];
   }
 
+  protected fillComponentAttributesFromResponseBodyObra(data: IObra[] | null): IObra[] {
+    return data ?? [];
+  }
+
+  protected fillComponentAttributesFromResponseBodySubcontratista(data: ISubcontratista[] | null): ISubcontratista[] {
+    return data ?? [];
+  }
+
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
+      'obraId.equals': this.ChildOId,
+      'subcontratistaId.equals': this.ChildSId,
     };
     return this.advPendRepService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
@@ -136,6 +239,22 @@ export class AdvPendRepComponent implements OnInit {
       'subcontratistaId.equals': this.ChildSId,
     };
     return this.tareaService.query(queryObject).pipe(tap(() => (this.isLoadingTarea = false)));
+  }
+
+  protected queryBackendObra(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType3> {
+    this.isLoadingObra = true;
+    const queryObject = {
+      sort: this.getSortQueryParam(predicate, ascending),
+    };
+    return this.obraService.query(queryObject).pipe(tap(() => (this.isLoadingObra = false)));
+  }
+
+  protected queryBackendSubcontratista(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType4> {
+    this.isLoadingSubcontratista = true;
+    const queryObject = {
+      sort: this.getSortQueryParam(predicate, ascending),
+    };
+    return this.subcontratistaService.query(queryObject).pipe(tap(() => (this.isLoadingSubcontratista = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {

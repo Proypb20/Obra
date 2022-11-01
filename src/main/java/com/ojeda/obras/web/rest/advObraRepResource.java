@@ -78,6 +78,6 @@ public class advObraRepResource {
             File file = advObraRepService.generateFile(advObraRep);
             response.setHeader("Content-Disposition", "attachment; filename=".concat(file.getName()));
             return ResponseEntity.ok().body(Files.readAllBytes(file.toPath()));
-        } else throw new BadRequestAlertException("Event Not Found", ENTITY_NAME, "eventNotFound");
+        } else throw new BadRequestAlertException("La obra seleccionada no contiene tareas", ENTITY_NAME, "No hay Tareas");
     }
 }

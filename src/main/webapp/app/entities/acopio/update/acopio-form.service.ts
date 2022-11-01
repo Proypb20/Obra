@@ -42,11 +42,21 @@ export class AcopioFormService {
           validators: [Validators.required],
         }
       ),
-      date: new FormControl(acopioRawValue.date),
-      totalAmount: new FormControl(acopioRawValue.totalAmount),
-      obra: new FormControl(acopioRawValue.obra),
-      listaprecio: new FormControl(acopioRawValue.listaprecio),
-      proveedor: new FormControl(acopioRawValue.proveedor),
+      date: new FormControl(acopioRawValue.date, {
+        validators: [Validators.required],
+      }),
+      totalAmount: new FormControl(acopioRawValue.totalAmount, {
+        validators: [Validators.required],
+      }),
+      obra: new FormControl(acopioRawValue.obra, {
+        validators: [Validators.required],
+      }),
+      listaprecio: new FormControl(acopioRawValue.listaprecio, {
+        validators: [Validators.required],
+      }),
+      proveedor: new FormControl(acopioRawValue.proveedor, {
+        validators: [Validators.required],
+      }),
     });
   }
 

@@ -162,6 +162,15 @@
           >
             <option [ngValue]="estado" *ngFor="let estado of estadoValues">{{ estado }}</option>
           </select>
+          <div
+            *ngIf="
+              editForm.get('deliveryStatus')!.invalid && (editForm.get('deliveryStatus')!.dirty || editForm.get('deliveryStatus')!.touched)
+            "
+          >
+            <small class="form-text text-danger" *ngIf="editForm.get('deliveryStatus')?.errors?.required">
+              Este campo es obligatorio.
+            </small>
+          </div>
         </div>
       </div>
 

@@ -62,7 +62,9 @@ export class DetalleAcopioFormService {
         validators: [Validators.required],
       }),
       promiseDate: new FormControl(detalleAcopioRawValue.promiseDate),
-      deliveryStatus: new FormControl(detalleAcopioRawValue.deliveryStatus),
+      deliveryStatus: new FormControl(detalleAcopioRawValue.deliveryStatus, {
+        validators: [Validators.required],
+      }),
       acopio: new FormControl(detalleAcopioRawValue.acopio),
       detalleListaPrecio: new FormControl(detalleAcopioRawValue.detalleListaPrecio),
     });

@@ -1,13 +1,9 @@
 package com.ojeda.obras.web.rest;
 
-import com.ojeda.obras.domain.AdvObraRep;
-import com.ojeda.obras.domain.SubcoPayConcept;
-import com.ojeda.obras.repository.AdvObraRepRepository;
 import com.ojeda.obras.repository.SubcoPayAmountRepository;
 import com.ojeda.obras.repository.SubcoPayConceptRepository;
 import com.ojeda.obras.repository.SubcoPayPaymentRepository;
 import com.ojeda.obras.service.*;
-import com.ojeda.obras.service.criteria.AdvObraRepCriteria;
 import com.ojeda.obras.service.dto.*;
 import com.ojeda.obras.web.rest.errors.BadRequestAlertException;
 import java.io.File;
@@ -28,7 +24,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 /**
- * REST controller for managing {@link AdvObraRep}.
+ * REST controller for managing {@link com.ojeda.obras.domain.Subcontratista}.
  */
 @RestController
 @RequestMapping("/api")
@@ -36,7 +32,7 @@ public class SubcoPaymentResource {
 
     private final Logger log = LoggerFactory.getLogger(SubcoPaymentResource.class);
 
-    private static final String ENTITY_NAME = "subcoPayment";
+    private static final String ENTITY_NAME = "SubcoPayment";
 
     @Value("${jhipster.clientApp.name}")
     private String applicationName;
@@ -98,6 +94,6 @@ public class SubcoPaymentResource {
             File file = subcoPaymentService.generateFile(subcoPayConcepts, subcoPaySubcos);
             response.setHeader("Content-Disposition", "attachment; filename=".concat(file.getName()));
             return ResponseEntity.ok().body(Files.readAllBytes(file.toPath()));
-        } else throw new BadRequestAlertException("Event Not Found", ENTITY_NAME, "eventNotFound");
+        } else throw new BadRequestAlertException("No se han encontrado Tareas", ENTITY_NAME, "No se puede crear el archivo");
     }
 }
