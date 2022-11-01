@@ -1,4 +1,4 @@
-id;date;description;metodo_pago;amount;transaction_number
+id;date;description;metodo_pago;amount;transaction_number;obra_id;subcontratista_id;concepto_id,tipo_comprobante_id
 1;2022-10-12;Berkshire Extrarradio overriding;BANCO;70135;Tácticas Gerente networks
 2;2022-10-12;Funcionario redefine;BANCO;35273;AI Relacciones
 3;2022-10-12;Senior;BANCO;96185;Pakistan Aldea Guapa
