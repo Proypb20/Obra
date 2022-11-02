@@ -15,12 +15,12 @@ public class TareaDTO implements Serializable {
     @NotNull
     private String name;
 
-    private Float quantity;
+    private Double quantity;
 
-    private Float cost;
+    private Double cost;
 
-    @Max(value = 100)
-    private Float advanceStatus;
+    @DecimalMax(value = "100")
+    private Double advanceStatus;
 
     private ObraDTO obra;
 
@@ -44,27 +44,27 @@ public class TareaDTO implements Serializable {
         this.name = name;
     }
 
-    public Float getQuantity() {
+    public Double getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(Float quantity) {
+    public void setQuantity(Double quantity) {
         this.quantity = quantity;
     }
 
-    public Float getCost() {
+    public Double getCost() {
         return cost;
     }
 
-    public void setCost(Float cost) {
+    public void setCost(Double cost) {
         this.cost = cost;
     }
 
-    public Float getAdvanceStatus() {
+    public Double getAdvanceStatus() {
         return advanceStatus;
     }
 
-    public void setAdvanceStatus(Float advanceStatus) {
+    public void setAdvanceStatus(Double advanceStatus) {
         this.advanceStatus = advanceStatus;
     }
 

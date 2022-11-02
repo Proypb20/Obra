@@ -17,13 +17,13 @@
             <column name="name" type="varchar(255)">
                 <constraints nullable="false" />
             </column>
-            <column name="quantity" type="${floatType}">
+            <column name="quantity" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="cost" type="${floatType}">
+            <column name="cost" type="double">
                 <constraints nullable="true" />
             </column>
-            <column name="advance_status" type="${floatType}">
+            <column name="advance_status" type="double">
                 <constraints nullable="true" />
             </column>
             <column name="obra_id" type="bigint">

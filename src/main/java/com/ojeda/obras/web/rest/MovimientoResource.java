@@ -1,5 +1,6 @@
 package com.ojeda.obras.web.rest;
 
+import com.ojeda.obras.domain.Movimiento;
 import com.ojeda.obras.domain.XXHeaderUtil;
 import com.ojeda.obras.repository.MovimientoRepository;
 import com.ojeda.obras.service.MovimientoQueryService;
@@ -67,7 +68,7 @@ public class MovimientoResource {
         MovimientoDTO result = movimientoService.save(movimientoDTO);
         return ResponseEntity
             .created(new URI("/api/movimientos/" + result.getId()))
-            .headers(XXHeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .headers(XXHeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getDescription()))
             .body(result);
     }
 
@@ -101,7 +102,7 @@ public class MovimientoResource {
         MovimientoDTO result = movimientoService.update(movimientoDTO);
         return ResponseEntity
             .ok()
-            .headers(XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movimientoDTO.getId().toString()))
+            .headers(XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movimientoDTO.getDescription()))
             .body(result);
     }
 
@@ -137,7 +138,7 @@ public class MovimientoResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movimientoDTO.getId().toString())
+            XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, movimientoDTO.getDescription())
         );
     }
 
@@ -188,10 +189,11 @@ public class MovimientoResource {
     @DeleteMapping("/movimientos/{id}")
     public ResponseEntity<Void> deleteMovimiento(@PathVariable Long id) {
         log.debug("REST request to delete Movimiento : {}", id);
+        Optional<Movimiento> mov = movimientoRepository.findById(id);
         movimientoService.delete(id);
         return ResponseEntity
             .noContent()
-            .headers(XXHeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .headers(XXHeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, mov.get().getDescription()))
             .build();
     }
 }

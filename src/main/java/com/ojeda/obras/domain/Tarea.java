@@ -33,12 +33,12 @@ public class Tarea implements Serializable {
     @Column(name = "cost")
     private Double cost;
 
-    @Max(value = 100)
+    @DecimalMax(value = "100")
     @Column(name = "advance_status")
     private Double advanceStatus;
 
     @ManyToOne
-    @JsonIgnoreProperties(value = { "provincia", "subcontratistas" }, allowSetters = true)
+    @JsonIgnoreProperties(value = { "provincia", "subcontratistas", "clientes" }, allowSetters = true)
     private Obra obra;
 
     @ManyToOne
