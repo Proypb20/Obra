@@ -15,7 +15,7 @@ export const sampleWithPartialData: IListaPrecio = {
 export const sampleWithFullData: IListaPrecio = {
   id: 35797,
   name: 'Explanada hard holistic',
-  date: dayjs('2022-09-19'),
+  date: dayjs('2022-09-19T02:02'),
 };
 
 export const sampleWithNewData: NewListaPrecio = {

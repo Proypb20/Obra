@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ojeda.obras.service.AcopioService;
 import com.ojeda.obras.service.DetalleAcopioService;
 import java.io.Serializable;
+import java.time.Instant;
 import java.time.LocalDate;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
@@ -26,7 +27,7 @@ public class Acopio implements Serializable {
     private Long id;
 
     @Column(name = "date")
-    private LocalDate date;
+    private Instant date;
 
     @Column(name = "total_amount")
     private Double totalAmount;
@@ -61,16 +62,16 @@ public class Acopio implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return this.date;
     }
 
-    public Acopio date(LocalDate date) {
+    public Acopio date(Instant date) {
         this.setDate(date);
         return this;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 

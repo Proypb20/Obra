@@ -18,8 +18,8 @@ import com.ojeda.obras.service.MovimientoService;
 import com.ojeda.obras.service.criteria.MovimientoCriteria;
 import com.ojeda.obras.service.dto.MovimientoDTO;
 import com.ojeda.obras.service.mapper.MovimientoMapper;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -49,9 +49,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class MovimientoResourceIT {
 
-    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
@@ -351,58 +350,6 @@ class MovimientoResourceIT {
 
         // Get all the movimientoList where date is null
         defaultMovimientoShouldNotBeFound("date.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllMovimientosByDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        movimientoRepository.saveAndFlush(movimiento);
-
-        // Get all the movimientoList where date is greater than or equal to DEFAULT_DATE
-        defaultMovimientoShouldBeFound("date.greaterThanOrEqual=" + DEFAULT_DATE);
-
-        // Get all the movimientoList where date is greater than or equal to UPDATED_DATE
-        defaultMovimientoShouldNotBeFound("date.greaterThanOrEqual=" + UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllMovimientosByDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        movimientoRepository.saveAndFlush(movimiento);
-
-        // Get all the movimientoList where date is less than or equal to DEFAULT_DATE
-        defaultMovimientoShouldBeFound("date.lessThanOrEqual=" + DEFAULT_DATE);
-
-        // Get all the movimientoList where date is less than or equal to SMALLER_DATE
-        defaultMovimientoShouldNotBeFound("date.lessThanOrEqual=" + SMALLER_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllMovimientosByDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        movimientoRepository.saveAndFlush(movimiento);
-
-        // Get all the movimientoList where date is less than DEFAULT_DATE
-        defaultMovimientoShouldNotBeFound("date.lessThan=" + DEFAULT_DATE);
-
-        // Get all the movimientoList where date is less than UPDATED_DATE
-        defaultMovimientoShouldBeFound("date.lessThan=" + UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllMovimientosByDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        movimientoRepository.saveAndFlush(movimiento);
-
-        // Get all the movimientoList where date is greater than DEFAULT_DATE
-        defaultMovimientoShouldNotBeFound("date.greaterThan=" + DEFAULT_DATE);
-
-        // Get all the movimientoList where date is greater than SMALLER_DATE
-        defaultMovimientoShouldBeFound("date.greaterThan=" + SMALLER_DATE);
     }
 
     @Test

@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IMovimiento } from '../movimiento.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../movimiento.test-samples';
 
@@ -9,7 +8,7 @@ import { MovimientoService, RestMovimiento } from './movimiento.service';
 
 const requireRestSample: RestMovimiento = {
   ...sampleWithRequiredData,
-  date: sampleWithRequiredData.date?.format(DATE_FORMAT),
+  date: sampleWithRequiredData.date?.toJSON(),
 };
 
 describe('Movimiento Service', () => {

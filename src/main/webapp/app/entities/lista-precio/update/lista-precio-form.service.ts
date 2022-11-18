@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import dayjs from 'dayjs/esm';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IListaPrecio, NewListaPrecio } from '../lista-precio.model';
 
 /**
@@ -14,13 +16,24 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type ListaPrecioFormGroupInput = IListaPrecio | PartialWithRequiredKeyOf<NewListaPrecio>;
 
-type ListaPrecioFormDefaults = Pick<NewListaPrecio, 'id'>;
+/**
+ * Type that converts some properties for forms.
+ */
+type FormValueOf<T extends IListaPrecio | NewListaPrecio> = Omit<T, 'date'> & {
+  date?: string | null;
+};
+
+type ListaPrecioFormRawValue = FormValueOf<IListaPrecio>;
+
+type NewListaPrecioFormRawValue = FormValueOf<NewListaPrecio>;
+
+type ListaPrecioFormDefaults = Pick<NewListaPrecio, 'id' | 'date'>;
 
 type ListaPrecioFormGroupContent = {
-  id: FormControl<IListaPrecio['id'] | NewListaPrecio['id']>;
-  name: FormControl<IListaPrecio['name']>;
-  date: FormControl<IListaPrecio['date']>;
-  proveedor: FormControl<IListaPrecio['proveedor']>;
+  id: FormControl<ListaPrecioFormRawValue['id'] | NewListaPrecio['id']>;
+  name: FormControl<ListaPrecioFormRawValue['name']>;
+  date: FormControl<ListaPrecioFormRawValue['date']>;
+  proveedor: FormControl<ListaPrecioFormRawValue['proveedor']>;
 };
 
 export type ListaPrecioFormGroup = FormGroup<ListaPrecioFormGroupContent>;
@@ -28,10 +41,10 @@ export type ListaPrecioFormGroup = FormGroup<ListaPrecioFormGroupContent>;
 @Injectable({ providedIn: 'root' })
 export class ListaPrecioFormService {
   createListaPrecioFormGroup(listaPrecio: ListaPrecioFormGroupInput = { id: null }): ListaPrecioFormGroup {
-    const listaPrecioRawValue = {
+    const listaPrecioRawValue = this.convertListaPrecioToListaPrecioRawValue({
       ...this.getFormDefaults(),
       ...listaPrecio,
-    };
+    });
     return new FormGroup<ListaPrecioFormGroupContent>({
       id: new FormControl(
         { value: listaPrecioRawValue.id, disabled: true },
@@ -49,11 +62,11 @@ export class ListaPrecioFormService {
   }
 
   getListaPrecio(form: ListaPrecioFormGroup): IListaPrecio | NewListaPrecio {
-    return form.getRawValue() as IListaPrecio | NewListaPrecio;
+    return this.convertListaPrecioRawValueToListaPrecio(form.getRawValue() as ListaPrecioFormRawValue | NewListaPrecioFormRawValue);
   }
 
   resetForm(form: ListaPrecioFormGroup, listaPrecio: ListaPrecioFormGroupInput): void {
-    const listaPrecioRawValue = { ...this.getFormDefaults(), ...listaPrecio };
+    const listaPrecioRawValue = this.convertListaPrecioToListaPrecioRawValue({ ...this.getFormDefaults(), ...listaPrecio });
     form.reset(
       {
         ...listaPrecioRawValue,
@@ -63,8 +76,29 @@ export class ListaPrecioFormService {
   }
 
   private getFormDefaults(): ListaPrecioFormDefaults {
+    const currentTime = dayjs();
+
     return {
       id: null,
+      date: currentTime,
+    };
+  }
+
+  private convertListaPrecioRawValueToListaPrecio(
+    rawListaPrecio: ListaPrecioFormRawValue | NewListaPrecioFormRawValue
+  ): IListaPrecio | NewListaPrecio {
+    return {
+      ...rawListaPrecio,
+      date: dayjs(rawListaPrecio.date, DATE_FORMAT),
+    };
+  }
+
+  private convertListaPrecioToListaPrecioRawValue(
+    listaPrecio: IListaPrecio | (Partial<NewListaPrecio> & ListaPrecioFormDefaults)
+  ): ListaPrecioFormRawValue | PartialWithRequiredKeyOf<NewListaPrecioFormRawValue> {
+    return {
+      ...listaPrecio,
+      date: listaPrecio.date ? listaPrecio.date.format(DATE_FORMAT) : undefined,
     };
   }
 }

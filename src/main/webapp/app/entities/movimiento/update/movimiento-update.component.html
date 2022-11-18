@@ -15,19 +15,16 @@
 
         <div class="row mb-3">
           <label class="form-label" for="field_date">Fecha</label>
-          <div class="input-group">
+          <div class="d-flex">
             <input
               id="field_date"
               data-cy="date"
               type="date"
               class="form-control"
               name="date"
-              ngbDatepicker
-              #dateDp="ngbDatepicker"
               formControlName="date"
-              onkeydown="return false"
+              placeholder="YYYY-MM-DD HH:mm"
             />
-            <!--<button type="button" class="btn btn-secondary" (click)="dateDp.toggle()"><fa-icon icon="calendar-alt"></fa-icon></button>-->
           </div>
           <div *ngIf="editForm.get('date')!.invalid && (editForm.get('date')!.dirty || editForm.get('date')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('date')?.errors?.required"> Este campo es obligatorio. </small>
@@ -59,7 +56,6 @@
             formControlName="tipoComprobante"
             [compareWith]="compareTipoComprobante"
           >
-            <option [ngValue]="null"></option>
             <option [ngValue]="tipoComprobanteOption" *ngFor="let tipoComprobanteOption of tipoComprobantesSharedCollection">
               {{ tipoComprobanteOption.name }}
             </option>

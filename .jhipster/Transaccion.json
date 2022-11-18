@@ -7,7 +7,7 @@
   "fields": [
     {
       "fieldName": "date",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "paymentMethod",

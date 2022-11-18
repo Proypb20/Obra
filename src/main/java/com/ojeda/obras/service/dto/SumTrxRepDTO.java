@@ -5,7 +5,7 @@ import java.time.LocalDate;
 import java.util.Objects;
 
 /**
- * A DTO for the {@link com.ojeda.obras.domain.AdvPendRep} entity.
+ * A DTO for the {@link com.ojeda.obras.domain.SumTrxRep} entity.
  */
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class SumTrxRepDTO implements Serializable {
@@ -119,11 +119,11 @@ public class SumTrxRepDTO implements Serializable {
             return false;
         }
 
-        SumTrxRepDTO advPendRepDTO = (SumTrxRepDTO) o;
+        SumTrxRepDTO sumTrxRep = (SumTrxRepDTO) o;
         if (this.id == null) {
             return false;
         }
-        return Objects.equals(this.id, advPendRepDTO.id);
+        return Objects.equals(this.id, sumTrxRep.id);
     }
 
     @Override

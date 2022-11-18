@@ -84,11 +84,7 @@
           <!--<td>
             <a [routerLink]="['/lista-precio', listaPrecio.id, 'view']">{{ listaPrecio.id }}</a>
           </td>-->
-          <td>
-            <div *ngIf="listaPrecio.proveedor">
-              <a [routerLink]="['/proveedor']" [state]="{ pId: listaPrecio.proveedor.id }">{{ listaPrecio.proveedor.name }}</a>
-            </div>
-          </td>
+          <td>{{ listaPrecio.proveedor!.name! }}</td>
           <td>{{ listaPrecio.name }}</td>
           <td>{{ listaPrecio.date | formatShortDate }}</td>
 

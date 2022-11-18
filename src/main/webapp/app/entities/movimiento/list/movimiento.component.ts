@@ -1,8 +1,9 @@
+import dayjs from 'dayjs/esm';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, filter, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-
+import { DATE_TIME_FORMAT } from 'app/config/input.constants';
 import { IMovimiento } from '../movimiento.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, MovimientoService } from '../service/movimiento.service';
@@ -53,7 +54,8 @@ export class MovimientoComponent implements OnInit {
   amount: any;
   descripcion: any;
   metodoPago: any;
-  date: any;
+  // date: any;
+  date?: dayjs.Dayjs | null;
   isLoadingMetodoPago = false;
   isLoadingObra = false;
   isLoadingSubcontratista = false;
@@ -92,7 +94,12 @@ export class MovimientoComponent implements OnInit {
   trackId = (_index: number, item: IMovimiento): number => this.movimientoService.getMovimientoIdentifier(item);
 
   ngOnInit(): void {
+    this.filterMetodoPago = history.state?.mM;
     this.load();
+  }
+
+  Cancel(): void {
+    window.history.back();
   }
 
   delete(movimiento: IMovimiento): void {

@@ -104,6 +104,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Seguimiento de Obra' },
         loadChildren: () => import('./seguimiento-rep/seguimiento-rep.module').then(m => m.SeguimientoRepModule),
       },
+      {
+        path: 'saldo',
+        data: { pageTitle: 'Saldos' },
+        loadChildren: () => import('./saldo/saldo.module').then(m => m.SaldoModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

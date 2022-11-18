@@ -1,7 +1,7 @@
 package com.ojeda.obras.service.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 
 /**
@@ -12,7 +12,7 @@ public class AcopioDTO implements Serializable {
 
     private Long id;
 
-    private LocalDate date;
+    private Instant date;
 
     private Double totalAmount;
 
@@ -32,11 +32,11 @@ public class AcopioDTO implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 

@@ -1,0 +1,61 @@
+<div>
+  <h2 id="page-heading" data-cy="AdvPendRepHeading">
+    <span>Saldos</span>
+
+    <div class="d-flex justify-content-end">
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-adv-pend-rep"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="saldos && saldos.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col">
+            <div class="d-flex">
+              <span>Tipo</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Saldo</span>
+            </div>
+          </th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let saldo of saldos" data-cy="entityTable">
+          <td>{{ saldo.metodoPago }}</td>
+          <td>{{ saldo.saldo }}</td>
+          <td class="text-end">
+            <div class="btn-group">
+              <button
+                type="submit"
+                [routerLink]="['/movimiento']"
+                [state]="{ mM: saldo.metodoPago }"
+                class="btn btn-secondary btn-sm"
+                data-cy="entityDetailsButton"
+              >
+                <fa-icon icon="building-user"></fa-icon>
+                <span class="d-none d-md-inline">Movimientos</span>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

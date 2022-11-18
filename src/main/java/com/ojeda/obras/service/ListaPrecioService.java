@@ -8,6 +8,7 @@ import com.ojeda.obras.repository.ProveedorRepository;
 import com.ojeda.obras.service.dto.ListaPrecioDTO;
 import com.ojeda.obras.service.mapper.ListaPrecioMapper;
 import java.io.*;
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
@@ -159,7 +160,7 @@ public class ListaPrecioService {
 
         ListaPrecio lp = new ListaPrecio();
         lp.setName(file.getOriginalFilename().substring(0, file.getOriginalFilename().lastIndexOf(".")));
-        lp.setDate(LocalDateTime.now().toLocalDate());
+        lp.setDate(Instant.now());
         lp.setProveedor(proveedorRepository.findById(idProveedor).get());
         lp = listaPrecioRepository.save(lp);
 

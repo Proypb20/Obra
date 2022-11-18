@@ -2,7 +2,7 @@ package com.ojeda.obras.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -29,7 +29,7 @@ public class ListaPrecio implements Serializable {
     private String name;
 
     @Column(name = "date")
-    private LocalDate date;
+    private Instant date;
 
     @ManyToOne
     @JsonIgnoreProperties(value = { "provincia" }, allowSetters = true)
@@ -63,16 +63,16 @@ public class ListaPrecio implements Serializable {
         this.name = name;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return this.date;
     }
 
-    public ListaPrecio date(LocalDate date) {
+    public ListaPrecio date(Instant date) {
         this.setDate(date);
         return this;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 

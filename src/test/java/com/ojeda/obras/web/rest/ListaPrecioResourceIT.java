@@ -14,8 +14,8 @@ import com.ojeda.obras.service.ListaPrecioService;
 import com.ojeda.obras.service.criteria.ListaPrecioCriteria;
 import com.ojeda.obras.service.dto.ListaPrecioDTO;
 import com.ojeda.obras.service.mapper.ListaPrecioMapper;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -48,9 +48,8 @@ class ListaPrecioResourceIT {
     private static final String DEFAULT_NAME = "AAAAAAAAAA";
     private static final String UPDATED_NAME = "BBBBBBBBBB";
 
-    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String ENTITY_API_URL = "/api/lista-precios";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
@@ -335,58 +334,6 @@ class ListaPrecioResourceIT {
 
         // Get all the listaPrecioList where date is null
         defaultListaPrecioShouldNotBeFound("date.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllListaPreciosByDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        listaPrecioRepository.saveAndFlush(listaPrecio);
-
-        // Get all the listaPrecioList where date is greater than or equal to DEFAULT_DATE
-        defaultListaPrecioShouldBeFound("date.greaterThanOrEqual=" + DEFAULT_DATE);
-
-        // Get all the listaPrecioList where date is greater than or equal to UPDATED_DATE
-        defaultListaPrecioShouldNotBeFound("date.greaterThanOrEqual=" + UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllListaPreciosByDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        listaPrecioRepository.saveAndFlush(listaPrecio);
-
-        // Get all the listaPrecioList where date is less than or equal to DEFAULT_DATE
-        defaultListaPrecioShouldBeFound("date.lessThanOrEqual=" + DEFAULT_DATE);
-
-        // Get all the listaPrecioList where date is less than or equal to SMALLER_DATE
-        defaultListaPrecioShouldNotBeFound("date.lessThanOrEqual=" + SMALLER_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllListaPreciosByDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        listaPrecioRepository.saveAndFlush(listaPrecio);
-
-        // Get all the listaPrecioList where date is less than DEFAULT_DATE
-        defaultListaPrecioShouldNotBeFound("date.lessThan=" + DEFAULT_DATE);
-
-        // Get all the listaPrecioList where date is less than UPDATED_DATE
-        defaultListaPrecioShouldBeFound("date.lessThan=" + UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllListaPreciosByDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        listaPrecioRepository.saveAndFlush(listaPrecio);
-
-        // Get all the listaPrecioList where date is greater than DEFAULT_DATE
-        defaultListaPrecioShouldNotBeFound("date.greaterThan=" + DEFAULT_DATE);
-
-        // Get all the listaPrecioList where date is greater than SMALLER_DATE
-        defaultListaPrecioShouldBeFound("date.greaterThan=" + SMALLER_DATE);
     }
 
     @Test

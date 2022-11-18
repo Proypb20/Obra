@@ -9,7 +9,7 @@
     },
     {
       "fieldName": "date",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     }
   ],
   "jpaMetamodelFiltering": true,

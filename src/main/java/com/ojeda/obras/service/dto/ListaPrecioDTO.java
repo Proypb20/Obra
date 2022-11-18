@@ -1,7 +1,7 @@
 package com.ojeda.obras.service.dto;
 
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -16,7 +16,7 @@ public class ListaPrecioDTO implements Serializable {
     @NotNull
     private String name;
 
-    private LocalDate date;
+    private Instant date;
 
     private ProveedorDTO proveedor;
 
@@ -36,11 +36,11 @@ public class ListaPrecioDTO implements Serializable {
         this.name = name;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 

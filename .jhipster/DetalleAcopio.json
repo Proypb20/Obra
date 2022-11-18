@@ -7,7 +7,7 @@
   "fields": [
     {
       "fieldName": "date",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "description",
@@ -30,12 +30,12 @@
     },
     {
       "fieldName": "requestDate",
-      "fieldType": "LocalDate",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     },
     {
       "fieldName": "promiseDate",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "deliveryStatus",

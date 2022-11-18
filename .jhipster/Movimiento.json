@@ -4,7 +4,7 @@
   "fields": [
     {
       "fieldName": "date",
-      "fieldType": "LocalDate",
+      "fieldType": "Instant",
       "fieldValidateRules": ["required"]
     },
     {

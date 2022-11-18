@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IListaPrecio } from '../lista-precio.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../lista-precio.test-samples';
 
@@ -9,7 +8,7 @@ import { ListaPrecioService, RestListaPrecio } from './lista-precio.service';
 
 const requireRestSample: RestListaPrecio = {
   ...sampleWithRequiredData,
-  date: sampleWithRequiredData.date?.format(DATE_FORMAT),
+  date: sampleWithRequiredData.date?.toJSON(),
 };
 
 describe('ListaPrecio Service', () => {

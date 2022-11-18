@@ -16,8 +16,8 @@ import com.ojeda.obras.service.AcopioService;
 import com.ojeda.obras.service.criteria.AcopioCriteria;
 import com.ojeda.obras.service.dto.AcopioDTO;
 import com.ojeda.obras.service.mapper.AcopioMapper;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,9 +47,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class AcopioResourceIT {
 
-    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Double DEFAULT_TOTAL_AMOUNT = 1D;
     private static final Double UPDATED_TOTAL_AMOUNT = 2D;
@@ -249,58 +248,6 @@ class AcopioResourceIT {
 
         // Get all the acopioList where date is null
         defaultAcopioShouldNotBeFound("date.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllAcopiosByDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        acopioRepository.saveAndFlush(acopio);
-
-        // Get all the acopioList where date is greater than or equal to DEFAULT_DATE
-        defaultAcopioShouldBeFound("date.greaterThanOrEqual=" + DEFAULT_DATE);
-
-        // Get all the acopioList where date is greater than or equal to UPDATED_DATE
-        defaultAcopioShouldNotBeFound("date.greaterThanOrEqual=" + UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllAcopiosByDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        acopioRepository.saveAndFlush(acopio);
-
-        // Get all the acopioList where date is less than or equal to DEFAULT_DATE
-        defaultAcopioShouldBeFound("date.lessThanOrEqual=" + DEFAULT_DATE);
-
-        // Get all the acopioList where date is less than or equal to SMALLER_DATE
-        defaultAcopioShouldNotBeFound("date.lessThanOrEqual=" + SMALLER_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllAcopiosByDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        acopioRepository.saveAndFlush(acopio);
-
-        // Get all the acopioList where date is less than DEFAULT_DATE
-        defaultAcopioShouldNotBeFound("date.lessThan=" + DEFAULT_DATE);
-
-        // Get all the acopioList where date is less than UPDATED_DATE
-        defaultAcopioShouldBeFound("date.lessThan=" + UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllAcopiosByDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        acopioRepository.saveAndFlush(acopio);
-
-        // Get all the acopioList where date is greater than DEFAULT_DATE
-        defaultAcopioShouldNotBeFound("date.greaterThan=" + DEFAULT_DATE);
-
-        // Get all the acopioList where date is greater than SMALLER_DATE
-        defaultAcopioShouldBeFound("date.greaterThan=" + SMALLER_DATE);
     }
 
     @Test

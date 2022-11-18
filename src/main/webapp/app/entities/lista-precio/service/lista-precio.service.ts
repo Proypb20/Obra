@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IListaPrecio, NewListaPrecio } from '../lista-precio.model';
@@ -109,7 +108,7 @@ export class ListaPrecioService {
   protected convertDateFromClient<T extends IListaPrecio | NewListaPrecio | PartialUpdateListaPrecio>(listaPrecio: T): RestOf<T> {
     return {
       ...listaPrecio,
-      date: listaPrecio.date?.format(DATE_FORMAT) ?? null,
+      date: listaPrecio.date?.toJSON() ?? null,
     };
   }
 

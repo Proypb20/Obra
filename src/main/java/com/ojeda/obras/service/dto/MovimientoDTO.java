@@ -2,7 +2,7 @@ package com.ojeda.obras.service.dto;
 
 import com.ojeda.obras.domain.enumeration.MetodoPago;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -15,7 +15,7 @@ public class MovimientoDTO implements Serializable {
     private Long id;
 
     @NotNull
-    private LocalDate date;
+    private Instant date;
 
     @NotNull
     private String description;
@@ -44,11 +44,11 @@ public class MovimientoDTO implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 

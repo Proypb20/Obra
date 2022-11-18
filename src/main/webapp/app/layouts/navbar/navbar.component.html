@@ -259,6 +259,18 @@
                 <span>Resumen de Obra</span>
               </a>
             </li>
+            <li>
+              <a
+                class="dropdown-item"
+                routerLink="saldo"
+                routerLinkActive="active"
+                [routerLinkActiveOptions]="{ exact: true }"
+                (click)="collapseNavbar()"
+              >
+                <fa-icon icon="asterisk" [fixedWidth]="true"></fa-icon>
+                <span>Saldos</span>
+              </a>
+            </li>
           </ul>
         </li>
         <!-- jhipster-needle-add-element-to-menu - JHipster will add new menu items here -->

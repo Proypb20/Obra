@@ -3,7 +3,7 @@ package com.ojeda.obras.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ojeda.obras.domain.enumeration.MetodoPago;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -27,7 +27,7 @@ public class Movimiento implements Serializable {
 
     @NotNull
     @Column(name = "date", nullable = false)
-    private LocalDate date;
+    private Instant date;
 
     @NotNull
     @Column(name = "description", nullable = false)
@@ -74,16 +74,16 @@ public class Movimiento implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return this.date;
     }
 
-    public Movimiento date(LocalDate date) {
+    public Movimiento date(Instant date) {
         this.setDate(date);
         return this;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 

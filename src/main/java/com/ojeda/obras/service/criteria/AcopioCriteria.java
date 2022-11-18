@@ -23,7 +23,7 @@ public class AcopioCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LocalDateFilter date;
+    private InstantFilter date;
 
     private DoubleFilter totalAmount;
 
@@ -67,18 +67,18 @@ public class AcopioCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public LocalDateFilter getDate() {
+    public InstantFilter getDate() {
         return date;
     }
 
-    public LocalDateFilter date() {
+    public InstantFilter date() {
         if (date == null) {
-            date = new LocalDateFilter();
+            date = new InstantFilter();
         }
         return date;
     }
 
-    public void setDate(LocalDateFilter date) {
+    public void setDate(InstantFilter date) {
         this.date = date;
     }
 
