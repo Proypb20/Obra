@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IMovimiento, NewMovimiento } from '../movimiento.model';
@@ -100,7 +99,7 @@ export class MovimientoService {
   protected convertDateFromClient<T extends IMovimiento | NewMovimiento | PartialUpdateMovimiento>(movimiento: T): RestOf<T> {
     return {
       ...movimiento,
-      date: movimiento.date?.format(DATE_FORMAT) ?? null,
+      date: movimiento.date?.toJSON() ?? null,
     };
   }
 

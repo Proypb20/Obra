@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import dayjs from 'dayjs/esm';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IMovimiento, NewMovimiento } from '../movimiento.model';
 
 /**
@@ -14,19 +16,30 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type MovimientoFormGroupInput = IMovimiento | PartialWithRequiredKeyOf<NewMovimiento>;
 
-type MovimientoFormDefaults = Pick<NewMovimiento, 'id'>;
+/**
+ * Type that converts some properties for forms.
+ */
+type FormValueOf<T extends IMovimiento | NewMovimiento> = Omit<T, 'date'> & {
+  date?: string | null;
+};
+
+type MovimientoFormRawValue = FormValueOf<IMovimiento>;
+
+type NewMovimientoFormRawValue = FormValueOf<NewMovimiento>;
+
+type MovimientoFormDefaults = Pick<NewMovimiento, 'id' | 'date'>;
 
 type MovimientoFormGroupContent = {
-  id: FormControl<IMovimiento['id'] | NewMovimiento['id']>;
-  date: FormControl<IMovimiento['date']>;
-  description: FormControl<IMovimiento['description']>;
-  metodoPago: FormControl<IMovimiento['metodoPago']>;
-  amount: FormControl<IMovimiento['amount']>;
-  transactionNumber: FormControl<IMovimiento['transactionNumber']>;
-  obra: FormControl<IMovimiento['obra']>;
-  subcontratista: FormControl<IMovimiento['subcontratista']>;
-  concepto: FormControl<IMovimiento['concepto']>;
-  tipoComprobante: FormControl<IMovimiento['tipoComprobante']>;
+  id: FormControl<MovimientoFormRawValue['id'] | NewMovimiento['id']>;
+  date: FormControl<MovimientoFormRawValue['date']>;
+  description: FormControl<MovimientoFormRawValue['description']>;
+  metodoPago: FormControl<MovimientoFormRawValue['metodoPago']>;
+  amount: FormControl<MovimientoFormRawValue['amount']>;
+  transactionNumber: FormControl<MovimientoFormRawValue['transactionNumber']>;
+  obra: FormControl<MovimientoFormRawValue['obra']>;
+  subcontratista: FormControl<MovimientoFormRawValue['subcontratista']>;
+  concepto: FormControl<MovimientoFormRawValue['concepto']>;
+  tipoComprobante: FormControl<MovimientoFormRawValue['tipoComprobante']>;
 };
 
 export type MovimientoFormGroup = FormGroup<MovimientoFormGroupContent>;
@@ -34,10 +47,10 @@ export type MovimientoFormGroup = FormGroup<MovimientoFormGroupContent>;
 @Injectable({ providedIn: 'root' })
 export class MovimientoFormService {
   createMovimientoFormGroup(movimiento: MovimientoFormGroupInput = { id: null }): MovimientoFormGroup {
-    const movimientoRawValue = {
+    const movimientoRawValue = this.convertMovimientoToMovimientoRawValue({
       ...this.getFormDefaults(),
       ...movimiento,
-    };
+    });
     return new FormGroup<MovimientoFormGroupContent>({
       id: new FormControl(
         { value: movimientoRawValue.id, disabled: true },
@@ -67,11 +80,11 @@ export class MovimientoFormService {
   }
 
   getMovimiento(form: MovimientoFormGroup): IMovimiento | NewMovimiento {
-    return form.getRawValue() as IMovimiento | NewMovimiento;
+    return this.convertMovimientoRawValueToMovimiento(form.getRawValue() as MovimientoFormRawValue | NewMovimientoFormRawValue);
   }
 
   resetForm(form: MovimientoFormGroup, movimiento: MovimientoFormGroupInput): void {
-    const movimientoRawValue = { ...this.getFormDefaults(), ...movimiento };
+    const movimientoRawValue = this.convertMovimientoToMovimientoRawValue({ ...this.getFormDefaults(), ...movimiento });
     form.reset(
       {
         ...movimientoRawValue,
@@ -81,8 +94,29 @@ export class MovimientoFormService {
   }
 
   private getFormDefaults(): MovimientoFormDefaults {
+    const currentTime = dayjs();
+
     return {
       id: null,
+      date: currentTime,
+    };
+  }
+
+  private convertMovimientoRawValueToMovimiento(
+    rawMovimiento: MovimientoFormRawValue | NewMovimientoFormRawValue
+  ): IMovimiento | NewMovimiento {
+    return {
+      ...rawMovimiento,
+      date: dayjs(rawMovimiento.date, DATE_FORMAT),
+    };
+  }
+
+  private convertMovimientoToMovimientoRawValue(
+    movimiento: IMovimiento | (Partial<NewMovimiento> & MovimientoFormDefaults)
+  ): MovimientoFormRawValue | PartialWithRequiredKeyOf<NewMovimientoFormRawValue> {
+    return {
+      ...movimiento,
+      date: movimiento.date ? movimiento.date.format(DATE_FORMAT) : undefined,
     };
   }
 }
