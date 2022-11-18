@@ -1,24 +1,35 @@
 package com.ojeda.obras.web.rest;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ojeda.obras.domain.Tarea;
 import com.ojeda.obras.domain.XXHeaderUtil;
 import com.ojeda.obras.repository.TareaRepository;
 import com.ojeda.obras.service.TareaQueryService;
 import com.ojeda.obras.service.TareaService;
+import com.ojeda.obras.service.criteria.SeguimientoCriteria;
 import com.ojeda.obras.service.criteria.TareaCriteria;
+import com.ojeda.obras.service.dto.SeguimientoDTO;
 import com.ojeda.obras.service.dto.TareaDTO;
 import com.ojeda.obras.web.rest.errors.BadRequestAlertException;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -189,5 +200,28 @@ public class TareaResource {
             .noContent()
             .headers(XXHeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @PostMapping(value = "/tareas/updateXLS", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> updateXLS(@RequestParam(value = "tareas") String tareasJSON, HttpServletResponse response)
+        throws IOException, URISyntaxException {
+        log.debug("REST request to get Tareas to Update : {}", tareasJSON);
+        ObjectMapper mapper = new ObjectMapper();
+        List<TareaDTO> tareas = Arrays.asList(mapper.readValue(tareasJSON, TareaDTO[].class));
+        if (tareas.size() != 0) {
+            File file = tareaService.generateFile(tareas);
+            response.setHeader("Content-Disposition", "attachment; filename=".concat(file.getName()));
+            return ResponseEntity.ok().body(Files.readAllBytes(file.toPath()));
+        } else throw new BadRequestAlertException("No se han encontrado Tareas", ENTITY_NAME, "No se puede crear el archivo");
+    }
+
+    @PostMapping(value = "/tareas/importXLS", consumes = { "multipart/form-data" })
+    public ResponseEntity<?> write(@RequestParam(value = "file") MultipartFile multipartFile) throws Exception {
+        log.debug("REST request to Import file: {}", multipartFile);
+        if (tareaService.submitXLS(multipartFile)) {
+            return ResponseEntity.noContent().build();
+        } else {
+            throw new BadRequestAlertException("Error al intentar importar el XLS", ENTITY_NAME, "Error al importar Tareas");
+        }
     }
 }

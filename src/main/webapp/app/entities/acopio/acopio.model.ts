@@ -10,6 +10,7 @@ export interface IAcopio {
   obra?: Pick<IObra, 'id' | 'name'> | null;
   listaprecio?: Pick<IListaPrecio, 'id' | 'name'> | null;
   proveedor?: Pick<IProveedor, 'id' | 'name'> | null;
+  saldo?: number | null;
 }
 
 export type NewAcopio = Omit<IAcopio, 'id'> & { id: null };

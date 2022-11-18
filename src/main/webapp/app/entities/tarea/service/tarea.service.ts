@@ -48,6 +48,18 @@ export class TareaService {
     return tarea.id;
   }
 
+  updateXLS(tareas: ITarea[]): any {
+    const formData: FormData = new FormData();
+    formData.append('tareas', JSON.stringify(tareas));
+    return this.http.post(`${this.resourceUrl}/updateXLS`, formData, { responseType: 'blob' });
+  }
+
+  submit(file: File): Observable<HttpResponse<any>> {
+    const formData: FormData = new FormData();
+    formData.append('file', file);
+    return this.http.post<ITarea>(`${this.resourceUrl}/importXLS`, formData, { observe: 'response' });
+  }
+
   compareTarea(o1: Pick<ITarea, 'id'> | null, o2: Pick<ITarea, 'id'> | null): boolean {
     return o1 && o2 ? this.getTareaIdentifier(o1) === this.getTareaIdentifier(o2) : o1 === o2;
   }

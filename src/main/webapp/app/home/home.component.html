@@ -9,11 +9,15 @@
     <div [ngSwitch]="account !== null">
       <div *ngSwitchCase="true">
         <h1 class="display-4">
-          <span>¡Bienvenida/o {{ account?.lastName }}, {{ account?.firstName }}!</span>
+          <span>¡Bienvenida {{ account?.firstName }}!</span>
         </h1>
-        <!--<div class="alert alert-success" *ngSwitchCase="true">
-        <span id="home-logged-message" *ngIf="account">Está conectado como "{{ account.login }}".</span>
-      </div>-->
+        <br />
+        <div class="alert alert-success" *ngSwitchCase="true">
+          <span id="home-logged-message" *ngIf="account">Reporte de Tareas Inconclusas por Obra</span>
+        </div>
+        <div class="alert alert-success" *ngSwitchCase="true">
+          <span id="home-logged-message1" *ngIf="account">Saldos en cuenta</span>
+        </div>
       </div>
       <!--<div class="alert alert-warning" *ngSwitchCase="false">
         <span>Si desea </span>

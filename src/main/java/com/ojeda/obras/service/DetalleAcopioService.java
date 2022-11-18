@@ -1,7 +1,9 @@
 package com.ojeda.obras.service;
 
+import com.ojeda.obras.domain.Acopio;
 import com.ojeda.obras.domain.DetalleAcopio;
 import com.ojeda.obras.repository.DetalleAcopioRepository;
+import com.ojeda.obras.service.dto.AcopioDTO;
 import com.ojeda.obras.service.dto.DetalleAcopioDTO;
 import com.ojeda.obras.service.mapper.DetalleAcopioMapper;
 import java.util.LinkedList;
@@ -119,5 +121,9 @@ public class DetalleAcopioService {
     public void delete(Long id) {
         log.debug("Request to delete DetalleAcopio : {}", id);
         detalleAcopioRepository.deleteById(id);
+    }
+
+    public List<DetalleAcopio> findAllByAcopio(Acopio acopio) {
+        return detalleAcopioRepository.findAllByAcopio(acopio);
     }
 }

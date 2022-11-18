@@ -41,4 +41,7 @@ public interface AcopioRepository extends JpaRepository<Acopio, Long>, JpaSpecif
         "select acopio from Acopio acopio left join fetch acopio.obra left join fetch acopio.listaprecio left join fetch acopio.proveedor where acopio.id =:id"
     )
     Optional<Acopio> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select sum(detalleAcopio.amount) from DetalleAcopio detalleAcopio where detalleAcopio.acopio.id = :id ")
+    Double getSumAmount(@Param("id") Long id);
 }

@@ -3,58 +3,59 @@ import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, Observable, switchMap, tap } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
-import { IAdvObraRep } from '../adv-obra-rep.model';
+import { ISeguimientoRep } from '../seguimiento-rep.model';
 import { ASC, DESC, SORT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { EntityArrayResponseType, AdvObraRepService } from '../service/adv-obra-rep.service';
+import { EntityArrayResponseType, SeguimientoRepService } from '../service/seguimiento-rep.service';
 import { EntityArrayResponseType as EntityArrayResponseType2, ObraService } from 'app/entities/obra/service/obra.service';
-import {
-  EntityArrayResponseType as EntityArrayResponseType3,
-  SubcontratistaService,
-} from 'app/entities/subcontratista/service/subcontratista.service';
 import { SortService } from 'app/shared/sort/sort.service';
 import { IObra } from 'app/entities/obra/obra.model';
-import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.model';
 import { saveAs } from 'file-saver';
 
 @Component({
-  selector: 'jhi-adv-obra-rep',
-  templateUrl: './adv-obra-rep.component.html',
+  selector: 'jhi-seguimiento-rep',
+  templateUrl: './seguimiento-rep.component.html',
 })
-export class AdvObraRepComponent implements OnInit {
-  advObraReps?: IAdvObraRep[];
+export class SeguimientoRepComponent implements OnInit {
+  seguimientoReps?: ISeguimientoRep[];
+  seguimientoReps2?: ISeguimientoRep[];
   obras?: IObra[];
-  subcontratistas?: ISubcontratista[];
   isLoading = false;
   isLoadingObra = false;
-  isLoadingSubcontratista = false;
   predicate = 'id';
   ascending = true;
   ob?: any;
-  subco?: any;
+  per?: any;
+  showSeg = false;
 
   findForm = this.fb.group({
     obra: [null, Validators.required],
-    subcontratista: [null],
+    periodName: [null, Validators.required],
   });
 
   constructor(
-    protected advObraRepService: AdvObraRepService,
+    protected seguimientoRepService: SeguimientoRepService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
     protected modalService: NgbModal,
     protected obraService: ObraService,
-    protected subcontratistaService: SubcontratistaService,
     protected fb: FormBuilder
   ) {}
-  trackId = (_index: number, item: IAdvObraRep): number => this.advObraRepService.getAdvObraRepIdentifier(item);
+  trackId = (_index: number, item: ISeguimientoRep): number => this.seguimientoRepService.getSeguimientoRepIdentifier(item);
 
   trackIdObra = (_index: number, item: IObra): number => this.obraService.getObraIdentifier(item);
 
-  trackIdSubcontratista = (_index: number, item: ISubcontratista): number => this.subcontratistaService.getSubcontratistaIdentifier(item);
-
   ngOnInit(): void {
     this.load();
+    this.showSeg = false;
+  }
+
+  showSeguimiento(): void {
+    if (this.showSeg == false) {
+      this.showSeg = true;
+    } else {
+      this.showSeg = false;
+    }
   }
 
   load(): void {
@@ -63,13 +64,9 @@ export class AdvObraRepComponent implements OnInit {
         this.onResponseSuccessObra(res);
       },
     });
-  }
-
-  onChangeObra(): void {
-    this.ob = this.findForm.get('obra')!.value!;
-    this.loadFromBackendWithRouteInformationsSubcontratista().subscribe({
-      next: (res: EntityArrayResponseType3) => {
-        this.onResponseSuccessSubcontratista(res);
+    this.loadFromBackendWithRouteInformations().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
       },
     });
   }
@@ -82,8 +79,10 @@ export class AdvObraRepComponent implements OnInit {
     window.history.back();
   }
 
-  find(): void {
+  onChangeObra(): void {
     this.ob = this.findForm.get('obra')!.value!;
+    this.findForm.patchValue({ periodName: null });
+    this.per = this.findForm.get('periodName')!.value!;
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
@@ -91,9 +90,29 @@ export class AdvObraRepComponent implements OnInit {
     });
   }
 
+  find(): void {
+    if (this.showSeg == false) {
+      this.showSeguimiento();
+    }
+    this.ob = this.findForm.get('obra')!.value!;
+    this.per = this.findForm.get('periodName')!.value!;
+    this.loadFromBackendWithRouteInformations2().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess2(res);
+        if (this.showSeg == false) {
+          this.showSeguimiento();
+        }
+      },
+    });
+  }
+
   exportXLS(): void {
-    this.advObraRepService.generateXLS(this.ob!.id!).subscribe((data: any) => {
-      saveAs(data, 'Avance_Obra_' + this.ob!.name! + '.xls');
+    const queryObject = {
+      'obraName.equals': this.ob!,
+      'periodName.equals': this.per!,
+    };
+    this.seguimientoRepService.generateXLS(queryObject).subscribe((data: any) => {
+      saveAs(data, 'Seguimiento_Obra_' + this.ob! + '.xls');
     });
   }
 
@@ -104,17 +123,17 @@ export class AdvObraRepComponent implements OnInit {
     );
   }
 
+  protected loadFromBackendWithRouteInformations2(): Observable<EntityArrayResponseType> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackend2(this.predicate, this.ascending))
+    );
+  }
+
   protected loadFromBackendWithRouteInformationsObra(): Observable<EntityArrayResponseType2> {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
       tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
       switchMap(() => this.queryBackendObra(this.predicate, this.ascending))
-    );
-  }
-
-  protected loadFromBackendWithRouteInformationsSubcontratista(): Observable<EntityArrayResponseType3> {
-    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
-      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-      switchMap(() => this.queryBackendSubcontratista(this.predicate, this.ascending))
     );
   }
 
@@ -126,7 +145,13 @@ export class AdvObraRepComponent implements OnInit {
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
     const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
-    this.advObraReps = this.refineData(dataFromBody);
+    this.seguimientoReps = this.refineData(dataFromBody);
+    this.seguimientoReps2 = this.seguimientoReps;
+  }
+
+  protected onResponseSuccess2(response: EntityArrayResponseType): void {
+    const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
+    this.seguimientoReps = this.refineData(dataFromBody);
   }
 
   protected onResponseSuccessObra(response: EntityArrayResponseType2): void {
@@ -134,12 +159,7 @@ export class AdvObraRepComponent implements OnInit {
     this.obras = this.refineDataObra(dataFromBody);
   }
 
-  protected onResponseSuccessSubcontratista(response: EntityArrayResponseType3): void {
-    const dataFromBody = this.fillComponentAttributesFromResponseBodySubcontratista(response.body);
-    this.subcontratistas = this.refineDataSubcontratista(dataFromBody);
-  }
-
-  protected refineData(data: IAdvObraRep[]): IAdvObraRep[] {
+  protected refineData(data: ISeguimientoRep[]): ISeguimientoRep[] {
     return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
@@ -147,11 +167,7 @@ export class AdvObraRepComponent implements OnInit {
     return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
-  protected refineDataSubcontratista(data: ISubcontratista[]): ISubcontratista[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
-  }
-
-  protected fillComponentAttributesFromResponseBody(data: IAdvObraRep[] | null): IAdvObraRep[] {
+  protected fillComponentAttributesFromResponseBody(data: ISeguimientoRep[] | null): ISeguimientoRep[] {
     return data ?? [];
   }
 
@@ -159,17 +175,24 @@ export class AdvObraRepComponent implements OnInit {
     return data ?? [];
   }
 
-  protected fillComponentAttributesFromResponseBodySubcontratista(data: ISubcontratista[] | null): ISubcontratista[] {
-    return data ?? [];
-  }
-
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.ob!.id!,
+      'obraName.equals': this.ob!,
+      'periodName.equals': this.per!,
     };
-    return this.advObraRepService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+    return this.seguimientoRepService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+  }
+
+  protected queryBackend2(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
+    this.isLoading = true;
+    const queryObject = {
+      sort: this.getSortQueryParam(predicate, ascending),
+      'obraName.equals': this.ob!,
+      'periodName.equals': this.per!,
+    };
+    return this.seguimientoRepService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected queryBackendObra(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType2> {
@@ -178,15 +201,6 @@ export class AdvObraRepComponent implements OnInit {
       sort: this.getSortQueryParam(predicate, ascending),
     };
     return this.obraService.query(queryObject).pipe(tap(() => (this.isLoadingObra = false)));
-  }
-
-  protected queryBackendSubcontratista(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType3> {
-    this.isLoadingSubcontratista = true;
-    const queryObject = {
-      sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.ob!.id!,
-    };
-    return this.subcontratistaService.query(queryObject).pipe(tap(() => (this.isLoadingSubcontratista = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {

@@ -1,0 +1,142 @@
+<div>
+  <h2 id="page-heading" data-cy="SeguimientoRepHeading">
+    <span>Reporte Resumen de Obra</span>
+
+    <div class="d-flex justify-content-end">
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-adv-pend-rep"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <form name="findForm" role="form" novalidate (ngSubmit)="find()" [formGroup]="findForm">
+    <div class="row mb-3">
+      <label class="form-label" for="field_obra">Obra</label>
+      <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra" (ngModelChange)="onChangeObra()">
+        <option [ngValue]="obraOption.name" *ngFor="let obraOption of obras; trackBy: trackIdObra">{{ obraOption.name }}</option>
+      </select>
+    </div>
+    <div class="row mb-3">
+      <label class="form-label" for="field_periodName">Periodo</label>
+      <select class="form-control" id="field_periodName" data-cy="periodName" name="periodName" formControlName="periodName">
+        <option [ngValue]="periodNameOption.periodName" *ngFor="let periodNameOption of seguimientoReps2 | unique">
+          {{ periodNameOption.periodName }}
+        </option>
+      </select>
+    </div>
+    <div>
+      <button type="submit" id="find" data-cy="FindButton" [disabled]="findForm.invalid" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Buscar</span>
+      </button>
+    </div>
+  </form>
+
+  <br />
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="this.showSeg">
+    <h2>Ingresos</h2>
+    <br />
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Fecha</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Origen</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Referencia</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Descripcion</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Importe</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let seguimientoReps of seguimientoReps; trackBy: trackId" data-cy="entityTable">
+          <ng-container *ngIf="seguimientoReps.type === 'I'">
+            <td>{{ seguimientoReps.date | formatShortDate }}</td>
+            <td>{{ seguimientoReps.source }}</td>
+            <td>{{ seguimientoReps.reference }}</td>
+            <td>{{ seguimientoReps.description }}</td>
+            <td align="right">{{ seguimientoReps.amount }}</td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <br />
+    <h2>Egresos</h2>
+    <br />
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Fecha</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Origen</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Referencia</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Descripcion</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Importe</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let seguimientoReps of seguimientoReps; trackBy: trackId" data-cy="entityTable">
+          <ng-container *ngIf="seguimientoReps.type === 'E'">
+            <td>{{ seguimientoReps.date | formatShortDate }}</td>
+            <td>{{ seguimientoReps.source }}</td>
+            <td>{{ seguimientoReps.reference }}</td>
+            <td>{{ seguimientoReps.description }}</td>
+            <td align="right">{{ seguimientoReps.amount }}</td>
+          </ng-container>
+        </tr>
+      </tbody>
+    </table>
+    <div id="entityButton">
+      <button id="export" data-cy="ExportButton" class="btn btn-primary" (click)="exportXLS()">
+        <fa-icon icon="download"></fa-icon>&nbsp;<span>Exportar</span>
+      </button>
+    </div>
+  </div>
+</div>

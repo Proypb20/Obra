@@ -1,20 +1,31 @@
 package com.ojeda.obras.web.rest;
 
+import com.ojeda.obras.domain.Acopio;
+import com.ojeda.obras.domain.AdvObraRep;
+import com.ojeda.obras.domain.DetalleAcopio;
 import com.ojeda.obras.domain.XXHeaderUtil;
 import com.ojeda.obras.repository.AcopioRepository;
 import com.ojeda.obras.service.AcopioQueryService;
 import com.ojeda.obras.service.AcopioService;
+import com.ojeda.obras.service.DetalleAcopioService;
 import com.ojeda.obras.service.criteria.AcopioCriteria;
 import com.ojeda.obras.service.dto.AcopioDTO;
+import com.ojeda.obras.service.dto.DetalleAcopioDTO;
+import com.ojeda.obras.service.mapper.AcopioMapper;
 import com.ojeda.obras.web.rest.errors.BadRequestAlertException;
+import java.io.File;
+import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
+import java.nio.file.Files;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
+import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import tech.jhipster.web.util.ResponseUtil;
@@ -39,10 +50,22 @@ public class AcopioResource {
 
     private final AcopioQueryService acopioQueryService;
 
-    public AcopioResource(AcopioService acopioService, AcopioRepository acopioRepository, AcopioQueryService acopioQueryService) {
+    private final DetalleAcopioService detalleAcopioService;
+
+    private final AcopioMapper acopioMapper;
+
+    public AcopioResource(
+        AcopioService acopioService,
+        AcopioRepository acopioRepository,
+        AcopioQueryService acopioQueryService,
+        DetalleAcopioService detalleAcopioService,
+        AcopioMapper acopioMapper
+    ) {
         this.acopioService = acopioService;
         this.acopioRepository = acopioRepository;
         this.acopioQueryService = acopioQueryService;
+        this.detalleAcopioService = detalleAcopioService;
+        this.acopioMapper = acopioMapper;
     }
 
     /**
@@ -145,6 +168,10 @@ public class AcopioResource {
     public ResponseEntity<List<AcopioDTO>> getAllAcopios(AcopioCriteria criteria) {
         log.debug("REST request to get Acopios by criteria: {}", criteria);
         List<AcopioDTO> entityList = acopioQueryService.findByCriteria(criteria);
+        for (AcopioDTO entity : entityList) {
+            Double saldo = entity.getTotalAmount() - acopioService.getSumAmount(entity.getId());
+            entity.setSaldo(saldo);
+        }
         return ResponseEntity.ok().body(entityList);
     }
 
@@ -187,5 +214,20 @@ public class AcopioResource {
             .noContent()
             .headers(XXHeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
+    }
+
+    @GetMapping(value = "/acopios/generateXLS/{id}", produces = MediaType.APPLICATION_OCTET_STREAM_VALUE)
+    public ResponseEntity<byte[]> generateFile(@PathVariable Long id, HttpServletResponse response) throws IOException, URISyntaxException {
+        log.debug("REST request to Generate a File of Acopios from: {}", id);
+        if (id == null) {
+            throw new BadRequestAlertException("A Acopio cannot have an empty ID", ENTITY_NAME, "idexists");
+        }
+        Optional<AcopioDTO> acopio = acopioService.findOne(id);
+        List<DetalleAcopio> detalleAcopios = detalleAcopioService.findAllByAcopio(acopioMapper.toEntity(acopio.get()));
+        if (acopio.isPresent()) {
+            File file = acopioService.generateFile(acopio.get(), detalleAcopios);
+            response.setHeader("Content-Disposition", "attachment; filename=".concat(file.getName()));
+            return ResponseEntity.ok().body(Files.readAllBytes(file.toPath()));
+        } else throw new BadRequestAlertException("Error al obtener datos del acopio", ENTITY_NAME, "No existe el acopio");
     }
 }

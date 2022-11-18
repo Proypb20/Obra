@@ -90,6 +90,7 @@
     "@ng-bootstrap/ng-bootstrap": "13.0.0",
     "@popperjs/core": "2.11.6",
     "@types/file-saver": "^2.0.5",
+    "@types/lodash": "^4.14.187",
     "bootstrap": "5.2.0",
     "bootswatch": "5.2.0",
     "dayjs": "1.11.5",

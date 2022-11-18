@@ -1,6 +1,7 @@
 package com.ojeda.obras.repository;
 
 import com.ojeda.obras.domain.Tarea;
+import com.ojeda.obras.service.dto.TareaDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -41,4 +42,6 @@ public interface TareaRepository extends JpaRepository<Tarea, Long>, JpaSpecific
         "select tarea from Tarea tarea left join fetch tarea.obra left join fetch tarea.subcontratista left join fetch tarea.concepto where tarea.id =:id"
     )
     Optional<Tarea> findOneWithToOneRelationships(@Param("id") Long id);
+
+    List<Tarea> findAllByObraId(Long id);
 }

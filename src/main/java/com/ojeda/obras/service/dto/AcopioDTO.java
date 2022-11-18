@@ -22,6 +22,8 @@ public class AcopioDTO implements Serializable {
 
     private ProveedorDTO proveedor;
 
+    private Double saldo;
+
     public Long getId() {
         return id;
     }
@@ -68,6 +70,14 @@ public class AcopioDTO implements Serializable {
 
     public void setProveedor(ProveedorDTO proveedor) {
         this.proveedor = proveedor;
+    }
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 
     @Override

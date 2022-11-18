@@ -1,6 +1,8 @@
 package com.ojeda.obras.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.ojeda.obras.service.AcopioService;
+import com.ojeda.obras.service.DetalleAcopioService;
 import java.io.Serializable;
 import java.time.LocalDate;
 import javax.persistence.*;
@@ -40,6 +42,9 @@ public class Acopio implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "provincia" }, allowSetters = true)
     private Proveedor proveedor;
+
+    @Column(name = "saldo")
+    private Double saldo;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -119,6 +124,14 @@ public class Acopio implements Serializable {
     public Acopio proveedor(Proveedor proveedor) {
         this.setProveedor(proveedor);
         return this;
+    }
+
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here

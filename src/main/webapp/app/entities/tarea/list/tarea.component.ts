@@ -6,8 +6,22 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ITarea } from '../tarea.model';
 import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
 import { EntityArrayResponseType, TareaService } from '../service/tarea.service';
+
+import { EntityArrayResponseType as EntityArrayResponseType3, ObraService } from 'app/entities/obra/service/obra.service';
+import {
+  EntityArrayResponseType as EntityArrayResponseType4,
+  SubcontratistaService,
+} from 'app/entities/subcontratista/service/subcontratista.service';
+import { EntityArrayResponseType as EntityArrayResponseType5, ConceptoService } from 'app/entities/concepto/service/concepto.service';
+
 import { TareaDeleteDialogComponent } from '../delete/tarea-delete-dialog.component';
+import { TareaSubmitDialogComponent } from '../submit/tarea-submit-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { saveAs } from 'file-saver';
+import { IObra } from 'app/entities/obra/obra.model';
+import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.model';
+import { IConcepto } from 'app/entities/concepto/concepto.model';
+import { FormBuilder, Validators } from '@angular/forms';
 
 @Component({
   selector: 'jhi-tarea',
@@ -21,12 +35,39 @@ export class TareaComponent implements OnInit {
   ascending = true;
   oId = 0;
 
+  showFilter = false;
+  filterOId = 0;
+  filterSId = 0;
+  filterCId = 0;
+
+  obra: any;
+  subco: any;
+  concepto: any;
+
+  obras?: IObra[];
+  subcontratistas?: ISubcontratista[];
+  conceptos?: IConcepto[];
+
+  isLoadingObra = false;
+  isLoadingSubcontratista = false;
+  isLoadingConcepto = false;
+
+  findForm = this.fb.group({
+    obra: [null, Validators.required],
+    subcontratista: [null, Validators.required],
+    concepto: [null],
+  });
+
   constructor(
     protected tareaService: TareaService,
     protected activatedRoute: ActivatedRoute,
     public router: Router,
     protected sortService: SortService,
-    protected modalService: NgbModal
+    protected modalService: NgbModal,
+    protected fb: FormBuilder,
+    protected obraService: ObraService,
+    protected subcontratistaService: SubcontratistaService,
+    protected conceptoService: ConceptoService
   ) {}
 
   trackId = (_index: number, item: ITarea): number => this.tareaService.getTareaIdentifier(item);
@@ -58,6 +99,23 @@ export class TareaComponent implements OnInit {
         this.onResponseSuccess(res);
       },
     });
+
+    this.loadFromBackendWithRouteInformationsObra().subscribe({
+      next: (res: EntityArrayResponseType3) => {
+        this.onResponseSuccessObra(res);
+      },
+    });
+    this.loadFromBackendWithRouteInformationsSubcontratista().subscribe({
+      next: (res: EntityArrayResponseType4) => {
+        this.onResponseSuccessSubcontratista(res);
+      },
+    });
+
+    this.loadFromBackendWithRouteInformationsConcepto().subscribe({
+      next: (res: EntityArrayResponseType5) => {
+        this.onResponseSuccessConcepto(res);
+      },
+    });
   }
 
   navigateToWithComponentValues(): void {
@@ -68,10 +126,106 @@ export class TareaComponent implements OnInit {
     window.history.back();
   }
 
+  update(): void {
+    this.tareaService.updateXLS(this.tareas!).subscribe((data: any) => {
+      saveAs(data, 'Actualizar_Tareas.xls');
+    });
+
+    const modalRef = this.modalService.open(TareaSubmitDialogComponent, { size: 'lg', backdrop: 'static' });
+    // unsubscribe not needed because closed completes on modal close
+
+    modalRef.closed.subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+        this.load();
+      },
+    });
+  }
+
+  showFilters(): void {
+    if (this.showFilter) {
+      this.showFilter = false;
+      this.filterOId = 0;
+      this.filterSId = 0;
+      this.filterCId = 0;
+      this.loadFromBackendWithRouteInformations().subscribe({
+        next: (res: EntityArrayResponseType) => {
+          this.onResponseSuccess(res);
+        },
+      });
+    } else {
+      this.showFilter = true;
+    }
+  }
+
+  onChangeObra(): void {
+    if (this.findForm.get('obra')!.value! == null) {
+      this.filterOId = 0;
+    } else {
+      this.obra = this.findForm.get('obra')!.value!;
+      this.filterOId = this.obra!.id;
+    }
+    this.loadFromBackendWithRouteInformations().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  onChangeSubcontratista(): void {
+    if (this.findForm.get('subcontratista')!.value! == null) {
+      this.filterSId = 0;
+    } else {
+      this.subco = this.findForm.get('subcontratista')!.value!;
+      this.filterSId = this.subco!.id;
+    }
+
+    this.loadFromBackendWithRouteInformations().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
+  onChangeConcepto(): void {
+    if (this.findForm.get('concepto')!.value! == null) {
+      this.filterCId = 0;
+    } else {
+      this.concepto = this.findForm.get('concepto')!.value!;
+      this.filterCId = this.concepto!.id;
+    }
+    this.loadFromBackendWithRouteInformations().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
+  }
+
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
     return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
       tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
       switchMap(() => this.queryBackend(this.predicate, this.ascending))
+    );
+  }
+
+  protected loadFromBackendWithRouteInformationsObra(): Observable<EntityArrayResponseType3> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackendObra(this.predicate, this.ascending))
+    );
+  }
+
+  protected loadFromBackendWithRouteInformationsSubcontratista(): Observable<EntityArrayResponseType4> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackendSubcontratista(this.predicate, this.ascending))
+    );
+  }
+
+  protected loadFromBackendWithRouteInformationsConcepto(): Observable<EntityArrayResponseType5> {
+    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
+      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
+      switchMap(() => this.queryBackendConcepto(this.predicate, this.ascending))
     );
   }
 
@@ -86,7 +240,34 @@ export class TareaComponent implements OnInit {
     this.tareas = this.refineData(dataFromBody);
   }
 
+  protected onResponseSuccessObra(response: EntityArrayResponseType3): void {
+    const dataFromBody = this.fillComponentAttributesFromResponseBodyObra(response.body);
+    this.obras = this.refineDataObra(dataFromBody);
+  }
+
+  protected onResponseSuccessSubcontratista(response: EntityArrayResponseType4): void {
+    const dataFromBody = this.fillComponentAttributesFromResponseBodySubcontratista(response.body);
+    this.subcontratistas = this.refineDataSubcontratista(dataFromBody);
+  }
+
+  protected onResponseSuccessConcepto(response: EntityArrayResponseType5): void {
+    const dataFromBody = this.fillComponentAttributesFromResponseBodyConcepto(response.body);
+    this.conceptos = this.refineDataConcepto(dataFromBody);
+  }
+
   protected refineData(data: ITarea[]): ITarea[] {
+    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+  }
+
+  protected refineDataObra(data: IObra[]): IObra[] {
+    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+  }
+
+  protected refineDataSubcontratista(data: ISubcontratista[]): ISubcontratista[] {
+    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+  }
+
+  protected refineDataConcepto(data: IConcepto[]): IConcepto[] {
     return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
@@ -94,14 +275,55 @@ export class TareaComponent implements OnInit {
     return data ?? [];
   }
 
+  protected fillComponentAttributesFromResponseBodyObra(data: IObra[] | null): IObra[] {
+    return data ?? [];
+  }
+
+  protected fillComponentAttributesFromResponseBodySubcontratista(data: ISubcontratista[] | null): ISubcontratista[] {
+    return data ?? [];
+  }
+
+  protected fillComponentAttributesFromResponseBodyConcepto(data: IConcepto[] | null): IConcepto[] {
+    return data ?? [];
+  }
+
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
+    this.oId = this.filterOId;
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
       'obraId.equals': this.oId,
+      'subcontratistaId.equals': this.filterSId,
+      'conceptoId.equals': this.filterCId,
     };
     return this.tareaService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
+  }
+
+  protected queryBackendObra(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType3> {
+    this.isLoadingObra = true;
+    const queryObject = {
+      sort: this.getSortQueryParam(predicate, ascending),
+      'obraId.equals': this.oId,
+    };
+    return this.obraService.query(queryObject).pipe(tap(() => (this.isLoadingObra = false)));
+  }
+
+  protected queryBackendSubcontratista(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType4> {
+    this.isLoadingSubcontratista = true;
+    const queryObject = {
+      sort: this.getSortQueryParam(predicate, ascending),
+      'obraId.equals': this.oId,
+    };
+    return this.subcontratistaService.query(queryObject).pipe(tap(() => (this.isLoadingSubcontratista = false)));
+  }
+
+  protected queryBackendConcepto(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType5> {
+    this.isLoadingConcepto = true;
+    const queryObject = {
+      sort: this.getSortQueryParam(predicate, ascending),
+    };
+    return this.conceptoService.query(queryObject).pipe(tap(() => (this.isLoadingConcepto = false)));
   }
 
   protected handleNavigation(predicate?: string, ascending?: boolean): void {

@@ -1,6 +1,8 @@
 package com.ojeda.obras.repository;
 
+import com.ojeda.obras.domain.Acopio;
 import com.ojeda.obras.domain.DetalleAcopio;
+import com.ojeda.obras.service.dto.DetalleAcopioDTO;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -39,4 +41,6 @@ public interface DetalleAcopioRepository extends JpaRepository<DetalleAcopio, Lo
         "select detalleAcopio from DetalleAcopio detalleAcopio left join fetch detalleAcopio.detalleListaPrecio where detalleAcopio.id =:id"
     )
     Optional<DetalleAcopio> findOneWithToOneRelationships(@Param("id") Long id);
+
+    List<DetalleAcopio> findAllByAcopio(Acopio acopio);
 }

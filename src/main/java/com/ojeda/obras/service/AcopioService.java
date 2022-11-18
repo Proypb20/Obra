@@ -1,13 +1,23 @@
 package com.ojeda.obras.service;
 
 import com.ojeda.obras.domain.Acopio;
+import com.ojeda.obras.domain.AdvObraRep;
+import com.ojeda.obras.domain.DetalleAcopio;
 import com.ojeda.obras.repository.AcopioRepository;
 import com.ojeda.obras.service.dto.AcopioDTO;
+import com.ojeda.obras.service.dto.DetalleAcopioDTO;
 import com.ojeda.obras.service.mapper.AcopioMapper;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URISyntaxException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -119,5 +129,31 @@ public class AcopioService {
     public void delete(Long id) {
         log.debug("Request to delete Acopio : {}", id);
         acopioRepository.deleteById(id);
+    }
+
+    public File generateFile(AcopioDTO acopio, List<DetalleAcopio> detalleAcopios) throws IOException, URISyntaxException {
+        log.debug("Generate File Service");
+        Workbook workbook = new XSSFWorkbook();
+        Sheet sheet = workbook.createSheet("ACOPIO");
+
+        sheet.setColumnWidth(0, 2140);
+        sheet.setColumnWidth(1, 10000);
+        sheet.setColumnWidth(2, 5000);
+        sheet.setColumnWidth(3, 3200);
+        sheet.setColumnWidth(4, 3200);
+        sheet.setColumnWidth(5, 3200);
+        sheet.setColumnWidth(6, 3200);
+
+        File outputFile = File.createTempFile("temp", ".xlsx");
+        try (FileOutputStream outputStream = new FileOutputStream(outputFile)) {
+            workbook.write(outputStream);
+            workbook.close();
+        }
+        return outputFile;
+    }
+
+    public Double getSumAmount(Long id) {
+        double sal = acopioRepository.getSumAmount(id);
+        return sal;
     }
 }

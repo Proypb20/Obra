@@ -109,6 +109,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>org.webjars.npm</groupId>
+            <artifactId>file-saver</artifactId>
+            <version>2.0.5</version>
+        </dependency>
+        <dependency>
             <groupId>org.apache.poi</groupId>
             <artifactId>poi</artifactId>
             <version>5.2.3</version>

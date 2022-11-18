@@ -281,11 +281,26 @@ public class SubcoPaymentService {
             Row row = sheet.createRow(cantLin);
             for (int cantCol = 0; cantCol < 1 + subcoPaySubcos.size(); cantCol++) {
                 if (cantLin <= 1 || cantCol == 0) {
-                    CellStyle styleS = workbook.createCellStyle();
-                    styleS.setAlignment(HorizontalAlignment.LEFT);
-                    Cell cellS = row.createCell(cantCol);
-                    cellS.setCellValue(tabla[cantLin][cantCol]);
-                    cellS.setCellStyle(styleS);
+                    if (cantLin == filaTotal) {
+                        CellStyle styleSC = workbook.createCellStyle();
+                        styleSC.setAlignment(HorizontalAlignment.LEFT);
+                        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+                        font.setFontName("Calibri");
+                        font.setFontHeightInPoints((short) 11);
+                        font.setBold(true);
+                        styleSC.setFont(font);
+                        styleSC.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+                        styleSC.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                        Cell cellS = row.createCell(cantCol);
+                        cellS.setCellValue(tabla[cantLin][cantCol]);
+                        cellS.setCellStyle(styleSC);
+                    } else {
+                        CellStyle styleS = workbook.createCellStyle();
+                        styleS.setAlignment(HorizontalAlignment.LEFT);
+                        Cell cellS = row.createCell(cantCol);
+                        cellS.setCellValue(tabla[cantLin][cantCol]);
+                        cellS.setCellStyle(styleS);
+                    }
                 } else {
                     if (filaPorcPagado == cantLin) {
                         CellStyle styleP = workbook.createCellStyle();
@@ -296,13 +311,30 @@ public class SubcoPaymentService {
                         cellP.setCellValue(Double.valueOf(tabla[cantLin][cantCol]));
                         cellP.setCellStyle(styleP);
                     } else {
-                        CellStyle styleD = workbook.createCellStyle();
-                        styleD.setAlignment(HorizontalAlignment.RIGHT);
-                        Cell cellD = row.createCell(cantCol);
-                        DataFormat df = workbook.createDataFormat();
-                        styleD.setDataFormat(df.getFormat("0.00"));
-                        cellD.setCellValue(Double.valueOf(tabla[cantLin][cantCol]));
-                        cellD.setCellStyle(styleD);
+                        if (filaTotal == cantLin) {
+                            CellStyle styleSC = workbook.createCellStyle();
+                            styleSC.setAlignment(HorizontalAlignment.RIGHT);
+                            XSSFFont font = ((XSSFWorkbook) workbook).createFont();
+                            font.setFontName("Calibri");
+                            font.setFontHeightInPoints((short) 11);
+                            font.setBold(true);
+                            styleSC.setFont(font);
+                            styleSC.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+                            styleSC.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+                            DataFormat df = workbook.createDataFormat();
+                            styleSC.setDataFormat(df.getFormat("0.00"));
+                            Cell cellS = row.createCell(cantCol);
+                            cellS.setCellValue(Double.valueOf(tabla[cantLin][cantCol]));
+                            cellS.setCellStyle(styleSC);
+                        } else {
+                            CellStyle styleD = workbook.createCellStyle();
+                            styleD.setAlignment(HorizontalAlignment.RIGHT);
+                            Cell cellD = row.createCell(cantCol);
+                            DataFormat df = workbook.createDataFormat();
+                            styleD.setDataFormat(df.getFormat("0.00"));
+                            cellD.setCellValue(Double.valueOf(tabla[cantLin][cantCol]));
+                            cellD.setCellStyle(styleD);
+                        }
                     }
                 }
             }

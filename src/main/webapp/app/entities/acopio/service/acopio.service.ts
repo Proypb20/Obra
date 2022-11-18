@@ -65,6 +65,10 @@ export class AcopioService {
       .pipe(map(res => this.convertResponseArrayFromServer(res)));
   }
 
+  generateXLS(id: number): any {
+    return this.http.get(`${this.resourceUrl}/generateXLS/${id}`, { responseType: 'blob' });
+  }
+
   delete(id: number): Observable<HttpResponse<{}>> {
     return this.http.delete(`${this.resourceUrl}/${id}`, { observe: 'response' });
   }

@@ -72,6 +72,12 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
+          <th scope="col" jhiSortBy="totalAmount">
+            <div class="d-flex">
+              <span>Saldo</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
+            </div>
+          </th>
           <th scope="col"></th>
         </tr>
       </thead>
@@ -84,8 +90,13 @@
           <td>{{ acopio.proveedor?.name }}</td>
           <td>{{ acopio.date | formatShortDate }}</td>
           <td>{{ acopio.totalAmount }}</td>
+          <td>{{ acopio.saldo }}</td>
           <td class="text-end">
             <div class="btn-group">
+              <button type="submit" (click)="exportXLS(acopio.id)" class="btn btn-secondary btn-sm" data-cy="entityDetailsButton">
+                <fa-icon icon="download"></fa-icon>
+                <span class="d-none d-md-inline">Exportar</span>
+              </button>
               <button
                 type="submit"
                 [routerLink]="['/detalle-acopio']"

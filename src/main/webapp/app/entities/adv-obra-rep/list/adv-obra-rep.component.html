@@ -22,8 +22,22 @@
   <form name="findForm" role="form" novalidate (ngSubmit)="find()" [formGroup]="findForm">
     <div class="row mb-3">
       <label class="form-label" for="field_obra">Obra</label>
-      <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra">
+      <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra" (ngModelChange)="onChangeObra()">
         <option [ngValue]="obraOption" *ngFor="let obraOption of obras; trackBy: trackIdObra">{{ obraOption.name }}</option>
+      </select>
+    </div>
+    <div class="row mb-3">
+      <label class="form-label" for="field_subcontratista">Subcontratista</label>
+      <select
+        class="form-control"
+        id="field_subcontratista"
+        data-cy="subcontratista"
+        name="subcontratista"
+        formControlName="subcontratista"
+      >
+        <option [ngValue]="subcontratistaOption" *ngFor="let subcontratistaOption of subcontratistas; trackBy: trackIdSubcontratista">
+          {{ subcontratistaOption.lastName }}, {{ subcontratistaOption.firstName }}
+        </option>
       </select>
     </div>
     <div>
@@ -61,12 +75,12 @@
           </th>
           <th scope="col">
             <div class="d-flex">
-              <span>Estado de Avance</span>
+              <span>Porcentaje Tarea</span>
             </div>
           </th>
           <th scope="col">
             <div class="d-flex">
-              <span>Porcentaje Tarea</span>
+              <span>Estado de Avance</span>
             </div>
           </th>
           <th scope="col">
@@ -82,8 +96,8 @@
           <td>{{ advObraRep.concepto }}</td>
           <td>{{ advObraRep.quantity }}</td>
           <td>{{ advObraRep.cost }}</td>
-          <td>{{ advObraRep.advanceStatus }}</td>
           <td>{{ advObraRep.porcTarea }}</td>
+          <td>{{ advObraRep.advanceStatus }}</td>
           <td>{{ advObraRep.porcAdv }}</td>
         </tr>
       </tbody>

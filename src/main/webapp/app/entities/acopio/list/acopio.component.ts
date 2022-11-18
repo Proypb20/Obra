@@ -8,6 +8,7 @@ import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/conf
 import { EntityArrayResponseType, AcopioService } from '../service/acopio.service';
 import { AcopioDeleteDialogComponent } from '../delete/acopio-delete-dialog.component';
 import { SortService } from 'app/shared/sort/sort.service';
+import { saveAs } from 'file-saver';
 
 @Component({
   selector: 'jhi-acopio',
@@ -68,6 +69,12 @@ export class AcopioComponent implements OnInit {
 
   Cancel(): void {
     window.history.back();
+  }
+
+  exportXLS(id: number): void {
+    this.acopioService.generateXLS(id).subscribe((data: any) => {
+      saveAs(data, 'Acopio.xls');
+    });
   }
 
   protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {

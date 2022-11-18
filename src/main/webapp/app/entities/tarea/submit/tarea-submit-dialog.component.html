@@ -1,0 +1,29 @@
+<form name="submitForm" (ngSubmit)="upload()">
+  <div class="modal-header">
+    <h4 class="modal-title" data-cy="tareaSubmitDialogHeading">Confirmar operación</h4>
+
+    <button type="button" class="btn-close" data-dismiss="modal" aria-hidden="true" (click)="cancel()">&times;</button>
+  </div>
+
+  <div class="modal-body">
+    <jhi-alert-error></jhi-alert-error>
+
+    <div class="row">
+      <div class="row mb-8">
+        <label>
+          <input type="file" (change)="selectFile($event)" />
+        </label>
+      </div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="cancel()">
+      <fa-icon icon="ban"></fa-icon>&nbsp;<span>Cancelar</span>
+    </button>
+
+    <button id="jhi-confirm-submit-tarea" data-cy="entityConfirmSubmitButton" type="submit" class="btn btn-primary">
+      <fa-icon icon="arrow-up"></fa-icon>&nbsp;<span>Subir</span>
+    </button>
+  </div>
+</form>

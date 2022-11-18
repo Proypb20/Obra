@@ -4,10 +4,11 @@ import { TareaComponent } from './list/tarea.component';
 import { TareaDetailComponent } from './detail/tarea-detail.component';
 import { TareaUpdateComponent } from './update/tarea-update.component';
 import { TareaDeleteDialogComponent } from './delete/tarea-delete-dialog.component';
+import { TareaSubmitDialogComponent } from './submit/tarea-submit-dialog.component';
 import { TareaRoutingModule } from './route/tarea-routing.module';
 
 @NgModule({
   imports: [SharedModule, TareaRoutingModule],
-  declarations: [TareaComponent, TareaDetailComponent, TareaUpdateComponent, TareaDeleteDialogComponent],
+  declarations: [TareaComponent, TareaDetailComponent, TareaUpdateComponent, TareaDeleteDialogComponent, TareaSubmitDialogComponent],
 })
 export class TareaModule {}

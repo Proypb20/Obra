@@ -1,5 +1,6 @@
 package com.ojeda.obras.repository;
 
+import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.domain.Subcontratista;
 import org.springframework.data.jpa.repository.*;
 import org.springframework.stereotype.Repository;
@@ -9,4 +10,6 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SubcontratistaRepository extends JpaRepository<Subcontratista, Long>, JpaSpecificationExecutor<Subcontratista> {}
+public interface SubcontratistaRepository extends JpaRepository<Subcontratista, Long>, JpaSpecificationExecutor<Subcontratista> {
+    Subcontratista findByLastNameAndFirstName(String lastName, String firstName);
+}

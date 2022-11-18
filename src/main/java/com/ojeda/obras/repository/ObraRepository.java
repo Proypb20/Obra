@@ -40,4 +40,6 @@ public interface ObraRepository extends ObraRepositoryWithBagRelationships, JpaR
 
     @Query("select obra from Obra obra left join fetch obra.provincia where obra.id =:id")
     Optional<Obra> findOneWithToOneRelationships(@Param("id") Long id);
+
+    Obra findByName(String name);
 }

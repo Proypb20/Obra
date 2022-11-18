@@ -123,7 +123,6 @@ public class AdvObraRepService {
         headerCell.setCellStyle(headerStyle);
 
         CellStyle style = workbook.createCellStyle();
-        style = workbook.createCellStyle();
         style.setWrapText(true);
         style.setBorderRight(BorderStyle.THIN);
         style.setBorderLeft(BorderStyle.THIN);
@@ -133,51 +132,64 @@ public class AdvObraRepService {
         style.setAlignment(HorizontalAlignment.CENTER);
         style.setFont(font);
 
+        CellStyle styleId = workbook.createCellStyle();
+        styleId.setAlignment(HorizontalAlignment.RIGHT);
+
+        CellStyle stylePorc = workbook.createCellStyle();
+        stylePorc.setAlignment(HorizontalAlignment.RIGHT);
+        DataFormat dfPorc = workbook.createDataFormat();
+        stylePorc.setDataFormat(dfPorc.getFormat("0.00%"));
+
+        CellStyle styleNum = workbook.createCellStyle();
+        styleNum.setAlignment(HorizontalAlignment.RIGHT);
+        DataFormat dfDec = workbook.createDataFormat();
+        styleNum.setDataFormat(dfDec.getFormat("0.00"));
+
+        CellStyle styleMon = workbook.createCellStyle();
+        styleMon.setAlignment(HorizontalAlignment.RIGHT);
+        DataFormat dfMon = workbook.createDataFormat();
+        styleMon.setDataFormat(dfMon.getFormat("$0.00"));
+
+        CellStyle styleText = workbook.createCellStyle();
+        styleText.setAlignment(HorizontalAlignment.LEFT);
+
         int i = 0;
         Double sumQty = 0D, sumCost = 0D, sumPorcTarea = 0D, sumAdv = 0D, sumAcum = 0D;
         for (AdvObraRep advObraRep : advObraReps) {
             i++;
             Row row = sheet.createRow(i);
 
-            Cell cell = row.createCell(0);
-            style.setAlignment(HorizontalAlignment.RIGHT);
-            cell.setCellStyle(style);
-            cell.setCellValue(advObraRep.getId());
+            Cell cellId = row.createCell(0);
+            cellId.setCellStyle(styleId);
+            cellId.setCellValue(advObraRep.getId());
 
-            cell = row.createCell(1);
-            style.setAlignment(HorizontalAlignment.LEFT);
-            cell.setCellStyle(style);
-            cell.setCellValue(advObraRep.getConcepto());
+            Cell cellConc = row.createCell(1);
+            cellConc.setCellStyle(styleText);
+            cellConc.setCellValue(advObraRep.getConcepto());
 
-            cell = row.createCell(2);
-            style.setAlignment(HorizontalAlignment.LEFT);
-            cell.setCellStyle(style);
-            cell.setCellValue(advObraRep.getTaskName());
+            Cell cellTask = row.createCell(2);
+            cellTask.setCellStyle(styleText);
+            cellTask.setCellValue(advObraRep.getTaskName());
 
-            cell = row.createCell(3);
-            style.setAlignment(HorizontalAlignment.RIGHT);
-            cell.setCellStyle(style);
-            cell.setCellValue(advObraRep.getQuantity());
+            Cell cellQty = row.createCell(3);
+            cellQty.setCellStyle(styleNum);
+            cellQty.setCellValue(advObraRep.getQuantity());
 
-            cell = row.createCell(4);
-            style.setAlignment(HorizontalAlignment.RIGHT);
-            cell.setCellStyle(style);
-            cell.setCellValue(advObraRep.getCost());
+            Cell cellCost = row.createCell(4);
+            cellCost.setCellStyle(styleMon);
+            cellCost.setCellValue(advObraRep.getCost());
 
-            cell = row.createCell(5);
-            style.setAlignment(HorizontalAlignment.RIGHT);
-            cell.setCellStyle(style);
-            cell.setCellValue(advObraRep.getPorcTarea());
+            Cell cellPorcTarea = row.createCell(5);
+            cellPorcTarea.setCellStyle(stylePorc);
+            cellPorcTarea.setCellValue((advObraRep.getPorcTarea() / 100));
 
-            cell = row.createCell(6);
-            style.setAlignment(HorizontalAlignment.RIGHT);
-            cell.setCellStyle(style);
-            cell.setCellValue(advObraRep.getAdvanceStatus());
+            Cell cellAdv = row.createCell(6);
+            cellAdv.setCellStyle(stylePorc);
+            cellAdv.setCellValue((advObraRep.getAdvanceStatus() / 100));
 
-            cell = row.createCell(7);
-            style.setAlignment(HorizontalAlignment.RIGHT);
-            cell.setCellStyle(style);
-            cell.setCellValue(advObraRep.getPorcAdv());
+            Cell cellPorcAdv = row.createCell(7);
+            cellPorcAdv.setCellStyle(stylePorc);
+            cellPorcAdv.setCellValue((advObraRep.getPorcAdv() / 100));
 
             sumQty = sumQty + advObraRep.getQuantity();
             sumCost = sumCost + advObraRep.getCost();
@@ -186,45 +198,90 @@ public class AdvObraRepService {
             sumAcum = advObraRep.getPorcAdv();
         }
 
-        CellStyle styleT = workbook.createCellStyle();
-        styleT.setWrapText(true);
-        styleT.setBorderRight(BorderStyle.THIN);
-        styleT.setBorderLeft(BorderStyle.THIN);
-        styleT.setBorderBottom(BorderStyle.THIN);
-        styleT.setBorderTop(BorderStyle.THIN);
+        CellStyle styleTNum = workbook.createCellStyle();
+        styleTNum.setWrapText(true);
+        styleTNum.setBorderRight(BorderStyle.THIN);
+        styleTNum.setBorderLeft(BorderStyle.THIN);
+        styleTNum.setBorderBottom(BorderStyle.THIN);
+        styleTNum.setBorderTop(BorderStyle.THIN);
         font.setFontName("Calibri");
         font.setFontHeightInPoints((short) 11);
         font.setBold(true);
-        styleT.setFont(font);
-        styleT.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
-        styleT.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        styleTNum.setFont(font);
+        styleTNum.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+        styleTNum.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        styleTNum.setAlignment(HorizontalAlignment.RIGHT);
+
+        CellStyle styleTText = workbook.createCellStyle();
+        styleTText.setWrapText(true);
+        styleTText.setBorderRight(BorderStyle.THIN);
+        styleTText.setBorderLeft(BorderStyle.THIN);
+        styleTText.setBorderBottom(BorderStyle.THIN);
+        styleTText.setBorderTop(BorderStyle.THIN);
+        font.setFontName("Calibri");
+        font.setFontHeightInPoints((short) 11);
+        font.setBold(true);
+        styleTText.setFont(font);
+        styleTText.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+        styleTText.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        styleTText.setAlignment(HorizontalAlignment.LEFT);
+
+        CellStyle styleTMon = workbook.createCellStyle();
+        styleTMon.setWrapText(true);
+        styleTMon.setBorderRight(BorderStyle.THIN);
+        styleTMon.setBorderLeft(BorderStyle.THIN);
+        styleTMon.setBorderBottom(BorderStyle.THIN);
+        styleTMon.setBorderTop(BorderStyle.THIN);
+        font.setFontName("Calibri");
+        font.setFontHeightInPoints((short) 11);
+        font.setBold(true);
+        styleTMon.setFont(font);
+        styleTMon.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+        styleTMon.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        styleTMon.setAlignment(HorizontalAlignment.RIGHT);
+        DataFormat dfTMon = workbook.createDataFormat();
+        styleTMon.setDataFormat(dfTMon.getFormat("$0.00"));
+
+        CellStyle styleTPorc = workbook.createCellStyle();
+        styleTPorc.setWrapText(true);
+        styleTPorc.setBorderRight(BorderStyle.THIN);
+        styleTPorc.setBorderLeft(BorderStyle.THIN);
+        styleTPorc.setBorderBottom(BorderStyle.THIN);
+        styleTPorc.setBorderTop(BorderStyle.THIN);
+        font.setFontName("Calibri");
+        font.setFontHeightInPoints((short) 11);
+        font.setBold(true);
+        styleTPorc.setFont(font);
+        styleTPorc.setFillForegroundColor(IndexedColors.YELLOW.getIndex());
+        styleTPorc.setFillPattern(FillPatternType.SOLID_FOREGROUND);
+        styleTPorc.setAlignment(HorizontalAlignment.RIGHT);
+        DataFormat dfTPorc = workbook.createDataFormat();
+        styleTPorc.setDataFormat(dfTPorc.getFormat("0.00%"));
 
         Row row = sheet.createRow(i + 1);
-        Cell cell = row.createCell(2);
-        cell.setCellValue("Totales:");
-        cell.setCellStyle(styleT);
+        Cell cellTT = row.createCell(2);
+        cellTT.setCellValue("Totales:");
+        cellTT.setCellStyle(styleTText);
 
-        cell = row.createCell(3);
-        cell.setCellValue(sumQty);
-        styleT.setAlignment(HorizontalAlignment.RIGHT);
-        cell.setCellStyle(styleT);
+        Cell cellTQty = row.createCell(3);
+        cellTQty.setCellValue(sumQty);
+        cellTQty.setCellStyle(styleTNum);
 
-        cell = row.createCell(4);
-        cell.setCellValue(sumCost);
-        styleT.setAlignment(HorizontalAlignment.RIGHT);
-        cell.setCellStyle(styleT);
+        Cell cellTCost = row.createCell(4);
+        cellTCost.setCellValue(sumCost);
+        cellTCost.setCellStyle(styleTMon);
 
-        cell = row.createCell(5);
-        cell.setCellValue(sumPorcTarea);
-        cell.setCellStyle(styleT);
+        Cell cellTPorc = row.createCell(5);
+        cellTPorc.setCellValue((sumPorcTarea / 100));
+        cellTPorc.setCellStyle(styleTPorc);
 
-        cell = row.createCell(6);
-        cell.setCellValue((sumAdv / i));
-        cell.setCellStyle(styleT);
+        Cell cellTAdv = row.createCell(6);
+        cellTAdv.setCellValue(((sumAdv / i) / 100));
+        cellTAdv.setCellStyle(styleTPorc);
 
-        cell = row.createCell(7);
-        cell.setCellValue(sumAcum);
-        cell.setCellStyle(styleT);
+        Cell cellTAcum = row.createCell(7);
+        cellTAcum.setCellValue((sumAcum / 100));
+        cellTAcum.setCellStyle(styleTPorc);
 
         File outputFile = File.createTempFile("temp", ".xlsx");
         try (FileOutputStream outputStream = new FileOutputStream(outputFile)) {

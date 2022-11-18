@@ -3,6 +3,16 @@
     <span>Tareas</span>
 
     <div class="d-flex justify-content-end">
+      <button class="btn btn-info me-2" (click)="update()">
+        <fa-icon icon="download"></fa-icon>
+        <span>Actualizar en Excel</span>
+      </button>
+
+      <button class="btn btn-info me-2" (click)="showFilters()">
+        <fa-icon icon="filter"></fa-icon>
+        <span>Filtrar</span>
+      </button>
+
       <button class="btn btn-info me-2" (click)="load()" [disabled]="isLoading">
         <fa-icon icon="sync" [spin]="isLoading"></fa-icon>
         <span>Refrescar lista</span>
@@ -34,6 +44,66 @@
   <jhi-alert-error></jhi-alert-error>
 
   <jhi-alert></jhi-alert>
+
+  <div class="table-responsive table-entities" id="entitiesFind" *ngIf="this.showFilter">
+    <form name="findForm" role="form" novalidate [formGroup]="findForm">
+      <table class="table table-striped" aria-describedby="page-heading">
+        <thead>
+          <tr>
+            <th scope="col">
+              <label class="form-label" for="field_subcontratista">Obra</label>
+              <select
+                class="form-control"
+                id="field_obra"
+                data-cy="obra"
+                name="obra"
+                formControlName="obra"
+                (ngModelChange)="onChangeObra()"
+              >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="obraOption" *ngFor="let obraOption of obras">
+                  {{ obraOption.name }}
+                </option>
+              </select>
+            </th>
+            <th scope="col">
+              <label class="form-label" for="field_subcontratista">Subcontratista</label>
+              <select
+                class="form-control"
+                id="field_subcontratista"
+                data-cy="subcontratista"
+                name="subcontratista"
+                formControlName="subcontratista"
+                (ngModelChange)="onChangeSubcontratista()"
+              >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="subcontratistaOption" *ngFor="let subcontratistaOption of subcontratistas">
+                  {{ subcontratistaOption.lastName }}, {{ subcontratistaOption.firstName }}
+                </option>
+              </select>
+            </th>
+            <th scope="col">
+              <label class="form-label" for="field_concepto">Concepto</label>
+              <select
+                class="form-control"
+                id="field_concepto"
+                data-cy="concepto"
+                name="concepto"
+                formControlName="concepto"
+                (ngModelChange)="onChangeConcepto()"
+              >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="conceptoOption" *ngFor="let conceptoOption of conceptos">
+                  {{ conceptoOption.name }}
+                </option>
+              </select>
+            </th>
+            <th scope="col"></th>
+          </tr>
+        </thead>
+      </table>
+    </form>
+  </div>
 
   <div class="alert alert-warning" id="no-result" *ngIf="tareas?.length === 0">
     <span>No se encontraron tareas</span>
