@@ -55,8 +55,8 @@ class MovimientoResourceIT {
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
 
-    private static final MetodoPago DEFAULT_METODO_PAGO = MetodoPago.EFECTIVO;
-    private static final MetodoPago UPDATED_METODO_PAGO = MetodoPago.BANCO;
+    private static final MetodoPago DEFAULT_METODO_PAGO = MetodoPago.Efectivo;
+    private static final MetodoPago UPDATED_METODO_PAGO = MetodoPago.Banco;
 
     private static final Double DEFAULT_AMOUNT = 1D;
     private static final Double UPDATED_AMOUNT = 2D;

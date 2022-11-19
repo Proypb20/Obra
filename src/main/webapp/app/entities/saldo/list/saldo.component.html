@@ -19,6 +19,10 @@
 
   <jhi-alert></jhi-alert>
 
+  <div class="alert alert-warning" id="no-result" *ngIf="saldos?.length === 0">
+    <span>No se encontraron saldos</span>
+  </div>
+
   <div class="table-responsive table-entities" id="entities" *ngIf="saldos && saldos.length > 0">
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>

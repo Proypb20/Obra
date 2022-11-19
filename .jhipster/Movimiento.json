@@ -16,7 +16,7 @@
       "fieldName": "metodoPago",
       "fieldType": "MetodoPago",
       "fieldValidateRules": ["required"],
-      "fieldValues": "EFECTIVO,BANCO"
+      "fieldValues": "Efectivo,Banco"
     },
     {
       "fieldName": "amount",

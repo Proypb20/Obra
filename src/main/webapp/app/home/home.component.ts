@@ -6,6 +6,13 @@ import { takeUntil } from 'rxjs/operators';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
+import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { ISaldo } from 'app/entities/saldo/saldo.model';
+import { SaldoService } from 'app/entities/saldo/service/saldo.service';
+import { IAdvPendRep } from 'app/entities/adv-pend-rep/adv-pend-rep.model';
+import { AdvPendRepService } from 'app/entities/adv-pend-rep/service/adv-pend-rep.service';
+import { ASC, DESC, SORT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
+
 @Component({
   selector: 'jhi-home',
   templateUrl: './home.component.html',
@@ -13,16 +20,28 @@ import { Account } from 'app/core/auth/account.model';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   account: Account | null = null;
+  saldos: ISaldo[];
+  advPendReps: IAdvPendRep[];
 
   private readonly destroy$ = new Subject<void>();
 
-  constructor(private accountService: AccountService, private router: Router) {}
+  constructor(
+    private accountService: AccountService,
+    private router: Router,
+    private saldoService: SaldoService,
+    private advPendRepService: AdvPendRepService
+  ) {
+    this.saldos = [];
+    this.advPendReps = [];
+  }
 
   ngOnInit(): void {
     this.accountService
       .getAuthenticationState()
       .pipe(takeUntil(this.destroy$))
       .subscribe(account => (this.account = account));
+    this.loadTareas();
+    this.loadSaldos();
   }
 
   login(): void {
@@ -32,5 +51,25 @@ export class HomeComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();
+  }
+
+  loadSaldos(): void {
+    this.saldoService.query().subscribe((res: HttpResponse<ISaldo[]>) => (this.saldos = res.body!));
+  }
+
+  loadTareas(): void {
+    const queryObject = {
+      sort: this.getSortQueryParam('id', true),
+    };
+    this.advPendRepService.query(queryObject).subscribe((res: HttpResponse<IAdvPendRep[]>) => (this.advPendReps = res.body!));
+  }
+
+  protected getSortQueryParam(predicate = 'id', ascending = true): string[] {
+    const ascendingQueryParam = ascending ? ASC : DESC;
+    if (predicate === '') {
+      return [];
+    } else {
+      return [predicate + ',' + ascendingQueryParam];
+    }
   }
 }

@@ -12,11 +12,108 @@
           <span>¡Bienvenida {{ account?.firstName }}!</span>
         </h1>
         <br />
-        <div class="alert alert-success" *ngSwitchCase="true">
-          <span id="home-logged-message" *ngIf="account">Reporte de Tareas Inconclusas por Obra</span>
+        <div *ngSwitchCase="true">
+          <h2>
+            <span>Tareas inconclusas</span>
+          </h2>
+          <br />
+
+          <!-- Mostrando tareas -->
+          <div class="alert alert-warning" id="no-result-t" *ngIf="advPendReps?.length === 0">
+            <span>No hay obras con tareas sin finalizar</span>
+          </div>
+          <div class="table-responsive table-entities" id="entitiesT" *ngIf="advPendReps && advPendReps.length > 0">
+            <table class="table table-striped" aria-describedby="page-heading">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <div class="d-flex">
+                      <span>Obra</span>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="d-flex">
+                      <span>Subcontratista</span>
+                    </div>
+                  </th>
+                  <th scope="col">
+                    <div class="d-flex">
+                      <span> Porcentaje Avance</span>
+                    </div>
+                  </th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let advPendRep of advPendReps" data-cy="entityTable">
+                  <td>{{ advPendRep.obra }}</td>
+                  <td>{{ advPendRep.subcontratista }}</td>
+                  <td>{{ advPendRep.advanceStatus }}</td>
+                  <td class="text-end">
+                    <div class="btn-group">
+                      <button
+                        type="submit"
+                        [routerLink]="['/tarea']"
+                        [state]="{ oId: advPendRep.obraId }"
+                        class="btn btn-info btn-sm"
+                        data-cy="entityDetailsButton"
+                      >
+                        <fa-icon icon="eye"></fa-icon>
+                        <span class="d-none d-md-inline">Ver Tareas</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
-        <div class="alert alert-success" *ngSwitchCase="true">
-          <span id="home-logged-message1" *ngIf="account">Saldos en cuenta</span>
+        <br />
+        <div *ngSwitchCase="true">
+          <h2>
+            <span *ngIf="account">Saldos</span>
+          </h2>
+          <br />
+          <!-- Mostrando Saldos -->
+          <div class="alert alert-warning" id="no-result" *ngIf="saldos?.length === 0">
+            <span>No se encontraron saldos</span>
+          </div>
+
+          <div class="table-responsive table-entities" id="entities" *ngIf="saldos && saldos.length > 0">
+            <table class="table table-striped" aria-describedby="page-heading">
+              <thead>
+                <tr>
+                  <th scope="col">
+                    <div class="d-flex">
+                      <span>Tipo</span>
+                    </div>
+                  </th>
+                  <th scope="col" style="text-align: right">Saldo</th>
+                  <th scope="col"></th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let saldo of saldos" data-cy="entityTable">
+                  <td>{{ saldo.metodoPago }}</td>
+                  <td style="text-align: right">{{ saldo.saldo }}</td>
+                  <td class="text-end">
+                    <div class="btn-group">
+                      <button
+                        type="submit"
+                        [routerLink]="['/movimiento']"
+                        [state]="{ mM: saldo.metodoPago }"
+                        class="btn btn-info btn-sm"
+                        data-cy="entityDetailsButton"
+                      >
+                        <fa-icon icon="building-user"></fa-icon>
+                        <span class="d-none d-md-inline">Movimientos</span>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
         </div>
       </div>
       <!--<div class="alert alert-warning" *ngSwitchCase="false">
