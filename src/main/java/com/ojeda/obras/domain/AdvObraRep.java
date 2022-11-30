@@ -31,6 +31,14 @@ public class AdvObraRep implements Serializable {
     private Long obraId;
 
     @NotNull
+    @Column(name = "subcontratista", nullable = false)
+    private String subcontratista;
+
+    @NotNull
+    @Column(name = "subcontratista_id", nullable = false)
+    private Long subcontratistaId;
+
+    @NotNull
     @Column(name = "concepto", nullable = false)
     private String concepto;
 
@@ -55,16 +63,28 @@ public class AdvObraRep implements Serializable {
     private Double advanceStatus;
 
     @NotNull
-    @Column(name = "total", nullable = false)
-    private Double total;
+    @Column(name = "total_obra", nullable = false)
+    private Double totalObra;
+
+    @NotNull
+    @Column(name = "total_subco", nullable = false)
+    private Double totalSubco;
 
     @NotNull
     @Column(name = "porc_tarea", nullable = false)
     private Double porcTarea;
 
     @NotNull
+    @Column(name = "porc_tarea_subco", nullable = false)
+    private Double porcTareaSubco;
+
+    @NotNull
     @Column(name = "porc_adv", nullable = false)
     private Double porcAdv;
+
+    @NotNull
+    @Column(name = "porc_adv_subco", nullable = false)
+    private Double porcAdvSubco;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -85,6 +105,10 @@ public class AdvObraRep implements Serializable {
         return this.obra;
     }
 
+    public String getSubcontratista() {
+        return this.subcontratista;
+    }
+
     public Double getAdvanceStatus() {
         return this.advanceStatus;
     }
@@ -96,6 +120,15 @@ public class AdvObraRep implements Serializable {
 
     public void setObra(String obra) {
         this.obra = obra;
+    }
+
+    public AdvObraRep subcontratista(String subcontratista) {
+        this.setSubcontratista(subcontratista);
+        return this;
+    }
+
+    public void setSubcontratista(String subcontratista) {
+        this.subcontratista = subcontratista;
     }
 
     public AdvObraRep advanceStatus(Double advanceStatus) {
@@ -135,8 +168,12 @@ public class AdvObraRep implements Serializable {
         return cost;
     }
 
-    public Double getTotal() {
-        return total;
+    public Double getTotalObra() {
+        return totalObra;
+    }
+
+    public Double getTotalSubco() {
+        return totalSubco;
     }
 
     public Double getPorcTarea() {
@@ -167,8 +204,12 @@ public class AdvObraRep implements Serializable {
         this.cost = cost;
     }
 
-    public void setTotal(Double total) {
-        this.total = total;
+    public void setTotalObra(Double totalObra) {
+        this.totalObra = totalObra;
+    }
+
+    public void setTotalSubco(Double totalSubco) {
+        this.totalSubco = totalSubco;
     }
 
     public void setPorcTarea(Double porcTarea) {
@@ -177,6 +218,30 @@ public class AdvObraRep implements Serializable {
 
     public void setPorcAdv(Double porcAdv) {
         this.porcAdv = porcAdv;
+    }
+
+    public Long getSubcontratistaId() {
+        return subcontratistaId;
+    }
+
+    public void setSubcontratistaId(Long subcontratistaId) {
+        this.subcontratistaId = subcontratistaId;
+    }
+
+    public Double getPorcTareaSubco() {
+        return porcTareaSubco;
+    }
+
+    public void setPorcTareaSubco(Double porcTareaSubco) {
+        this.porcTareaSubco = porcTareaSubco;
+    }
+
+    public Double getPorcAdvSubco() {
+        return porcAdvSubco;
+    }
+
+    public void setPorcAdvSubco(Double porcAdvSubco) {
+        this.porcAdvSubco = porcAdvSubco;
     }
 
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
@@ -205,15 +270,20 @@ public class AdvObraRep implements Serializable {
             "id=" + id  + "'" +
             ", obra='" + obra  + "'" +
             ", obraId=" + obraId  + "'" +
+            ", subcontratista='" + subcontratista  + "'" +
+            ", subcontratistaId=" + subcontratistaId  + "'" +
             ", concepto='" + concepto  + "'" +
             ", conceptoId=" + conceptoId  + "'" +
             ", taskName='" + taskName  + "'" +
             ", quantity=" + quantity  + "'" +
             ", cost=" + cost  + "'" +
             ", advanceStatus=" + advanceStatus  + "'" +
-            ", total=" + total  + "'" +
+            ", totalObra=" + totalObra  + "'" +
+            ", totalSubco=" + totalSubco  + "'" +
             ", porcTarea=" + porcTarea  + "'" +
+            ", porcTareaSubco=" + porcTareaSubco  + "'" +
             ", porcAdv=" + porcAdv  + "'" +
+            ", porcAdvSubco=" + porcAdvSubco  + "'" +
             '}';
     }
 }

@@ -35,6 +35,7 @@
         name="subcontratista"
         formControlName="subcontratista"
       >
+        <option [ngValue]="null"></option>
         <option [ngValue]="subcontratistaOption" *ngFor="let subcontratistaOption of subcontratistas; trackBy: trackIdSubcontratista">
           {{ subcontratistaOption.lastName }}, {{ subcontratistaOption.firstName }}
         </option>
@@ -53,6 +54,11 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
+          <th scope="col">
+            <div class="d-flex">
+              <span>Subcontratista</span>
+            </div>
+          </th>
           <th scope="col">
             <div class="d-flex">
               <span>Tarea</span>
@@ -92,13 +98,16 @@
       </thead>
       <tbody>
         <tr *ngFor="let advObraRep of advObraReps; trackBy: trackId" data-cy="entityTable">
+          <td>{{ advObraRep.subcontratista }}</td>
           <td>{{ advObraRep.taskName }}</td>
           <td>{{ advObraRep.concepto }}</td>
           <td>{{ advObraRep.quantity }}</td>
           <td>{{ advObraRep.cost }}</td>
-          <td>{{ advObraRep.porcTarea }}</td>
+          <td *ngIf="!this.subco">{{ advObraRep.porcTarea }}</td>
+          <td *ngIf="this.subco">{{ advObraRep.porcTareaSubco }}</td>
           <td>{{ advObraRep.advanceStatus }}</td>
-          <td>{{ advObraRep.porcAdv }}</td>
+          <td *ngIf="!this.subco">{{ advObraRep.porcAdv }}</td>
+          <td *ngIf="this.subco">{{ advObraRep.porcAdvSubco }}</td>
         </tr>
       </tbody>
     </table>

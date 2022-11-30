@@ -8,7 +8,7 @@
         Added the entity SumTrxRep.
     -->
     <changeSet id="20220913014506-1" author="Sly">
-        <createView viewName="adv_obra_rep" path="config/liquibase/changelog/adv_obra_report.sql">
+        <createView viewName="adv_obra_rep" path="config/liquibase/changelog/adv_obra_report2.sql">
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createView>
     </changeSet>

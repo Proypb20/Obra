@@ -30,6 +30,10 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
 
     private LongFilter obraId;
 
+    private StringFilter subcontratista;
+
+    private LongFilter subcontratistaId;
+
     private StringFilter concepto;
 
     private LongFilter conceptoId;
@@ -44,9 +48,15 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
 
     private DoubleFilter total;
 
+    private DoubleFilter totalSubco;
+
     private DoubleFilter porcTarea;
 
+    private DoubleFilter porcTareaSubco;
+
     private DoubleFilter porcAdv;
+
+    private DoubleFilter porcAdvSubco;
 
     private Boolean distinct;
 
@@ -108,6 +118,22 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
             obra = new StringFilter();
         }
         return obra;
+    }
+
+    public StringFilter getSubcontratista() {
+        return subcontratista;
+    }
+
+    public void setSubcontratista(StringFilter subcontratista) {
+        this.subcontratista = subcontratista;
+    }
+
+    public LongFilter getSubcontratistaId() {
+        return subcontratistaId;
+    }
+
+    public void setSubcontratistaId(LongFilter subcontratistaId) {
+        this.subcontratistaId = subcontratistaId;
     }
 
     public StringFilter concepto() {
@@ -265,6 +291,30 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
         this.distinct = distinct;
     }
 
+    public DoubleFilter getTotalSubco() {
+        return totalSubco;
+    }
+
+    public void setTotalSubco(DoubleFilter totalSubco) {
+        this.totalSubco = totalSubco;
+    }
+
+    public DoubleFilter getPorcTareaSubco() {
+        return porcTareaSubco;
+    }
+
+    public void setPorcTareaSubco(DoubleFilter porcTareaSubco) {
+        this.porcTareaSubco = porcTareaSubco;
+    }
+
+    public DoubleFilter getPorcAdvSubco() {
+        return porcAdvSubco;
+    }
+
+    public void setPorcAdvSubco(DoubleFilter porcAdvSubco) {
+        this.porcAdvSubco = porcAdvSubco;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) {
@@ -285,7 +335,9 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
             Objects.equals(cost, that.cost) &&
             Objects.equals(quantity, that.quantity) &&
             Objects.equals(porcTarea, that.porcTarea) &&
+            Objects.equals(porcTareaSubco, that.porcTareaSubco) &&
             Objects.equals(porcAdv, that.porcAdv) &&
+            Objects.equals(porcAdvSubco, that.porcAdvSubco) &&
             Objects.equals(total, that.total) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -297,6 +349,8 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
             id,
             obra,
             obraId,
+            subcontratista,
+            subcontratistaId,
             concepto,
             conceptoId,
             taskName,
@@ -304,8 +358,11 @@ public class AdvObraRepCriteria implements Serializable, Criteria {
             cost,
             advanceStatus,
             total,
+            totalSubco,
             porcTarea,
+            porcTareaSubco,
             porcAdv,
+            porcAdvSubco,
             distinct
         );
     }

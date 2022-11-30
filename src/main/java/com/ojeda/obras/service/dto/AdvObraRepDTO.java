@@ -15,6 +15,10 @@ public class AdvObraRepDTO implements Serializable {
 
     private Long obraId;
 
+    private String subcontratista;
+
+    private Long subcontratistaId;
+
     private String concepto;
 
     private Long conceptoId;
@@ -27,11 +31,17 @@ public class AdvObraRepDTO implements Serializable {
 
     private Float advanceStatus;
 
-    private Float total;
+    private Float totalObra;
+
+    private Float totalSubco;
 
     private Float porcTarea;
 
+    private Float porcTareaSubco;
+
     private Float porcAdv;
+
+    private Float porcAdvSubco;
 
     public Long getId() {
         return id;
@@ -55,6 +65,22 @@ public class AdvObraRepDTO implements Serializable {
 
     public void setObra(String obra) {
         this.obra = obra;
+    }
+
+    public String getSubcontratista() {
+        return subcontratista;
+    }
+
+    public void setSubcontratista(String subcontratista) {
+        this.subcontratista = subcontratista;
+    }
+
+    public Long getSubcontratistaId() {
+        return subcontratistaId;
+    }
+
+    public void setSubcontratistaId(Long subcontratistaId) {
+        this.subcontratistaId = subcontratistaId;
     }
 
     public String getConcepto() {
@@ -81,8 +107,12 @@ public class AdvObraRepDTO implements Serializable {
         return advanceStatus;
     }
 
-    public Float getTotal() {
-        return total;
+    public Float getTotalObra() {
+        return totalObra;
+    }
+
+    public Float getTotalSubco() {
+        return totalSubco;
     }
 
     public Float getPorcTarea() {
@@ -117,8 +147,16 @@ public class AdvObraRepDTO implements Serializable {
         this.advanceStatus = advanceStatus;
     }
 
-    public void setTotal(Float total) {
-        this.total = total;
+    public void setTotal(Float totalObra) {
+        this.totalObra = totalObra;
+    }
+
+    public void setTotalObra(Float totalObra) {
+        this.totalObra = totalObra;
+    }
+
+    public void setTotalSubco(Float totalSubco) {
+        this.totalSubco = totalSubco;
     }
 
     public void setPorcTarea(Float porcTarea) {
@@ -127,6 +165,22 @@ public class AdvObraRepDTO implements Serializable {
 
     public void setPorcAdv(Float porcAdv) {
         this.porcAdv = porcAdv;
+    }
+
+    public Float getPorcTareaSubco() {
+        return porcTareaSubco;
+    }
+
+    public void setPorcTareaSubco(Float porcTareaSubco) {
+        this.porcTareaSubco = porcTareaSubco;
+    }
+
+    public Float getPorcAdvSubco() {
+        return porcAdvSubco;
+    }
+
+    public void setPorcAdvSubco(Float porcAdvSubco) {
+        this.porcAdvSubco = porcAdvSubco;
     }
 
     @Override
@@ -138,11 +192,11 @@ public class AdvObraRepDTO implements Serializable {
             return false;
         }
 
-        AdvObraRepDTO advPendRepDTO = (AdvObraRepDTO) o;
+        AdvObraRepDTO advObraRepDTO = (AdvObraRepDTO) o;
         if (this.id == null) {
             return false;
         }
-        return Objects.equals(this.id, advPendRepDTO.id);
+        return Objects.equals(this.id, advObraRepDTO.id);
     }
 
     @Override
@@ -157,15 +211,20 @@ public class AdvObraRepDTO implements Serializable {
             "id=" + getId() + "'" +
             ", obra='" + getObra() + "'" +
             ", obraId=" + getObraId() + "'" +
+            ", subcontratista='" + getSubcontratista() + "'" +
+            ", subcontratistaId=" + getSubcontratistaId() + "'" +
             ", concepto='" + getConcepto() + "'" +
             ", conceptoId=" + getConceptoId() + "'" +
             ", taskName='" + getTaskName() + "'" +
             ", quantity=" + getQuantity() + "'" +
             ", cost=" + getCost() + "'" +
             ", advanceStatus=" + getAdvanceStatus() + "'" +
-            ", total=" + getTotal() + "'" +
+            ", totalObra=" + getTotalObra() + "'" +
+            ", totalSubco=" + getTotalSubco() + "'" +
             ", porcTarea=" + getPorcTarea() + "'" +
+            ", porcTareaSubco=" + getPorcTareaSubco() + "'" +
             ", porcAdv=" + getPorcAdv() + "'" +
+            ", porcAdvSubco=" + getPorcAdv() + "'" +
             '}';
     }
 }

@@ -95,6 +95,12 @@ public class AdvObraRepQueryService extends QueryService<AdvObraRep> {
             if (criteria.getObraId() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getObraId(), AdvObraRep_.obraId));
             }
+            if (criteria.getSubcontratista() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getSubcontratista(), AdvObraRep_.subcontratista));
+            }
+            if (criteria.getSubcontratistaId() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSubcontratistaId(), AdvObraRep_.subcontratistaId));
+            }
             if (criteria.getConcepto() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getConcepto(), AdvObraRep_.concepto));
             }

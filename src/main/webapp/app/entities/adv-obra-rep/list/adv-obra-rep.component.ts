@@ -84,6 +84,7 @@ export class AdvObraRepComponent implements OnInit {
 
   find(): void {
     this.ob = this.findForm.get('obra')!.value!;
+    this.subco = this.findForm.get('subcontratista')!.value!;
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);
@@ -165,9 +166,14 @@ export class AdvObraRepComponent implements OnInit {
 
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
+    let subcoId = 0;
+    if (this.subco! !== null) {
+      subcoId = this.subco!.id!;
+    }
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
       'obraId.equals': this.ob!.id!,
+      'subcontratistaId.equals': subcoId,
     };
     return this.advObraRepService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
