@@ -109,6 +109,11 @@ import { RouterModule } from '@angular/router';
         data: { pageTitle: 'Saldos' },
         loadChildren: () => import('./saldo/saldo.module').then(m => m.SaldoModule),
       },
+      {
+        path: 'balance-rep',
+        data: { pageTitle: 'Reporte de Ingresos y Egresos' },
+        loadChildren: () => import('./balance-rep/balance-rep.module').then(m => m.BalanceRepModule),
+      },
       /* jhipster-needle-add-entity-route - JHipster will add entity modules routes here */
     ]),
   ],

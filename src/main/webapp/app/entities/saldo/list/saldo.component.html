@@ -43,7 +43,7 @@
       <tbody>
         <tr *ngFor="let saldo of saldos" data-cy="entityTable">
           <td>{{ saldo.metodoPago }}</td>
-          <td>{{ saldo.saldo }}</td>
+          <td>{{ saldo.saldo | number: '1.0-2' }}</td>
           <td class="text-end">
             <div class="btn-group">
               <button

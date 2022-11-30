@@ -58,11 +58,11 @@ public class SubcoPayConceptDTO implements Serializable {
             return false;
         }
 
-        SubcoPayConceptDTO advPendRepDTO = (SubcoPayConceptDTO) o;
+        SubcoPayConceptDTO subcoPayConceptDTO = (SubcoPayConceptDTO) o;
         if (this.id == null) {
             return false;
         }
-        return Objects.equals(this.id, advPendRepDTO.id);
+        return Objects.equals(this.id, subcoPayConceptDTO.id);
     }
 
     @Override

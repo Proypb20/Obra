@@ -34,6 +34,7 @@ export class TareaComponent implements OnInit {
   predicate = 'id';
   ascending = true;
   oId = 0;
+  sId = 0;
 
   showFilter = false;
   filterOId = 0;
@@ -74,6 +75,7 @@ export class TareaComponent implements OnInit {
 
   ngOnInit(): void {
     this.oId = history.state?.oId;
+    this.sId = history.state?.sId;
     this.load();
   }
 
@@ -159,17 +161,21 @@ export class TareaComponent implements OnInit {
   }
 
   onChangeObra(): void {
-    if (this.findForm.get('obra')!.value! == null) {
-      this.filterOId = 0;
+    if (this.oId !== 0) {
+      this.filterOId = this.oId;
     } else {
-      this.obra = this.findForm.get('obra')!.value!;
-      this.filterOId = this.obra!.id;
+      if (this.findForm.get('obra')!.value! == null) {
+        this.filterOId = 0;
+      } else {
+        this.obra = this.findForm.get('obra')!.value!;
+        this.filterOId = this.obra!.id;
+      }
+      this.loadFromBackendWithRouteInformations().subscribe({
+        next: (res: EntityArrayResponseType) => {
+          this.onResponseSuccess(res);
+        },
+      });
     }
-    this.loadFromBackendWithRouteInformations().subscribe({
-      next: (res: EntityArrayResponseType) => {
-        this.onResponseSuccess(res);
-      },
-    });
   }
 
   onChangeSubcontratista(): void {
@@ -289,12 +295,17 @@ export class TareaComponent implements OnInit {
 
   protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
     this.isLoading = true;
-    this.oId = this.filterOId;
+    if (this.filterOId !== 0) {
+      this.oId = this.filterOId;
+    }
+    if (this.filterSId !== 0) {
+      this.sId = this.filterSId;
+    }
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
       'obraId.equals': this.oId,
-      'subcontratistaId.equals': this.filterSId,
+      'subcontratistaId.equals': this.sId,
       'conceptoId.equals': this.filterCId,
     };
     return this.tareaService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
@@ -304,7 +315,7 @@ export class TareaComponent implements OnInit {
     this.isLoadingObra = true;
     const queryObject = {
       sort: this.getSortQueryParam(predicate, ascending),
-      'obraId.equals': this.oId,
+      'id.equals': this.oId,
     };
     return this.obraService.query(queryObject).pipe(tap(() => (this.isLoadingObra = false)));
   }

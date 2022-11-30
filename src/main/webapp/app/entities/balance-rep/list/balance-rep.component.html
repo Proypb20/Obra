@@ -1,0 +1,113 @@
+<div>
+  <h2 id="page-heading" data-cy="BalanceRepHeading">
+    <span>Reporte Ingresos y Egresos</span>
+
+    <div class="d-flex justify-content-end">
+      <button
+        id="jh-create-entity-back"
+        class="btn btn-primary float-right jh-create-entity create-balance-rep"
+        (click)="Cancel()"
+        data-toggle="tooltip"
+      >
+        <fa-icon [icon]="'arrow-left'"></fa-icon>
+        <span> Volver</span>
+      </button>
+    </div>
+  </h2>
+
+  <jhi-alert-error></jhi-alert-error>
+
+  <jhi-alert></jhi-alert>
+
+  <form name="findForm" role="form" novalidate (ngSubmit)="find()" [formGroup]="findForm">
+    <div class="row mb-3">
+      <label class="form-label" for="field_dateFrom">Desde</label>
+      <div class="d-flex">
+        <input
+          id="field_dateFrom"
+          data-cy="dateFrom"
+          type="date"
+          class="form-control"
+          name="dateFrom"
+          formControlName="dateFrom"
+          placeholder="YYYY-MM-DD HH:mm"
+        />
+      </div>
+      <div *ngIf="findForm.get('dateFrom')!.invalid && (findForm.get('dateFrom')!.dirty || findForm.get('dateFrom')!.touched)">
+        <small class="form-text text-danger" *ngIf="findForm.get('dateFrom')?.errors?.required"> Este campo es obligatorio. </small>
+      </div>
+    </div>
+
+    <div class="row mb-3">
+      <label class="form-label" for="field_dateTo">Hasta</label>
+      <div class="d-flex">
+        <input
+          id="field_dateTo"
+          data-cy="dateTo"
+          type="date"
+          class="form-control"
+          name="dateTo"
+          formControlName="dateTo"
+          placeholder="YYYY-MM-DD HH:mm"
+        />
+      </div>
+      <div *ngIf="findForm.get('dateTo')!.invalid && (findForm.get('dateTo')!.dirty || findForm.get('dateTo')!.touched)">
+        <small class="form-text text-danger" *ngIf="findForm.get('dateTo')?.errors?.required"> Este campo es obligatorio. </small>
+      </div>
+    </div>
+    <div>
+      <button type="submit" id="find" data-cy="FindButton" [disabled]="findForm.invalid" class="btn btn-primary">
+        <fa-icon icon="save"></fa-icon>&nbsp;<span>Buscar</span>
+      </button>
+    </div>
+  </form>
+
+  <br />
+
+  <div class="alert alert-warning" id="no-result" *ngIf="balanceReps?.length === 0">
+    <span>No se encontraron datos</span>
+  </div>
+
+  <div class="table-responsive table-entities" id="entities" *ngIf="balanceReps && balanceReps.length > 0">
+    <table class="table table-striped" aria-describedby="page-heading">
+      <thead>
+        <tr>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Fecha</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Metodo de Pago</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Ingresos</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Egresos</span>
+            </div>
+          </th>
+          <th scope="col">
+            <div class="d-flex">
+              <span>Saldo</span>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let balanceReps of balanceReps; trackBy: trackId" data-cy="entityTable">
+          <td>{{ balanceReps.date | formatShortDate }}</td>
+          <td>{{ balanceReps.metodoPago }}</td>
+          <td style="text-align: right">{{ balanceReps.ingreso | number: '1.0-2' }}</td>
+          <td style="text-align: right">{{ balanceReps.egreso | number: '1.0-2' }}</td>
+          <td style="text-align: right">{{ balanceReps.amount | number: '1.0-2' }}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

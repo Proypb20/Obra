@@ -10,7 +10,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  * A SumTrx.
  */
 @Entity
-@Table(name = "saldos")
+@Table(name = "saldo")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
 public class Saldo implements Serializable {

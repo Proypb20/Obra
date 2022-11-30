@@ -51,7 +51,7 @@
         <thead>
           <tr>
             <th scope="col">
-              <label class="form-label" for="field_subcontratista">Obra</label>
+              <label class="form-label" for="field_obra">Obra</label>
               <select
                 class="form-control"
                 id="field_obra"
@@ -170,9 +170,9 @@
           <td>{{ tarea.subcontratista?.lastName }}, {{ tarea.subcontratista?.firstName }}</td>
           <td>{{ tarea.concepto?.name }}</td>
           <td>{{ tarea.name }}</td>
-          <td>{{ tarea.quantity }}</td>
-          <td>{{ tarea.cost }}</td>
-          <td>{{ tarea.advanceStatus }}</td>
+          <td>{{ tarea.quantity | number: '1.0-2' }}</td>
+          <td>{{ tarea.cost | number: '1.0-2' }}</td>
+          <td>{{ tarea.advanceStatus | number: '1.0-2' }}</td>
           <td class="text-end">
             <div class="btn-group">
               <!--<button type="submit" [routerLink]="['/tarea', tarea.id, 'view']" class="btn btn-info btn-sm" data-cy="entityDetailsButton">
