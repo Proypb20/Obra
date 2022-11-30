@@ -96,6 +96,9 @@ public class AcopioQueryService extends QueryService<Acopio> {
             if (criteria.getTotalAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getTotalAmount(), Acopio_.totalAmount));
             }
+            if (criteria.getSaldo() != null) {
+                specification = specification.and(buildRangeSpecification(criteria.getSaldo(), Acopio_.saldo));
+            }
             if (criteria.getObraId() != null) {
                 specification =
                     specification.and(

@@ -7,10 +7,10 @@ export interface IAcopio {
   id: number;
   date?: dayjs.Dayjs | null;
   totalAmount?: number | null;
+  saldo?: number | null;
   obra?: Pick<IObra, 'id' | 'name'> | null;
   listaprecio?: Pick<IListaPrecio, 'id' | 'name'> | null;
   proveedor?: Pick<IProveedor, 'id' | 'name'> | null;
-  saldo?: number | null;
 }
 
 export type NewAcopio = Omit<IAcopio, 'id'> & { id: null };

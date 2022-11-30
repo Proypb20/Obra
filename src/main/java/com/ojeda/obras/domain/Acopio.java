@@ -5,7 +5,6 @@ import com.ojeda.obras.service.AcopioService;
 import com.ojeda.obras.service.DetalleAcopioService;
 import java.io.Serializable;
 import java.time.Instant;
-import java.time.LocalDate;
 import javax.persistence.*;
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
@@ -32,6 +31,9 @@ public class Acopio implements Serializable {
     @Column(name = "total_amount")
     private Double totalAmount;
 
+    @Column(name = "saldo")
+    private Double saldo;
+
     @ManyToOne
     @JsonIgnoreProperties(value = { "provincia", "subcontratistas", "clientes" }, allowSetters = true)
     private Obra obra;
@@ -43,9 +45,6 @@ public class Acopio implements Serializable {
     @ManyToOne
     @JsonIgnoreProperties(value = { "provincia" }, allowSetters = true)
     private Proveedor proveedor;
-
-    @Column(name = "saldo")
-    private Double saldo;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -88,6 +87,19 @@ public class Acopio implements Serializable {
         this.totalAmount = totalAmount;
     }
 
+    public Double getSaldo() {
+        return this.saldo;
+    }
+
+    public Acopio saldo(Double saldo) {
+        this.setSaldo(saldo);
+        return this;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
+    }
+
     public Obra getObra() {
         return this.obra;
     }
@@ -127,14 +139,6 @@ public class Acopio implements Serializable {
         return this;
     }
 
-    public Double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -161,6 +165,7 @@ public class Acopio implements Serializable {
             "id=" + getId() +
             ", date='" + getDate() + "'" +
             ", totalAmount=" + getTotalAmount() +
+            ", saldo=" + getSaldo() +
             "}";
     }
 }

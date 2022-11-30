@@ -42,6 +42,6 @@ public interface AcopioRepository extends JpaRepository<Acopio, Long>, JpaSpecif
     )
     Optional<Acopio> findOneWithToOneRelationships(@Param("id") Long id);
 
-    @Query("select sum(detalleAcopio.amount) from DetalleAcopio detalleAcopio where detalleAcopio.acopio.id = :id ")
+    @Query("select COALESCE(sum(detalleAcopio.amount),0) from DetalleAcopio detalleAcopio where detalleAcopio.acopio.id = :id ")
     Double getSumAmount(@Param("id") Long id);
 }

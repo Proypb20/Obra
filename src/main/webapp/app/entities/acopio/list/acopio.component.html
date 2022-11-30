@@ -72,10 +72,9 @@
               <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col" jhiSortBy="totalAmount">
+          <th scope="col">
             <div class="d-flex">
               <span>Saldo</span>
-              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col"></th>
@@ -89,14 +88,14 @@
           <td>{{ acopio.obra?.name }}</td>
           <td>{{ acopio.proveedor?.name }}</td>
           <td>{{ acopio.date | formatShortDate }}</td>
-          <td>{{ acopio.totalAmount }}</td>
-          <td>{{ acopio.saldo }}</td>
+          <td>{{ acopio.totalAmount | number: '1.0-2' }}</td>
+          <td>{{ acopio.saldo | number: '1.0-2' }}</td>
           <td class="text-end">
             <div class="btn-group">
-              <button type="submit" (click)="exportXLS(acopio.id)" class="btn btn-secondary btn-sm" data-cy="entityDetailsButton">
+              <!--<button type="submit" (click)="exportXLS(acopio.id)" class="btn btn-secondary btn-sm" data-cy="entityDetailsButton">
                 <fa-icon icon="download"></fa-icon>
                 <span class="d-none d-md-inline">Exportar</span>
-              </button>
+              </button>-->
               <button
                 type="submit"
                 [routerLink]="['/detalle-acopio']"
@@ -108,13 +107,7 @@
                 <span class="d-none d-md-inline">Detalle</span>
               </button>
 
-              <button
-                type="submit"
-                [routerLink]="['/acopio', acopio.id, 'edit']"
-                [state]="{ pId: this.pId }"
-                class="btn btn-primary btn-sm"
-                data-cy="entityEditButton"
-              >
+              <button type="submit" [routerLink]="['/acopio', acopio.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Editar</span>
               </button>

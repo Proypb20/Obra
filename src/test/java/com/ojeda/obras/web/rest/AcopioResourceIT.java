@@ -54,6 +54,10 @@ class AcopioResourceIT {
     private static final Double UPDATED_TOTAL_AMOUNT = 2D;
     private static final Double SMALLER_TOTAL_AMOUNT = 1D - 1D;
 
+    private static final Double DEFAULT_SALDO = 1D;
+    private static final Double UPDATED_SALDO = 2D;
+    private static final Double SMALLER_SALDO = 1D - 1D;
+
     private static final String ENTITY_API_URL = "/api/acopios";
     private static final String ENTITY_API_URL_ID = ENTITY_API_URL + "/{id}";
 
@@ -87,7 +91,7 @@ class AcopioResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Acopio createEntity(EntityManager em) {
-        Acopio acopio = new Acopio().date(DEFAULT_DATE).totalAmount(DEFAULT_TOTAL_AMOUNT);
+        Acopio acopio = new Acopio().date(DEFAULT_DATE).totalAmount(DEFAULT_TOTAL_AMOUNT).saldo(DEFAULT_SALDO);
         return acopio;
     }
 
@@ -98,7 +102,7 @@ class AcopioResourceIT {
      * if they test an entity which requires the current entity.
      */
     public static Acopio createUpdatedEntity(EntityManager em) {
-        Acopio acopio = new Acopio().date(UPDATED_DATE).totalAmount(UPDATED_TOTAL_AMOUNT);
+        Acopio acopio = new Acopio().date(UPDATED_DATE).totalAmount(UPDATED_TOTAL_AMOUNT).saldo(UPDATED_SALDO);
         return acopio;
     }
 
@@ -123,6 +127,7 @@ class AcopioResourceIT {
         Acopio testAcopio = acopioList.get(acopioList.size() - 1);
         assertThat(testAcopio.getDate()).isEqualTo(DEFAULT_DATE);
         assertThat(testAcopio.getTotalAmount()).isEqualTo(DEFAULT_TOTAL_AMOUNT);
+        assertThat(testAcopio.getSaldo()).isEqualTo(DEFAULT_SALDO);
     }
 
     @Test
@@ -157,7 +162,8 @@ class AcopioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(acopio.getId().intValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.doubleValue())));
+            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].saldo").value(hasItem(DEFAULT_SALDO.doubleValue())));
     }
 
     @SuppressWarnings({ "unchecked" })
@@ -190,7 +196,8 @@ class AcopioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.id").value(acopio.getId().intValue()))
             .andExpect(jsonPath("$.date").value(DEFAULT_DATE.toString()))
-            .andExpect(jsonPath("$.totalAmount").value(DEFAULT_TOTAL_AMOUNT.doubleValue()));
+            .andExpect(jsonPath("$.totalAmount").value(DEFAULT_TOTAL_AMOUNT.doubleValue()))
+            .andExpect(jsonPath("$.saldo").value(DEFAULT_SALDO.doubleValue()));
     }
 
     @Test
@@ -343,6 +350,97 @@ class AcopioResourceIT {
 
     @Test
     @Transactional
+    void getAllAcopiosBySaldoIsEqualToSomething() throws Exception {
+        // Initialize the database
+        acopioRepository.saveAndFlush(acopio);
+
+        // Get all the acopioList where saldo equals to DEFAULT_SALDO
+        defaultAcopioShouldBeFound("saldo.equals=" + DEFAULT_SALDO);
+
+        // Get all the acopioList where saldo equals to UPDATED_SALDO
+        defaultAcopioShouldNotBeFound("saldo.equals=" + UPDATED_SALDO);
+    }
+
+    @Test
+    @Transactional
+    void getAllAcopiosBySaldoIsInShouldWork() throws Exception {
+        // Initialize the database
+        acopioRepository.saveAndFlush(acopio);
+
+        // Get all the acopioList where saldo in DEFAULT_SALDO or UPDATED_SALDO
+        defaultAcopioShouldBeFound("saldo.in=" + DEFAULT_SALDO + "," + UPDATED_SALDO);
+
+        // Get all the acopioList where saldo equals to UPDATED_SALDO
+        defaultAcopioShouldNotBeFound("saldo.in=" + UPDATED_SALDO);
+    }
+
+    @Test
+    @Transactional
+    void getAllAcopiosBySaldoIsNullOrNotNull() throws Exception {
+        // Initialize the database
+        acopioRepository.saveAndFlush(acopio);
+
+        // Get all the acopioList where saldo is not null
+        defaultAcopioShouldBeFound("saldo.specified=true");
+
+        // Get all the acopioList where saldo is null
+        defaultAcopioShouldNotBeFound("saldo.specified=false");
+    }
+
+    @Test
+    @Transactional
+    void getAllAcopiosBySaldoIsGreaterThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        acopioRepository.saveAndFlush(acopio);
+
+        // Get all the acopioList where saldo is greater than or equal to DEFAULT_SALDO
+        defaultAcopioShouldBeFound("saldo.greaterThanOrEqual=" + DEFAULT_SALDO);
+
+        // Get all the acopioList where saldo is greater than or equal to UPDATED_SALDO
+        defaultAcopioShouldNotBeFound("saldo.greaterThanOrEqual=" + UPDATED_SALDO);
+    }
+
+    @Test
+    @Transactional
+    void getAllAcopiosBySaldoIsLessThanOrEqualToSomething() throws Exception {
+        // Initialize the database
+        acopioRepository.saveAndFlush(acopio);
+
+        // Get all the acopioList where saldo is less than or equal to DEFAULT_SALDO
+        defaultAcopioShouldBeFound("saldo.lessThanOrEqual=" + DEFAULT_SALDO);
+
+        // Get all the acopioList where saldo is less than or equal to SMALLER_SALDO
+        defaultAcopioShouldNotBeFound("saldo.lessThanOrEqual=" + SMALLER_SALDO);
+    }
+
+    @Test
+    @Transactional
+    void getAllAcopiosBySaldoIsLessThanSomething() throws Exception {
+        // Initialize the database
+        acopioRepository.saveAndFlush(acopio);
+
+        // Get all the acopioList where saldo is less than DEFAULT_SALDO
+        defaultAcopioShouldNotBeFound("saldo.lessThan=" + DEFAULT_SALDO);
+
+        // Get all the acopioList where saldo is less than UPDATED_SALDO
+        defaultAcopioShouldBeFound("saldo.lessThan=" + UPDATED_SALDO);
+    }
+
+    @Test
+    @Transactional
+    void getAllAcopiosBySaldoIsGreaterThanSomething() throws Exception {
+        // Initialize the database
+        acopioRepository.saveAndFlush(acopio);
+
+        // Get all the acopioList where saldo is greater than DEFAULT_SALDO
+        defaultAcopioShouldNotBeFound("saldo.greaterThan=" + DEFAULT_SALDO);
+
+        // Get all the acopioList where saldo is greater than SMALLER_SALDO
+        defaultAcopioShouldBeFound("saldo.greaterThan=" + SMALLER_SALDO);
+    }
+
+    @Test
+    @Transactional
     void getAllAcopiosByObraIsEqualToSomething() throws Exception {
         Obra obra;
         if (TestUtil.findAll(em, Obra.class).isEmpty()) {
@@ -420,7 +518,8 @@ class AcopioResourceIT {
             .andExpect(content().contentType(MediaType.APPLICATION_JSON_VALUE))
             .andExpect(jsonPath("$.[*].id").value(hasItem(acopio.getId().intValue())))
             .andExpect(jsonPath("$.[*].date").value(hasItem(DEFAULT_DATE.toString())))
-            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.doubleValue())));
+            .andExpect(jsonPath("$.[*].totalAmount").value(hasItem(DEFAULT_TOTAL_AMOUNT.doubleValue())))
+            .andExpect(jsonPath("$.[*].saldo").value(hasItem(DEFAULT_SALDO.doubleValue())));
 
         // Check, that the count call also returns 1
         restAcopioMockMvc
@@ -468,7 +567,7 @@ class AcopioResourceIT {
         Acopio updatedAcopio = acopioRepository.findById(acopio.getId()).get();
         // Disconnect from session so that the updates on updatedAcopio are not directly saved in db
         em.detach(updatedAcopio);
-        updatedAcopio.date(UPDATED_DATE).totalAmount(UPDATED_TOTAL_AMOUNT);
+        updatedAcopio.date(UPDATED_DATE).totalAmount(UPDATED_TOTAL_AMOUNT).saldo(UPDATED_SALDO);
         AcopioDTO acopioDTO = acopioMapper.toDto(updatedAcopio);
 
         restAcopioMockMvc
@@ -485,6 +584,7 @@ class AcopioResourceIT {
         Acopio testAcopio = acopioList.get(acopioList.size() - 1);
         assertThat(testAcopio.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testAcopio.getTotalAmount()).isEqualTo(UPDATED_TOTAL_AMOUNT);
+        assertThat(testAcopio.getSaldo()).isEqualTo(UPDATED_SALDO);
     }
 
     @Test
@@ -564,7 +664,7 @@ class AcopioResourceIT {
         Acopio partialUpdatedAcopio = new Acopio();
         partialUpdatedAcopio.setId(acopio.getId());
 
-        partialUpdatedAcopio.date(UPDATED_DATE).totalAmount(UPDATED_TOTAL_AMOUNT);
+        partialUpdatedAcopio.date(UPDATED_DATE).totalAmount(UPDATED_TOTAL_AMOUNT).saldo(UPDATED_SALDO);
 
         restAcopioMockMvc
             .perform(
@@ -580,6 +680,7 @@ class AcopioResourceIT {
         Acopio testAcopio = acopioList.get(acopioList.size() - 1);
         assertThat(testAcopio.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testAcopio.getTotalAmount()).isEqualTo(UPDATED_TOTAL_AMOUNT);
+        assertThat(testAcopio.getSaldo()).isEqualTo(UPDATED_SALDO);
     }
 
     @Test
@@ -594,7 +695,7 @@ class AcopioResourceIT {
         Acopio partialUpdatedAcopio = new Acopio();
         partialUpdatedAcopio.setId(acopio.getId());
 
-        partialUpdatedAcopio.date(UPDATED_DATE).totalAmount(UPDATED_TOTAL_AMOUNT);
+        partialUpdatedAcopio.date(UPDATED_DATE).totalAmount(UPDATED_TOTAL_AMOUNT).saldo(UPDATED_SALDO);
 
         restAcopioMockMvc
             .perform(
@@ -610,6 +711,7 @@ class AcopioResourceIT {
         Acopio testAcopio = acopioList.get(acopioList.size() - 1);
         assertThat(testAcopio.getDate()).isEqualTo(UPDATED_DATE);
         assertThat(testAcopio.getTotalAmount()).isEqualTo(UPDATED_TOTAL_AMOUNT);
+        assertThat(testAcopio.getSaldo()).isEqualTo(UPDATED_SALDO);
     }
 
     @Test

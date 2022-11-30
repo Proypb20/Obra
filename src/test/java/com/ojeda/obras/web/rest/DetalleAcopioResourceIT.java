@@ -16,8 +16,8 @@ import com.ojeda.obras.service.DetalleAcopioService;
 import com.ojeda.obras.service.criteria.DetalleAcopioCriteria;
 import com.ojeda.obras.service.dto.DetalleAcopioDTO;
 import com.ojeda.obras.service.mapper.DetalleAcopioMapper;
-import java.time.LocalDate;
-import java.time.ZoneId;
+import java.time.Instant;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -47,9 +47,8 @@ import org.springframework.transaction.annotation.Transactional;
 @WithMockUser
 class DetalleAcopioResourceIT {
 
-    private static final LocalDate DEFAULT_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final String DEFAULT_DESCRIPTION = "AAAAAAAAAA";
     private static final String UPDATED_DESCRIPTION = "BBBBBBBBBB";
@@ -66,13 +65,11 @@ class DetalleAcopioResourceIT {
     private static final Double UPDATED_AMOUNT = 2D;
     private static final Double SMALLER_AMOUNT = 1D - 1D;
 
-    private static final LocalDate DEFAULT_REQUEST_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_REQUEST_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_REQUEST_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_REQUEST_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_REQUEST_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
-    private static final LocalDate DEFAULT_PROMISE_DATE = LocalDate.ofEpochDay(0L);
-    private static final LocalDate UPDATED_PROMISE_DATE = LocalDate.now(ZoneId.systemDefault());
-    private static final LocalDate SMALLER_PROMISE_DATE = LocalDate.ofEpochDay(-1L);
+    private static final Instant DEFAULT_PROMISE_DATE = Instant.ofEpochMilli(0L);
+    private static final Instant UPDATED_PROMISE_DATE = Instant.now().truncatedTo(ChronoUnit.MILLIS);
 
     private static final Estado DEFAULT_DELIVERY_STATUS = Estado.Pendiente;
     private static final Estado UPDATED_DELIVERY_STATUS = Estado.Entregado;
@@ -389,58 +386,6 @@ class DetalleAcopioResourceIT {
 
         // Get all the detalleAcopioList where date is null
         defaultDetalleAcopioShouldNotBeFound("date.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where date is greater than or equal to DEFAULT_DATE
-        defaultDetalleAcopioShouldBeFound("date.greaterThanOrEqual=" + DEFAULT_DATE);
-
-        // Get all the detalleAcopioList where date is greater than or equal to UPDATED_DATE
-        defaultDetalleAcopioShouldNotBeFound("date.greaterThanOrEqual=" + UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where date is less than or equal to DEFAULT_DATE
-        defaultDetalleAcopioShouldBeFound("date.lessThanOrEqual=" + DEFAULT_DATE);
-
-        // Get all the detalleAcopioList where date is less than or equal to SMALLER_DATE
-        defaultDetalleAcopioShouldNotBeFound("date.lessThanOrEqual=" + SMALLER_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where date is less than DEFAULT_DATE
-        defaultDetalleAcopioShouldNotBeFound("date.lessThan=" + DEFAULT_DATE);
-
-        // Get all the detalleAcopioList where date is less than UPDATED_DATE
-        defaultDetalleAcopioShouldBeFound("date.lessThan=" + UPDATED_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where date is greater than DEFAULT_DATE
-        defaultDetalleAcopioShouldNotBeFound("date.greaterThan=" + DEFAULT_DATE);
-
-        // Get all the detalleAcopioList where date is greater than SMALLER_DATE
-        defaultDetalleAcopioShouldBeFound("date.greaterThan=" + SMALLER_DATE);
     }
 
     @Test
@@ -822,58 +767,6 @@ class DetalleAcopioResourceIT {
 
     @Test
     @Transactional
-    void getAllDetalleAcopiosByRequestDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where requestDate is greater than or equal to DEFAULT_REQUEST_DATE
-        defaultDetalleAcopioShouldBeFound("requestDate.greaterThanOrEqual=" + DEFAULT_REQUEST_DATE);
-
-        // Get all the detalleAcopioList where requestDate is greater than or equal to UPDATED_REQUEST_DATE
-        defaultDetalleAcopioShouldNotBeFound("requestDate.greaterThanOrEqual=" + UPDATED_REQUEST_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByRequestDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where requestDate is less than or equal to DEFAULT_REQUEST_DATE
-        defaultDetalleAcopioShouldBeFound("requestDate.lessThanOrEqual=" + DEFAULT_REQUEST_DATE);
-
-        // Get all the detalleAcopioList where requestDate is less than or equal to SMALLER_REQUEST_DATE
-        defaultDetalleAcopioShouldNotBeFound("requestDate.lessThanOrEqual=" + SMALLER_REQUEST_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByRequestDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where requestDate is less than DEFAULT_REQUEST_DATE
-        defaultDetalleAcopioShouldNotBeFound("requestDate.lessThan=" + DEFAULT_REQUEST_DATE);
-
-        // Get all the detalleAcopioList where requestDate is less than UPDATED_REQUEST_DATE
-        defaultDetalleAcopioShouldBeFound("requestDate.lessThan=" + UPDATED_REQUEST_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByRequestDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where requestDate is greater than DEFAULT_REQUEST_DATE
-        defaultDetalleAcopioShouldNotBeFound("requestDate.greaterThan=" + DEFAULT_REQUEST_DATE);
-
-        // Get all the detalleAcopioList where requestDate is greater than SMALLER_REQUEST_DATE
-        defaultDetalleAcopioShouldBeFound("requestDate.greaterThan=" + SMALLER_REQUEST_DATE);
-    }
-
-    @Test
-    @Transactional
     void getAllDetalleAcopiosByPromiseDateIsEqualToSomething() throws Exception {
         // Initialize the database
         detalleAcopioRepository.saveAndFlush(detalleAcopio);
@@ -909,58 +802,6 @@ class DetalleAcopioResourceIT {
 
         // Get all the detalleAcopioList where promiseDate is null
         defaultDetalleAcopioShouldNotBeFound("promiseDate.specified=false");
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByPromiseDateIsGreaterThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where promiseDate is greater than or equal to DEFAULT_PROMISE_DATE
-        defaultDetalleAcopioShouldBeFound("promiseDate.greaterThanOrEqual=" + DEFAULT_PROMISE_DATE);
-
-        // Get all the detalleAcopioList where promiseDate is greater than or equal to UPDATED_PROMISE_DATE
-        defaultDetalleAcopioShouldNotBeFound("promiseDate.greaterThanOrEqual=" + UPDATED_PROMISE_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByPromiseDateIsLessThanOrEqualToSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where promiseDate is less than or equal to DEFAULT_PROMISE_DATE
-        defaultDetalleAcopioShouldBeFound("promiseDate.lessThanOrEqual=" + DEFAULT_PROMISE_DATE);
-
-        // Get all the detalleAcopioList where promiseDate is less than or equal to SMALLER_PROMISE_DATE
-        defaultDetalleAcopioShouldNotBeFound("promiseDate.lessThanOrEqual=" + SMALLER_PROMISE_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByPromiseDateIsLessThanSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where promiseDate is less than DEFAULT_PROMISE_DATE
-        defaultDetalleAcopioShouldNotBeFound("promiseDate.lessThan=" + DEFAULT_PROMISE_DATE);
-
-        // Get all the detalleAcopioList where promiseDate is less than UPDATED_PROMISE_DATE
-        defaultDetalleAcopioShouldBeFound("promiseDate.lessThan=" + UPDATED_PROMISE_DATE);
-    }
-
-    @Test
-    @Transactional
-    void getAllDetalleAcopiosByPromiseDateIsGreaterThanSomething() throws Exception {
-        // Initialize the database
-        detalleAcopioRepository.saveAndFlush(detalleAcopio);
-
-        // Get all the detalleAcopioList where promiseDate is greater than DEFAULT_PROMISE_DATE
-        defaultDetalleAcopioShouldNotBeFound("promiseDate.greaterThan=" + DEFAULT_PROMISE_DATE);
-
-        // Get all the detalleAcopioList where promiseDate is greater than SMALLER_PROMISE_DATE
-        defaultDetalleAcopioShouldBeFound("promiseDate.greaterThan=" + SMALLER_PROMISE_DATE);
     }
 
     @Test

@@ -5,7 +5,6 @@ import { map } from 'rxjs/operators';
 import dayjs from 'dayjs/esm';
 
 import { isPresent } from 'app/core/util/operators';
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { createRequestOption } from 'app/core/request/request-util';
 import { IDetalleAcopio, NewDetalleAcopio } from '../detalle-acopio.model';
@@ -104,9 +103,9 @@ export class DetalleAcopioService {
   protected convertDateFromClient<T extends IDetalleAcopio | NewDetalleAcopio | PartialUpdateDetalleAcopio>(detalleAcopio: T): RestOf<T> {
     return {
       ...detalleAcopio,
-      date: detalleAcopio.date?.format(DATE_FORMAT) ?? null,
-      requestDate: detalleAcopio.requestDate?.format(DATE_FORMAT) ?? null,
-      promiseDate: detalleAcopio.promiseDate?.format(DATE_FORMAT) ?? null,
+      date: detalleAcopio.date?.toJSON() ?? null,
+      requestDate: detalleAcopio.requestDate?.toJSON() ?? null,
+      promiseDate: detalleAcopio.promiseDate?.toJSON() ?? null,
     };
   }
 

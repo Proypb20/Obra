@@ -101,10 +101,6 @@
       </thead>
       <tbody>
         <tr *ngFor="let detalleAcopio of detalleAcopios; trackBy: trackId" data-cy="entityTable">
-          <!--<td>
-            <a [routerLink]="['/detalle-acopio', detalleAcopio.id, 'view']">{{ detalleAcopio.id }}</a>
-          </td>-->
-          <!--<td>{{ detalleAcopio.date | formatMediumDate }}</td>-->
           <td>{{ detalleAcopio.requestDate | formatShortDate }}</td>
           <td>{{ detalleAcopio.detalleListaPrecio!.product }}</td>
           <td>{{ detalleAcopio.quantity }}</td>
@@ -112,23 +108,8 @@
           <td>{{ detalleAcopio.amount }}</td>
           <td>{{ detalleAcopio.promiseDate | formatShortDate }}</td>
           <td>{{ detalleAcopio.deliveryStatus }}</td>
-          <!--<td>
-            <div *ngIf="detalleAcopio.acopio">
-              <a [routerLink]="['/acopio', detalleAcopio.acopio.id, 'view']">{{ detalleAcopio.acopio.id }}</a>
-            </div>
-          </td>-->
           <td class="text-end">
             <div class="btn-group">
-              <!--<button
-                type="submit"
-                [routerLink]="['/detalle-acopio', detalleAcopio.id, 'view']"
-                class="btn btn-info btn-sm"
-                data-cy="entityDetailsButton"
-              >
-                <fa-icon icon="eye"></fa-icon>
-                <span class="d-none d-md-inline">Vista</span>
-              </button>-->
-
               <button
                 type="submit"
                 [routerLink]="['/detalle-acopio', detalleAcopio.id, 'edit']"

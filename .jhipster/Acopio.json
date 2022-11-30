@@ -7,10 +7,14 @@
   "fields": [
     {
       "fieldName": "date",
-      "fieldType": "LocalDate"
+      "fieldType": "Instant"
     },
     {
       "fieldName": "totalAmount",
+      "fieldType": "Double"
+    },
+    {
+      "fieldName": "saldo",
       "fieldType": "Double"
     }
   ],

@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 
+import dayjs from 'dayjs/esm';
+import { DATE_FORMAT } from 'app/config/input.constants';
 import { IDetalleAcopio, NewDetalleAcopio } from '../detalle-acopio.model';
 
 /**
@@ -14,20 +16,33 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type DetalleAcopioFormGroupInput = IDetalleAcopio | PartialWithRequiredKeyOf<NewDetalleAcopio>;
 
-type DetalleAcopioFormDefaults = Pick<NewDetalleAcopio, 'id'>;
+/**
+ * Type that converts some properties for forms.
+ */
+type FormValueOf<T extends IDetalleAcopio | NewDetalleAcopio> = Omit<T, 'date' | 'requestDate' | 'promiseDate'> & {
+  date?: string | null;
+  requestDate?: string | null;
+  promiseDate?: string | null;
+};
+
+type DetalleAcopioFormRawValue = FormValueOf<IDetalleAcopio>;
+
+type NewDetalleAcopioFormRawValue = FormValueOf<NewDetalleAcopio>;
+
+type DetalleAcopioFormDefaults = Pick<NewDetalleAcopio, 'id' | 'date' | 'requestDate' | 'promiseDate'>;
 
 type DetalleAcopioFormGroupContent = {
-  id: FormControl<IDetalleAcopio['id'] | NewDetalleAcopio['id']>;
-  date: FormControl<IDetalleAcopio['date']>;
-  description: FormControl<IDetalleAcopio['description']>;
-  quantity: FormControl<IDetalleAcopio['quantity']>;
-  unitPrice: FormControl<IDetalleAcopio['unitPrice']>;
-  amount: FormControl<IDetalleAcopio['amount']>;
-  requestDate: FormControl<IDetalleAcopio['requestDate']>;
-  promiseDate: FormControl<IDetalleAcopio['promiseDate']>;
-  deliveryStatus: FormControl<IDetalleAcopio['deliveryStatus']>;
-  acopio: FormControl<IDetalleAcopio['acopio']>;
-  detalleListaPrecio: FormControl<IDetalleAcopio['detalleListaPrecio']>;
+  id: FormControl<DetalleAcopioFormRawValue['id'] | NewDetalleAcopio['id']>;
+  date: FormControl<DetalleAcopioFormRawValue['date']>;
+  description: FormControl<DetalleAcopioFormRawValue['description']>;
+  quantity: FormControl<DetalleAcopioFormRawValue['quantity']>;
+  unitPrice: FormControl<DetalleAcopioFormRawValue['unitPrice']>;
+  amount: FormControl<DetalleAcopioFormRawValue['amount']>;
+  requestDate: FormControl<DetalleAcopioFormRawValue['requestDate']>;
+  promiseDate: FormControl<DetalleAcopioFormRawValue['promiseDate']>;
+  deliveryStatus: FormControl<DetalleAcopioFormRawValue['deliveryStatus']>;
+  acopio: FormControl<DetalleAcopioFormRawValue['acopio']>;
+  detalleListaPrecio: FormControl<DetalleAcopioFormRawValue['detalleListaPrecio']>;
 };
 
 export type DetalleAcopioFormGroup = FormGroup<DetalleAcopioFormGroupContent>;
@@ -35,10 +50,10 @@ export type DetalleAcopioFormGroup = FormGroup<DetalleAcopioFormGroupContent>;
 @Injectable({ providedIn: 'root' })
 export class DetalleAcopioFormService {
   createDetalleAcopioFormGroup(detalleAcopio: DetalleAcopioFormGroupInput = { id: null }): DetalleAcopioFormGroup {
-    const detalleAcopioRawValue = {
+    const detalleAcopioRawValue = this.convertDetalleAcopioToDetalleAcopioRawValue({
       ...this.getFormDefaults(),
       ...detalleAcopio,
-    };
+    });
     return new FormGroup<DetalleAcopioFormGroupContent>({
       id: new FormControl(
         { value: detalleAcopioRawValue.id, disabled: true },
@@ -62,20 +77,18 @@ export class DetalleAcopioFormService {
         validators: [Validators.required],
       }),
       promiseDate: new FormControl(detalleAcopioRawValue.promiseDate),
-      deliveryStatus: new FormControl(detalleAcopioRawValue.deliveryStatus, {
-        validators: [Validators.required],
-      }),
+      deliveryStatus: new FormControl(detalleAcopioRawValue.deliveryStatus),
       acopio: new FormControl(detalleAcopioRawValue.acopio),
       detalleListaPrecio: new FormControl(detalleAcopioRawValue.detalleListaPrecio),
     });
   }
 
   getDetalleAcopio(form: DetalleAcopioFormGroup): IDetalleAcopio | NewDetalleAcopio {
-    return form.getRawValue() as IDetalleAcopio | NewDetalleAcopio;
+    return this.convertDetalleAcopioRawValueToDetalleAcopio(form.getRawValue() as DetalleAcopioFormRawValue | NewDetalleAcopioFormRawValue);
   }
 
   resetForm(form: DetalleAcopioFormGroup, detalleAcopio: DetalleAcopioFormGroupInput): void {
-    const detalleAcopioRawValue = { ...this.getFormDefaults(), ...detalleAcopio };
+    const detalleAcopioRawValue = this.convertDetalleAcopioToDetalleAcopioRawValue({ ...this.getFormDefaults(), ...detalleAcopio });
     form.reset(
       {
         ...detalleAcopioRawValue,
@@ -85,8 +98,35 @@ export class DetalleAcopioFormService {
   }
 
   private getFormDefaults(): DetalleAcopioFormDefaults {
+    const currentTime = dayjs();
+
     return {
       id: null,
+      date: currentTime,
+      requestDate: currentTime,
+      promiseDate: currentTime,
+    };
+  }
+
+  private convertDetalleAcopioRawValueToDetalleAcopio(
+    rawDetalleAcopio: DetalleAcopioFormRawValue | NewDetalleAcopioFormRawValue
+  ): IDetalleAcopio | NewDetalleAcopio {
+    return {
+      ...rawDetalleAcopio,
+      date: dayjs(rawDetalleAcopio.date, DATE_FORMAT),
+      requestDate: dayjs(rawDetalleAcopio.requestDate, DATE_FORMAT),
+      promiseDate: dayjs(rawDetalleAcopio.promiseDate, DATE_FORMAT),
+    };
+  }
+
+  private convertDetalleAcopioToDetalleAcopioRawValue(
+    detalleAcopio: IDetalleAcopio | (Partial<NewDetalleAcopio> & DetalleAcopioFormDefaults)
+  ): DetalleAcopioFormRawValue | PartialWithRequiredKeyOf<NewDetalleAcopioFormRawValue> {
+    return {
+      ...detalleAcopio,
+      date: detalleAcopio.date ? detalleAcopio.date.format(DATE_FORMAT) : undefined,
+      requestDate: detalleAcopio.requestDate ? detalleAcopio.requestDate.format(DATE_FORMAT) : undefined,
+      promiseDate: detalleAcopio.promiseDate ? detalleAcopio.promiseDate.format(DATE_FORMAT) : undefined,
     };
   }
 }

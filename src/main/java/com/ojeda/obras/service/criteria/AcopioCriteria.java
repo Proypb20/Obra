@@ -27,6 +27,8 @@ public class AcopioCriteria implements Serializable, Criteria {
 
     private DoubleFilter totalAmount;
 
+    private DoubleFilter saldo;
+
     private LongFilter obraId;
 
     private LongFilter listaprecioId;
@@ -41,6 +43,7 @@ public class AcopioCriteria implements Serializable, Criteria {
         this.id = other.id == null ? null : other.id.copy();
         this.date = other.date == null ? null : other.date.copy();
         this.totalAmount = other.totalAmount == null ? null : other.totalAmount.copy();
+        this.saldo = other.saldo == null ? null : other.saldo.copy();
         this.obraId = other.obraId == null ? null : other.obraId.copy();
         this.listaprecioId = other.listaprecioId == null ? null : other.listaprecioId.copy();
         this.proveedorId = other.proveedorId == null ? null : other.proveedorId.copy();
@@ -95,6 +98,21 @@ public class AcopioCriteria implements Serializable, Criteria {
 
     public void setTotalAmount(DoubleFilter totalAmount) {
         this.totalAmount = totalAmount;
+    }
+
+    public DoubleFilter getSaldo() {
+        return saldo;
+    }
+
+    public DoubleFilter saldo() {
+        if (saldo == null) {
+            saldo = new DoubleFilter();
+        }
+        return saldo;
+    }
+
+    public void setSaldo(DoubleFilter saldo) {
+        this.saldo = saldo;
     }
 
     public LongFilter getObraId() {
@@ -163,6 +181,7 @@ public class AcopioCriteria implements Serializable, Criteria {
             Objects.equals(id, that.id) &&
             Objects.equals(date, that.date) &&
             Objects.equals(totalAmount, that.totalAmount) &&
+            Objects.equals(saldo, that.saldo) &&
             Objects.equals(obraId, that.obraId) &&
             Objects.equals(listaprecioId, that.listaprecioId) &&
             Objects.equals(proveedorId, that.proveedorId) &&
@@ -172,7 +191,7 @@ public class AcopioCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, date, totalAmount, obraId, listaprecioId, proveedorId, distinct);
+        return Objects.hash(id, date, totalAmount, saldo, obraId, listaprecioId, proveedorId, distinct);
     }
 
     // prettier-ignore
@@ -182,6 +201,7 @@ public class AcopioCriteria implements Serializable, Criteria {
             (id != null ? "id=" + id + ", " : "") +
             (date != null ? "date=" + date + ", " : "") +
             (totalAmount != null ? "totalAmount=" + totalAmount + ", " : "") +
+            (saldo != null ? "saldo=" + saldo + ", " : "") +
             (obraId != null ? "obraId=" + obraId + ", " : "") +
             (listaprecioId != null ? "listaprecioId=" + listaprecioId + ", " : "") +
             (proveedorId != null ? "proveedorId=" + proveedorId + ", " : "") +

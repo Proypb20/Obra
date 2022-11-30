@@ -7,13 +7,14 @@ export const sampleWithRequiredData: IAcopio = {
 };
 
 export const sampleWithPartialData: IAcopio = {
-  id: 2444,
+  id: 98975,
 };
 
 export const sampleWithFullData: IAcopio = {
-  id: 98975,
-  date: dayjs('2022-09-12'),
-  totalAmount: 66774,
+  id: 21394,
+  date: dayjs('2022-09-12T09:43'),
+  totalAmount: 69536,
+  saldo: 60926,
 };
 
 export const sampleWithNewData: NewAcopio = {

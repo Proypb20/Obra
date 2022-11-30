@@ -1,7 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 
-import { DATE_FORMAT } from 'app/config/input.constants';
 import { IDetalleAcopio } from '../detalle-acopio.model';
 import { sampleWithRequiredData, sampleWithNewData, sampleWithPartialData, sampleWithFullData } from '../detalle-acopio.test-samples';
 
@@ -9,9 +8,9 @@ import { DetalleAcopioService, RestDetalleAcopio } from './detalle-acopio.servic
 
 const requireRestSample: RestDetalleAcopio = {
   ...sampleWithRequiredData,
-  date: sampleWithRequiredData.date?.format(DATE_FORMAT),
-  requestDate: sampleWithRequiredData.requestDate?.format(DATE_FORMAT),
-  promiseDate: sampleWithRequiredData.promiseDate?.format(DATE_FORMAT),
+  date: sampleWithRequiredData.date?.toJSON(),
+  requestDate: sampleWithRequiredData.requestDate?.toJSON(),
+  promiseDate: sampleWithRequiredData.promiseDate?.toJSON(),
 };
 
 describe('DetalleAcopio Service', () => {

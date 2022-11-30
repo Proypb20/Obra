@@ -14,7 +14,7 @@
             <column name="id" type="bigint" autoIncrement="true">
                 <constraints primaryKey="true" nullable="false"/>
             </column>
-            <column name="date" type="date">
+            <column name="date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
             <column name="description" type="varchar(255)">
@@ -29,10 +29,10 @@
             <column name="amount" type="double">
                 <constraints nullable="false" />
             </column>
-            <column name="request_date" type="date">
+            <column name="request_date" type="${datetimeType}">
                 <constraints nullable="false" />
             </column>
-            <column name="promise_date" type="date">
+            <column name="promise_date" type="${datetimeType}">
                 <constraints nullable="true" />
             </column>
             <column name="delivery_status" type="varchar(255)">
@@ -46,6 +46,9 @@
             </column>
             <!-- jhipster-needle-liquibase-add-column - JHipster will add columns here -->
         </createTable>
+        <dropDefaultValue tableName="detalle_acopio" columnName="date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="detalle_acopio" columnName="request_date" columnDataType="${datetimeType}"/>
+        <dropDefaultValue tableName="detalle_acopio" columnName="promise_date" columnDataType="${datetimeType}"/>
     </changeSet>
 
     <!-- jhipster-needle-liquibase-add-changeset - JHipster will add changesets here -->

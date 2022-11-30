@@ -2,7 +2,7 @@ package com.ojeda.obras.service.dto;
 
 import com.ojeda.obras.domain.enumeration.Estado;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import java.util.Objects;
 import javax.validation.constraints.*;
 
@@ -14,7 +14,7 @@ public class DetalleAcopioDTO implements Serializable {
 
     private Long id;
 
-    private LocalDate date;
+    private Instant date;
 
     private String description;
 
@@ -28,9 +28,9 @@ public class DetalleAcopioDTO implements Serializable {
     private Double amount;
 
     @NotNull
-    private LocalDate requestDate;
+    private Instant requestDate;
 
-    private LocalDate promiseDate;
+    private Instant promiseDate;
 
     private Estado deliveryStatus;
 
@@ -46,11 +46,11 @@ public class DetalleAcopioDTO implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return date;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 
@@ -86,19 +86,19 @@ public class DetalleAcopioDTO implements Serializable {
         this.amount = amount;
     }
 
-    public LocalDate getRequestDate() {
+    public Instant getRequestDate() {
         return requestDate;
     }
 
-    public void setRequestDate(LocalDate requestDate) {
+    public void setRequestDate(Instant requestDate) {
         this.requestDate = requestDate;
     }
 
-    public LocalDate getPromiseDate() {
+    public Instant getPromiseDate() {
         return promiseDate;
     }
 
-    public void setPromiseDate(LocalDate promiseDate) {
+    public void setPromiseDate(Instant promiseDate) {
         this.promiseDate = promiseDate;
     }
 

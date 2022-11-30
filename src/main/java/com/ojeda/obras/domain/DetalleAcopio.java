@@ -3,7 +3,7 @@ package com.ojeda.obras.domain;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.ojeda.obras.domain.enumeration.Estado;
 import java.io.Serializable;
-import java.time.LocalDate;
+import java.time.Instant;
 import javax.persistence.*;
 import javax.validation.constraints.*;
 import org.hibernate.annotations.Cache;
@@ -26,7 +26,7 @@ public class DetalleAcopio implements Serializable {
     private Long id;
 
     @Column(name = "date")
-    private LocalDate date;
+    private Instant date;
 
     @Column(name = "description")
     private String description;
@@ -45,10 +45,10 @@ public class DetalleAcopio implements Serializable {
 
     @NotNull
     @Column(name = "request_date", nullable = false)
-    private LocalDate requestDate;
+    private Instant requestDate;
 
     @Column(name = "promise_date")
-    private LocalDate promiseDate;
+    private Instant promiseDate;
 
     @Enumerated(EnumType.STRING)
     @Column(name = "delivery_status")
@@ -77,16 +77,16 @@ public class DetalleAcopio implements Serializable {
         this.id = id;
     }
 
-    public LocalDate getDate() {
+    public Instant getDate() {
         return this.date;
     }
 
-    public DetalleAcopio date(LocalDate date) {
+    public DetalleAcopio date(Instant date) {
         this.setDate(date);
         return this;
     }
 
-    public void setDate(LocalDate date) {
+    public void setDate(Instant date) {
         this.date = date;
     }
 
@@ -142,29 +142,29 @@ public class DetalleAcopio implements Serializable {
         this.amount = amount;
     }
 
-    public LocalDate getRequestDate() {
+    public Instant getRequestDate() {
         return this.requestDate;
     }
 
-    public DetalleAcopio requestDate(LocalDate requestDate) {
+    public DetalleAcopio requestDate(Instant requestDate) {
         this.setRequestDate(requestDate);
         return this;
     }
 
-    public void setRequestDate(LocalDate requestDate) {
+    public void setRequestDate(Instant requestDate) {
         this.requestDate = requestDate;
     }
 
-    public LocalDate getPromiseDate() {
+    public Instant getPromiseDate() {
         return this.promiseDate;
     }
 
-    public DetalleAcopio promiseDate(LocalDate promiseDate) {
+    public DetalleAcopio promiseDate(Instant promiseDate) {
         this.setPromiseDate(promiseDate);
         return this;
     }
 
-    public void setPromiseDate(LocalDate promiseDate) {
+    public void setPromiseDate(Instant promiseDate) {
         this.promiseDate = promiseDate;
     }
 

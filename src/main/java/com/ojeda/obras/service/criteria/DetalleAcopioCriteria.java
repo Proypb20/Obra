@@ -41,7 +41,7 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
 
     private LongFilter id;
 
-    private LocalDateFilter date;
+    private InstantFilter date;
 
     private StringFilter description;
 
@@ -51,9 +51,9 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
 
     private DoubleFilter amount;
 
-    private LocalDateFilter requestDate;
+    private InstantFilter requestDate;
 
-    private LocalDateFilter promiseDate;
+    private InstantFilter promiseDate;
 
     private EstadoFilter deliveryStatus;
 
@@ -100,18 +100,18 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
         this.id = id;
     }
 
-    public LocalDateFilter getDate() {
+    public InstantFilter getDate() {
         return date;
     }
 
-    public LocalDateFilter date() {
+    public InstantFilter date() {
         if (date == null) {
-            date = new LocalDateFilter();
+            date = new InstantFilter();
         }
         return date;
     }
 
-    public void setDate(LocalDateFilter date) {
+    public void setDate(InstantFilter date) {
         this.date = date;
     }
 
@@ -175,33 +175,33 @@ public class DetalleAcopioCriteria implements Serializable, Criteria {
         this.amount = amount;
     }
 
-    public LocalDateFilter getRequestDate() {
+    public InstantFilter getRequestDate() {
         return requestDate;
     }
 
-    public LocalDateFilter requestDate() {
+    public InstantFilter requestDate() {
         if (requestDate == null) {
-            requestDate = new LocalDateFilter();
+            requestDate = new InstantFilter();
         }
         return requestDate;
     }
 
-    public void setRequestDate(LocalDateFilter requestDate) {
+    public void setRequestDate(InstantFilter requestDate) {
         this.requestDate = requestDate;
     }
 
-    public LocalDateFilter getPromiseDate() {
+    public InstantFilter getPromiseDate() {
         return promiseDate;
     }
 
-    public LocalDateFilter promiseDate() {
+    public InstantFilter promiseDate() {
         if (promiseDate == null) {
-            promiseDate = new LocalDateFilter();
+            promiseDate = new InstantFilter();
         }
         return promiseDate;
     }
 
-    public void setPromiseDate(LocalDateFilter promiseDate) {
+    public void setPromiseDate(InstantFilter promiseDate) {
         this.promiseDate = promiseDate;
     }
 

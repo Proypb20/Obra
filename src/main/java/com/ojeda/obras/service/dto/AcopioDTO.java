@@ -16,13 +16,13 @@ public class AcopioDTO implements Serializable {
 
     private Double totalAmount;
 
+    private Double saldo;
+
     private ObraDTO obra;
 
     private ListaPrecioDTO listaprecio;
 
     private ProveedorDTO proveedor;
-
-    private Double saldo;
 
     public Long getId() {
         return id;
@@ -48,6 +48,14 @@ public class AcopioDTO implements Serializable {
         this.totalAmount = totalAmount;
     }
 
+    public Double getSaldo() {
+        return saldo;
+    }
+
+    public void setSaldo(Double saldo) {
+        this.saldo = saldo;
+    }
+
     public ObraDTO getObra() {
         return obra;
     }
@@ -70,14 +78,6 @@ public class AcopioDTO implements Serializable {
 
     public void setProveedor(ProveedorDTO proveedor) {
         this.proveedor = proveedor;
-    }
-
-    public Double getSaldo() {
-        return saldo;
-    }
-
-    public void setSaldo(Double saldo) {
-        this.saldo = saldo;
     }
 
     @Override
@@ -108,6 +108,7 @@ public class AcopioDTO implements Serializable {
             "id=" + getId() +
             ", date='" + getDate() + "'" +
             ", totalAmount=" + getTotalAmount() +
+            ", saldo=" + getSaldo() +
             ", obra=" + getObra() +
             ", listaprecio=" + getListaprecio() +
             ", proveedor=" + getProveedor() +
