@@ -20,7 +20,7 @@ public class AdvPendRepDTO implements Serializable {
 
     private String subcontratista;
 
-    private Long advanceStatus;
+    private Double advanceStatus;
 
     public Long getId() {
         return id;
@@ -62,11 +62,11 @@ public class AdvPendRepDTO implements Serializable {
         this.subcontratista = subcontratista;
     }
 
-    public Long getAdvanceStatus() {
+    public Double getAdvanceStatus() {
         return advanceStatus;
     }
 
-    public void setAdvanceStatus(Long advanceStatus) {
+    public void setAdvanceStatus(Double advanceStatus) {
         this.advanceStatus = advanceStatus;
     }
 

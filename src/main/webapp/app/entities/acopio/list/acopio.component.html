@@ -20,7 +20,7 @@
       </button>
       <button
         id="jh-create-entity-back"
-        class="btn btn-primary float-right jh-create-entity create-acopio"
+        class="btn btn-danger float-right jh-create-entity create-acopio"
         (click)="Cancel()"
         data-toggle="tooltip"
       >
@@ -87,9 +87,9 @@
           </td>-->
           <td>{{ acopio.obra?.name }}</td>
           <td>{{ acopio.proveedor?.name }}</td>
-          <td>{{ acopio.date | formatShortDate }}</td>
-          <td>{{ acopio.totalAmount | number: '1.0-2' }}</td>
-          <td>{{ acopio.saldo | number: '1.0-2' }}</td>
+          <td style="text-align: right">{{ acopio.date | formatShortDate }}</td>
+          <td style="text-align: right">{{ acopio.totalAmount | number: '1.0-2' }}</td>
+          <td style="text-align: right">{{ acopio.saldo | number: '1.0-2' }}</td>
           <td class="text-end">
             <div class="btn-group">
               <!--<button type="submit" (click)="exportXLS(acopio.id)" class="btn btn-secondary btn-sm" data-cy="entityDetailsButton">

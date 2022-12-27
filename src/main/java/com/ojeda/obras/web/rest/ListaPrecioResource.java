@@ -1,7 +1,9 @@
 package com.ojeda.obras.web.rest;
 
+import com.ojeda.obras.domain.DetalleListaPrecio;
 import com.ojeda.obras.domain.XXHeaderUtil;
 import com.ojeda.obras.repository.ListaPrecioRepository;
+import com.ojeda.obras.service.DetalleListaPrecioService;
 import com.ojeda.obras.service.ListaPrecioQueryService;
 import com.ojeda.obras.service.ListaPrecioService;
 import com.ojeda.obras.service.criteria.ListaPrecioCriteria;
@@ -42,14 +44,18 @@ public class ListaPrecioResource {
 
     private final ListaPrecioQueryService listaPrecioQueryService;
 
+    private final DetalleListaPrecioService detalleListaPrecioService;
+
     public ListaPrecioResource(
         ListaPrecioService listaPrecioService,
         ListaPrecioRepository listaPrecioRepository,
-        ListaPrecioQueryService listaPrecioQueryService
+        ListaPrecioQueryService listaPrecioQueryService,
+        DetalleListaPrecioService detalleListaPrecioService
     ) {
         this.listaPrecioService = listaPrecioService;
         this.listaPrecioRepository = listaPrecioRepository;
         this.listaPrecioQueryService = listaPrecioQueryService;
+        this.detalleListaPrecioService = detalleListaPrecioService;
     }
 
     /**
@@ -202,6 +208,11 @@ public class ListaPrecioResource {
     @DeleteMapping("/lista-precios/{id}")
     public ResponseEntity<Void> deleteListaPrecio(@PathVariable Long id) {
         log.debug("REST request to delete ListaPrecio : {}", id);
+        log.debug("Delete All Detail List Price");
+        List<DetalleListaPrecio> dets = detalleListaPrecioService.findAllByListaPrecioId(id);
+        for (DetalleListaPrecio dtlp : dets) {
+            detalleListaPrecioService.delete(dtlp.getId());
+        }
         listaPrecioService.delete(id);
         return ResponseEntity
             .noContent()

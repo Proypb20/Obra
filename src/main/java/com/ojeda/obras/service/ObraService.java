@@ -1,9 +1,13 @@
 package com.ojeda.obras.service;
 
+import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
+
 import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.repository.ObraRepository;
+import com.ojeda.obras.repository.TareaRepository;
 import com.ojeda.obras.service.dto.ObraDTO;
 import com.ojeda.obras.service.mapper.ObraMapper;
+import com.ojeda.obras.web.rest.errors.BadRequestAlertException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +32,12 @@ public class ObraService {
 
     private final ObraMapper obraMapper;
 
-    public ObraService(ObraRepository obraRepository, ObraMapper obraMapper) {
+    private final TareaRepository tareaRepository;
+
+    public ObraService(ObraRepository obraRepository, ObraMapper obraMapper, TareaRepository tareaRepository) {
         this.obraRepository = obraRepository;
         this.obraMapper = obraMapper;
+        this.tareaRepository = tareaRepository;
     }
 
     /**
@@ -118,6 +125,13 @@ public class ObraService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Obra : {}", id);
+
+        log.debug("Valido que la obra no tenga tareas");
+
+        Long tareas = tareaRepository.getCountByObraId(id);
+        if (tareas != 0) {
+            throw new BadRequestAlertException("Hay tareas asociados a esta obra", ENTITY_NAME, "Hay tareas asociadas a la obra");
+        }
         obraRepository.deleteById(id);
     }
 }

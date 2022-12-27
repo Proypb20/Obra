@@ -19,6 +19,8 @@ import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.FormulaEvaluator;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.xssf.usermodel.XSSFSheet;
+import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -163,23 +165,57 @@ public class ListaPrecioService {
         lp.setDate(Instant.now());
         lp.setProveedor(proveedorRepository.findById(idProveedor).get());
         lp = listaPrecioRepository.save(lp);
-
-        FileInputStream fis = new FileInputStream(fileLocation);
-        HSSFWorkbook wb = new HSSFWorkbook(fis);
-        HSSFSheet sheet = wb.getSheetAt(0);
-        FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
-        for (Row row : sheet) { //iteration over row using for each loop
-            DetalleListaPrecio dlp = new DetalleListaPrecio();
-            if (row.getCell(0).getCellType() == CellType.NUMERIC) {
-                dlp.setProduct(row.getCell(0).getNumericCellValue() + "");
-            } else {
-                dlp.setProduct(row.getCell(0).getStringCellValue());
+        log.debug("FileName: {}", file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")));
+        log.debug(
+            "Resultado compare: {}",
+            file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).compareTo(".xls")
+        );
+        if (file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).compareTo(".xls") == 0) {
+            log.debug("XLS");
+            FileInputStream fis = new FileInputStream(fileLocation);
+            HSSFWorkbook wb = new HSSFWorkbook(fis);
+            HSSFSheet sheet = wb.getSheetAt(0);
+            FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
+            for (Row row : sheet) { //iteration over row using for each loop
+                if (row.getCell(0) != null) {
+                    DetalleListaPrecio dlp = new DetalleListaPrecio();
+                    if (row.getCell(0).getCellType() == CellType.NUMERIC) {
+                        dlp.setProduct(row.getCell(0).getNumericCellValue() + "");
+                    } else {
+                        dlp.setProduct(row.getCell(0).getStringCellValue());
+                    }
+                    if (row.getCell(1).getCellType() == CellType.NUMERIC) {
+                        log.debug("Get Numeric Cell Value: {}", row.getCell(1).getNumericCellValue());
+                        dlp.setAmount(row.getCell(1).getNumericCellValue());
+                        log.debug("Get Numeric Cell Value Double : {}", row.getCell(1).getNumericCellValue());
+                    }
+                    dlp.listaPrecio(lp);
+                    dlp = detalleListaPrecioRepository.save(dlp);
+                }
             }
-            if (row.getCell(1).getCellType() == CellType.NUMERIC) {
-                dlp.setAmount((double) row.getCell(1).getNumericCellValue());
+        } else {
+            log.debug("XLSX");
+            FileInputStream fis = new FileInputStream(fileLocation);
+            XSSFWorkbook wb = new XSSFWorkbook(fis);
+            XSSFSheet sheet = wb.getSheetAt(0);
+            FormulaEvaluator formulaEvaluator = wb.getCreationHelper().createFormulaEvaluator();
+            for (Row row : sheet) { //iteration over row using for each loop
+                if (row.getCell(0) != null) {
+                    DetalleListaPrecio dlp = new DetalleListaPrecio();
+                    if (row.getCell(0).getCellType() == CellType.NUMERIC) {
+                        dlp.setProduct(row.getCell(0).getNumericCellValue() + "");
+                    } else {
+                        dlp.setProduct(row.getCell(0).getStringCellValue());
+                    }
+                    if (row.getCell(1).getCellType() == CellType.NUMERIC) {
+                        log.debug("Get Numeric Cell Value: {}", row.getCell(1).getNumericCellValue());
+                        dlp.setAmount(row.getCell(1).getNumericCellValue());
+                        log.debug("Get Numeric Cell Value Double : {}", row.getCell(1).getNumericCellValue());
+                    }
+                    dlp.listaPrecio(lp);
+                    dlp = detalleListaPrecioRepository.save(dlp);
+                }
             }
-            dlp.listaPrecio(lp);
-            dlp = detalleListaPrecioRepository.save(dlp);
         }
         return Boolean.TRUE;
     }

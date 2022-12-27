@@ -126,4 +126,8 @@ public class DetalleAcopioService {
     public List<DetalleAcopio> findAllByAcopio(Acopio acopio) {
         return detalleAcopioRepository.findAllByAcopio(acopio);
     }
+
+    public List<DetalleAcopio> findAllByAcopioId(Long id) {
+        return detalleAcopioRepository.findAllByAcopioId(id);
+    }
 }

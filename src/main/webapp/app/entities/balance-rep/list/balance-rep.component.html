@@ -5,7 +5,7 @@
     <div class="d-flex justify-content-end">
       <button
         id="jh-create-entity-back"
-        class="btn btn-primary float-right jh-create-entity create-balance-rep"
+        class="btn btn-danger float-right jh-create-entity create-balance-rep"
         (click)="Cancel()"
         data-toggle="tooltip"
       >
@@ -101,7 +101,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let balanceReps of balanceReps; trackBy: trackId" data-cy="entityTable">
-          <td>{{ balanceReps.date | formatShortDate }}</td>
+          <td style="text-align: right">{{ balanceReps.date | formatShortDate }}</td>
           <td>{{ balanceReps.metodoPago }}</td>
           <td style="text-align: right">{{ balanceReps.ingreso | number: '1.0-2' }}</td>
           <td style="text-align: right">{{ balanceReps.egreso | number: '1.0-2' }}</td>

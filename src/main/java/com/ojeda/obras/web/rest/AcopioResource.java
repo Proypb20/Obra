@@ -209,6 +209,11 @@ public class AcopioResource {
     @DeleteMapping("/acopios/{id}")
     public ResponseEntity<Void> deleteAcopio(@PathVariable Long id) {
         log.debug("REST request to delete Acopio : {}", id);
+        log.debug("Request to delete DetalleAcopio by Acopio Id");
+        List<DetalleAcopio> dets = detalleAcopioService.findAllByAcopioId(id);
+        for (DetalleAcopio det : dets) {
+            detalleAcopioService.delete(det.getId());
+        }
         acopioService.delete(id);
         return ResponseEntity
             .noContent()

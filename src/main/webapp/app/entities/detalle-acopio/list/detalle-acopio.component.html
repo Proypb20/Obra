@@ -20,7 +20,7 @@
 
       <button
         id="jh-create-entity-back"
-        class="btn btn-primary float-right jh-create-entity create-detalle-acopio"
+        class="btn btn-danger float-right jh-create-entity create-detalle-acopio"
         (click)="Cancel()"
         data-toggle="tooltip"
       >
@@ -101,12 +101,12 @@
       </thead>
       <tbody>
         <tr *ngFor="let detalleAcopio of detalleAcopios; trackBy: trackId" data-cy="entityTable">
-          <td>{{ detalleAcopio.requestDate | formatShortDate }}</td>
+          <td style="text-align: right">{{ detalleAcopio.requestDate | formatShortDate }}</td>
           <td>{{ detalleAcopio.detalleListaPrecio!.product }}</td>
-          <td>{{ detalleAcopio.quantity }}</td>
-          <td>{{ detalleAcopio.unitPrice }}</td>
-          <td>{{ detalleAcopio.amount }}</td>
-          <td>{{ detalleAcopio.promiseDate | formatShortDate }}</td>
+          <td style="text-align: right">{{ detalleAcopio.quantity }}</td>
+          <td style="text-align: right">{{ detalleAcopio.unitPrice }}</td>
+          <td style="text-align: right">{{ detalleAcopio.amount }}</td>
+          <td style="text-align: right">{{ detalleAcopio.promiseDate | formatShortDate }}</td>
           <td>{{ detalleAcopio.deliveryStatus }}</td>
           <td class="text-end">
             <div class="btn-group">

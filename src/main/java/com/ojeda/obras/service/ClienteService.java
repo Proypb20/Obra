@@ -1,9 +1,13 @@
 package com.ojeda.obras.service;
 
+import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
+
 import com.ojeda.obras.domain.Cliente;
 import com.ojeda.obras.repository.ClienteRepository;
+import com.ojeda.obras.repository.ObraRepository;
 import com.ojeda.obras.service.dto.ClienteDTO;
 import com.ojeda.obras.service.mapper.ClienteMapper;
+import com.ojeda.obras.web.rest.errors.BadRequestAlertException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +32,12 @@ public class ClienteService {
 
     private final ClienteMapper clienteMapper;
 
-    public ClienteService(ClienteRepository clienteRepository, ClienteMapper clienteMapper) {
+    private final ObraRepository obraRepository;
+
+    public ClienteService(ClienteRepository clienteRepository, ClienteMapper clienteMapper, ObraRepository obraRepository) {
         this.clienteRepository = clienteRepository;
         this.clienteMapper = clienteMapper;
+        this.obraRepository = obraRepository;
     }
 
     /**
@@ -118,6 +125,13 @@ public class ClienteService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Cliente : {}", id);
+
+        log.debug("Valido que el cliente no tenga Obras");
+
+        Long obras = obraRepository.getCountByClienteId(id);
+        if (obras != 0) {
+            throw new BadRequestAlertException("Hay obras asociados a este cliente", ENTITY_NAME, "Hay Obras");
+        }
         clienteRepository.deleteById(id);
     }
 }

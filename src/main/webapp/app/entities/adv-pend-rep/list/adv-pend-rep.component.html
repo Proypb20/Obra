@@ -15,7 +15,7 @@
 
       <button
         id="jh-create-entity-back"
-        class="btn btn-primary float-right jh-create-entity create-adv-pend-rep"
+        class="btn btn-danger float-right jh-create-entity create-adv-pend-rep"
         (click)="Cancel()"
         data-toggle="tooltip"
       >
@@ -158,9 +158,9 @@
           <tr *ngFor="let tarea of tareas; trackBy: trackIdTarea" data-cy="entityTable">
             <td>{{ tarea.concepto?.name }}</td>
             <td>{{ tarea.name }}</td>
-            <td>{{ tarea.quantity }}</td>
-            <td>{{ tarea.cost }}</td>
-            <td>{{ tarea.advanceStatus }}</td>
+            <td style="text-align: right">{{ tarea.quantity }}</td>
+            <td style="text-align: right">{{ tarea.cost }}</td>
+            <td style="text-align: right">{{ tarea.advanceStatus | number: '1.0-2' }}</td>
           </tr>
         </tbody>
       </table>

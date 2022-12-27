@@ -40,7 +40,7 @@ public class AdvPendRep implements Serializable {
 
     @NotNull
     @Column(name = "advance_status", nullable = false)
-    private Long advanceStatus;
+    private Double advanceStatus;
 
     // jhipster-needle-entity-add-field - JHipster will add fields here
 
@@ -65,7 +65,7 @@ public class AdvPendRep implements Serializable {
         return this.subcontratista;
     }
 
-    public Long getAdvanceStatus() {
+    public Double getAdvanceStatus() {
         return this.advanceStatus;
     }
 
@@ -87,12 +87,12 @@ public class AdvPendRep implements Serializable {
         this.subcontratista = subcontratista;
     }
 
-    public AdvPendRep advanceStatus(Long advanceStatus) {
+    public AdvPendRep advanceStatus(Double advanceStatus) {
         this.setAdvanceStatus(advanceStatus);
         return this;
     }
 
-    public void setAdvanceStatus(Long advanceStatus) {
+    public void setAdvanceStatus(Double advanceStatus) {
         this.advanceStatus = advanceStatus;
     }
 

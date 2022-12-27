@@ -43,4 +43,6 @@ public interface DetalleAcopioRepository extends JpaRepository<DetalleAcopio, Lo
     Optional<DetalleAcopio> findOneWithToOneRelationships(@Param("id") Long id);
 
     List<DetalleAcopio> findAllByAcopio(Acopio acopio);
+
+    List<DetalleAcopio> findAllByAcopioId(Long AcopioId);
 }

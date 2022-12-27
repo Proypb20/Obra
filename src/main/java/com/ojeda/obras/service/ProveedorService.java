@@ -1,9 +1,15 @@
 package com.ojeda.obras.service;
 
+import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
+
+import com.ojeda.obras.domain.Acopio;
 import com.ojeda.obras.domain.Proveedor;
+import com.ojeda.obras.repository.AcopioRepository;
+import com.ojeda.obras.repository.ListaPrecioRepository;
 import com.ojeda.obras.repository.ProveedorRepository;
 import com.ojeda.obras.service.dto.ProveedorDTO;
 import com.ojeda.obras.service.mapper.ProveedorMapper;
+import com.ojeda.obras.web.rest.errors.BadRequestAlertException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +34,20 @@ public class ProveedorService {
 
     private final ProveedorMapper proveedorMapper;
 
-    public ProveedorService(ProveedorRepository proveedorRepository, ProveedorMapper proveedorMapper) {
+    private final AcopioRepository acopioRepository;
+
+    private final ListaPrecioRepository listaPrecioRepository;
+
+    public ProveedorService(
+        ProveedorRepository proveedorRepository,
+        ProveedorMapper proveedorMapper,
+        AcopioRepository acopioRepository,
+        ListaPrecioRepository listaPrecioRepository
+    ) {
         this.proveedorRepository = proveedorRepository;
         this.proveedorMapper = proveedorMapper;
+        this.acopioRepository = acopioRepository;
+        this.listaPrecioRepository = listaPrecioRepository;
     }
 
     /**
@@ -118,6 +135,20 @@ public class ProveedorService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Proveedor : {}", id);
+
+        log.debug("Valido que el proveedor no tenga Acopios");
+
+        Long acopios = acopioRepository.getCountByProveedorId(id);
+        if (acopios != 0) {
+            throw new BadRequestAlertException("Hay acopios asociados a este proveedor", ENTITY_NAME, "hayacopios");
+        }
+
+        log.debug("Valido que el proveedor no tenga Listas de Precio");
+        Long lps = listaPrecioRepository.getCountByProveedorId(id);
+        if (lps != 0) {
+            throw new BadRequestAlertException("Hay listas de Precio asociadas a este proveedor", ENTITY_NAME, "haylistaprecios");
+        }
+
         proveedorRepository.deleteById(id);
     }
 }

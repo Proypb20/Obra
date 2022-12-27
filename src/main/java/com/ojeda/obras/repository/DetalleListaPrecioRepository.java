@@ -40,4 +40,6 @@ public interface DetalleListaPrecioRepository
         "select detalleListaPrecio from DetalleListaPrecio detalleListaPrecio left join fetch detalleListaPrecio.listaPrecio where detalleListaPrecio.id =:id"
     )
     Optional<DetalleListaPrecio> findOneWithToOneRelationships(@Param("id") Long id);
+
+    List<DetalleListaPrecio> findAllByListaPrecioId(Long id);
 }

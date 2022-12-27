@@ -1,6 +1,7 @@
 package com.ojeda.obras.service;
 
 import com.ojeda.obras.domain.Concepto;
+import com.ojeda.obras.domain.Obra;
 import com.ojeda.obras.domain.Subcontratista;
 import com.ojeda.obras.domain.Tarea;
 import com.ojeda.obras.repository.ConceptoRepository;
@@ -413,46 +414,79 @@ public class TareaService {
         for (Row row : sheet) { //iteration over row using for each loop
             r++;
             if (r > 1) {
-                if (row.getCell(0).getCellType() != CellType.NUMERIC) {
-                    log.debug(row.getCell(0).getStringCellValue());
-                } else {
-                    log.debug("ID Tarea: {}", Double.valueOf(row.getCell(0).getNumericCellValue()).longValue());
-                    Optional<Tarea> tar = tareaRepository.findOneWithEagerRelationships(
-                        Double.valueOf(row.getCell(0).getNumericCellValue()).longValue()
-                    );
-                    if (tar.isPresent()) {
-                        log.debug("is present");
-                        Tarea tar2 = new Tarea();
-                        tar2.setId(tar.get().getId());
-                        tar2.setObra(tar.get().getObra());
-                        tar2.setSubcontratista(
-                            subcontratistaRepository.findByLastNameAndFirstName(
-                                row.getCell(2).getStringCellValue().substring(0, row.getCell(2).getStringCellValue().indexOf(",")),
-                                row.getCell(2).getStringCellValue().substring(row.getCell(2).getStringCellValue().indexOf(",") + 2)
-                            )
-                        );
-                        tar2.setName(row.getCell(3).getStringCellValue());
-                        tar2.setConcepto(conceptoRepository.findByName(row.getCell(4).getStringCellValue()));
-                        tar2.setQuantity(row.getCell(5).getNumericCellValue());
-                        tar2.setCost(row.getCell(6).getNumericCellValue());
-                        tar2.setAdvanceStatus(Double.valueOf(row.getCell(7).getNumericCellValue()) * 100);
-                        TareaDTO result = tareaMapper.toDto(tar2);
-                        result.setId(tar.get().getId());
-                        result = update(result);
+                if (row.getCell(0) != null) {
+                    if (row.getCell(0).getCellType() != CellType.NUMERIC) {
+                        log.debug(row.getCell(0).getStringCellValue());
                     } else {
-                        Tarea tar2 = new Tarea();
-                        tar2.setObra(obraRepository.findByName(row.getCell(1).getStringCellValue()));
-                        tar2.setName(row.getCell(3).getStringCellValue());
-                        tar2.setConcepto(conceptoRepository.findByName(row.getCell(4).getStringCellValue()));
-                        tar2.setQuantity(row.getCell(5).getNumericCellValue());
-                        tar2.setCost(row.getCell(6).getNumericCellValue());
-                        tar2.setAdvanceStatus(Double.valueOf(row.getCell(7).getNumericCellValue()) * 100);
-                        TareaDTO result = save(tareaMapper.toDto(tar2));
+                        log.debug("ID Tarea: {}", Double.valueOf(row.getCell(0).getNumericCellValue()).longValue());
+                        Optional<Tarea> tar = tareaRepository.findOneWithEagerRelationships(
+                            Double.valueOf(row.getCell(0).getNumericCellValue()).longValue()
+                        );
+                        if (tar.isPresent()) {
+                            log.debug("is present");
+                            Tarea tar2 = new Tarea();
+                            tar2.setId(tar.get().getId());
+                            tar2.setObra(tar.get().getObra());
+                            tar2.setSubcontratista(
+                                subcontratistaRepository.findByLastNameAndFirstName(
+                                    row.getCell(2).getStringCellValue().substring(0, row.getCell(2).getStringCellValue().indexOf(",")),
+                                    row.getCell(2).getStringCellValue().substring(row.getCell(2).getStringCellValue().indexOf(",") + 2)
+                                )
+                            );
+                            tar2.setName(row.getCell(3).getStringCellValue());
+                            tar2.setConcepto(conceptoRepository.findByName(row.getCell(4).getStringCellValue()));
+                            tar2.setQuantity(row.getCell(5).getNumericCellValue());
+                            tar2.setCost(row.getCell(6).getNumericCellValue());
+                            tar2.setAdvanceStatus(Double.valueOf(row.getCell(7).getNumericCellValue()) * 100);
+                            TareaDTO result = tareaMapper.toDto(tar2);
+                            result.setId(tar.get().getId());
+                            result = update(result);
+                        } else {
+                            Tarea tar2 = new Tarea();
+                            tar2.setObra(obraRepository.findByName(row.getCell(1).getStringCellValue()));
+                            tar2.setName(row.getCell(3).getStringCellValue());
+                            tar2.setConcepto(conceptoRepository.findByName(row.getCell(4).getStringCellValue()));
+                            tar2.setQuantity(row.getCell(5).getNumericCellValue());
+                            tar2.setCost(row.getCell(6).getNumericCellValue());
+                            tar2.setAdvanceStatus(Double.valueOf(row.getCell(7).getNumericCellValue()) * 100);
+                            TareaDTO result = save(tareaMapper.toDto(tar2));
+                        }
                     }
+                } else {
+                    log.debug("Este es un registro nuevo");
+                    Tarea tar2 = new Tarea();
+
+                    Obra o = new Obra();
+                    if (row.getCell(1).getCellType() == CellType.NUMERIC) {
+                        log.debug("Obra: {}", String.valueOf(row.getCell(1).getNumericCellValue()));
+                        o = obraRepository.findByName(String.valueOf(row.getCell(1).getNumericCellValue()));
+                    } else {
+                        log.debug("Obra: {}", row.getCell(1).getStringCellValue());
+                        o = obraRepository.findByName(row.getCell(1).getStringCellValue());
+                    }
+                    log.debug("Obra: {}", o.getName());
+                    tar2.setObra(o);
+                    tar2.setSubcontratista(
+                        subcontratistaRepository.findByLastNameAndFirstName(
+                            row.getCell(2).getStringCellValue().substring(0, row.getCell(2).getStringCellValue().indexOf(",")),
+                            row.getCell(2).getStringCellValue().substring(row.getCell(2).getStringCellValue().indexOf(",") + 2)
+                        )
+                    );
+                    tar2.setName(row.getCell(3).getStringCellValue());
+                    log.debug("Name OK");
+                    tar2.setConcepto(conceptoRepository.findByName(row.getCell(4).getStringCellValue()));
+                    log.debug("Concepto OK");
+                    tar2.setQuantity(row.getCell(5).getNumericCellValue());
+                    log.debug("Quantity OK");
+                    tar2.setCost(row.getCell(6).getNumericCellValue());
+                    log.debug("Cost OK");
+                    tar2.setAdvanceStatus(Double.valueOf(row.getCell(7).getNumericCellValue()) * 100);
+                    log.debug("status OK");
+                    TareaDTO result = tareaMapper.toDto(tar2);
+                    result = save(result);
                 }
             }
         }
-
         return Boolean.TRUE;
     }
 }

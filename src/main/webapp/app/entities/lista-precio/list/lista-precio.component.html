@@ -30,7 +30,7 @@
 
       <button
         id="jh-create-entity-back"
-        class="btn btn-primary float-right jh-create-entity create-lista-precio"
+        class="btn btn-danger float-right jh-create-entity create-lista-precio"
         (click)="Cancel()"
         data-toggle="tooltip"
       >
@@ -86,7 +86,7 @@
           </td>-->
           <td>{{ listaPrecio.proveedor!.name! }}</td>
           <td>{{ listaPrecio.name }}</td>
-          <td>{{ listaPrecio.date | formatShortDate }}</td>
+          <td style="text-align: right">{{ listaPrecio.date | formatShortDate }}</td>
 
           <td class="text-end">
             <div class="btn-group">

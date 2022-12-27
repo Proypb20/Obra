@@ -25,7 +25,7 @@
 
       <button
         id="jh-create-entity-back"
-        class="btn btn-primary float-right jh-create-entity create-cliente"
+        class="btn btn-danger float-right jh-create-entity create-cliente"
         (click)="Cancel()"
         data-toggle="tooltip"
       >
@@ -222,7 +222,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let movimiento of movimientos; trackBy: trackId" data-cy="entityTable">
-          <td>{{ movimiento.date | formatShortDate }}</td>
+          <td style="text-align: right">{{ movimiento.date | formatShortDate }}</td>
           <td>{{ movimiento.description }}</td>
           <td>{{ movimiento.metodoPago }}</td>
           <td>{{ movimiento.tipoComprobante?.name }}</td>

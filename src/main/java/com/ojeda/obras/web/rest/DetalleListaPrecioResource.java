@@ -1,5 +1,6 @@
 package com.ojeda.obras.web.rest;
 
+import com.ojeda.obras.domain.XXHeaderUtil;
 import com.ojeda.obras.repository.DetalleListaPrecioRepository;
 import com.ojeda.obras.service.DetalleListaPrecioQueryService;
 import com.ojeda.obras.service.DetalleListaPrecioService;
@@ -16,7 +17,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-import tech.jhipster.web.util.HeaderUtil;
 import tech.jhipster.web.util.ResponseUtil;
 
 /**
@@ -66,7 +66,7 @@ public class DetalleListaPrecioResource {
         DetalleListaPrecioDTO result = detalleListaPrecioService.save(detalleListaPrecioDTO);
         return ResponseEntity
             .created(new URI("/api/detalle-lista-precios/" + result.getId()))
-            .headers(HeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
+            .headers(XXHeaderUtil.createEntityCreationAlert(applicationName, false, ENTITY_NAME, result.getId().toString()))
             .body(result);
     }
 
@@ -100,7 +100,7 @@ public class DetalleListaPrecioResource {
         DetalleListaPrecioDTO result = detalleListaPrecioService.update(detalleListaPrecioDTO);
         return ResponseEntity
             .ok()
-            .headers(HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, detalleListaPrecioDTO.getId().toString()))
+            .headers(XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, detalleListaPrecioDTO.getId().toString()))
             .body(result);
     }
 
@@ -136,7 +136,7 @@ public class DetalleListaPrecioResource {
 
         return ResponseUtil.wrapOrNotFound(
             result,
-            HeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, detalleListaPrecioDTO.getId().toString())
+            XXHeaderUtil.createEntityUpdateAlert(applicationName, false, ENTITY_NAME, detalleListaPrecioDTO.getId().toString())
         );
     }
 
@@ -190,7 +190,7 @@ public class DetalleListaPrecioResource {
         detalleListaPrecioService.delete(id);
         return ResponseEntity
             .noContent()
-            .headers(HeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
+            .headers(XXHeaderUtil.createEntityDeletionAlert(applicationName, false, ENTITY_NAME, id.toString()))
             .build();
     }
 }

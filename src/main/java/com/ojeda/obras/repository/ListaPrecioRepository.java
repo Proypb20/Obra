@@ -37,4 +37,7 @@ public interface ListaPrecioRepository extends JpaRepository<ListaPrecio, Long>,
 
     @Query("select listaPrecio from ListaPrecio listaPrecio left join fetch listaPrecio.proveedor where listaPrecio.id =:id")
     Optional<ListaPrecio> findOneWithToOneRelationships(@Param("id") Long id);
+
+    @Query("select count(1) from ListaPrecio listaPrecio where listaPrecio.proveedor.id = :id ")
+    Long getCountByProveedorId(@Param("id") Long id);
 }

@@ -42,4 +42,8 @@ public interface ObraRepository extends ObraRepositoryWithBagRelationships, JpaR
     Optional<Obra> findOneWithToOneRelationships(@Param("id") Long id);
 
     Obra findByName(String name);
+
+    @Query("SELECT COUNT(1) from Obra obra join obra.clientes clientes where clientes.id = :id ")
+    /*@Query("select count(1) from ListaPrecio listaPrecio where listaPrecio.proveedor.id = :id ")*/
+    Long getCountByClienteId(@Param("id") Long id);
 }

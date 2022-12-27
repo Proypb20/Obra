@@ -127,4 +127,9 @@ public class DetalleListaPrecioService {
         log.debug("Request to delete DetalleListaPrecio : {}", id);
         detalleListaPrecioRepository.deleteById(id);
     }
+
+    public List<DetalleListaPrecio> findAllByListaPrecioId(Long id) {
+        log.debug("Request to find All DetalleListaPrecio by List Price Id");
+        return detalleListaPrecioRepository.findAllByListaPrecioId(id);
+    }
 }
