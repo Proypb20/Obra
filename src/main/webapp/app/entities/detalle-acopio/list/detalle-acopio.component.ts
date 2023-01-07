@@ -20,6 +20,7 @@ export class DetalleAcopioComponent implements OnInit {
   predicate = 'id';
   ascending = true;
   aId = 0;
+  lpId = 0;
 
   constructor(
     protected detalleAcopioService: DetalleAcopioService,
@@ -33,6 +34,7 @@ export class DetalleAcopioComponent implements OnInit {
 
   ngOnInit(): void {
     this.aId = history.state?.aId;
+    this.lpId = history.state?.lpId;
     this.load();
   }
 

@@ -169,8 +169,12 @@ public class AcopioResource {
         log.debug("REST request to get Acopios by criteria: {}", criteria);
         List<AcopioDTO> entityList = acopioQueryService.findByCriteria(criteria);
         for (AcopioDTO entity : entityList) {
-            Double saldo = entity.getTotalAmount() - acopioService.getSumAmount(entity.getId());
-            entity.setSaldo(saldo);
+            if (entity.getTotalAmount() == null) {
+                entity.setSaldo(0D);
+            } else {
+                Double saldo = entity.getTotalAmount() - acopioService.getSumAmount(entity.getId());
+                entity.setSaldo(saldo);
+            }
         }
         return ResponseEntity.ok().body(entityList);
     }

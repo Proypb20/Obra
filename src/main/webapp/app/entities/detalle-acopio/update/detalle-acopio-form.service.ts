@@ -3,6 +3,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 
 import dayjs from 'dayjs/esm';
 import { DATE_FORMAT } from 'app/config/input.constants';
+import { Estado } from 'app/entities/enumerations/estado.model';
 import { IDetalleAcopio, NewDetalleAcopio } from '../detalle-acopio.model';
 
 /**
@@ -29,7 +30,7 @@ type DetalleAcopioFormRawValue = FormValueOf<IDetalleAcopio>;
 
 type NewDetalleAcopioFormRawValue = FormValueOf<NewDetalleAcopio>;
 
-type DetalleAcopioFormDefaults = Pick<NewDetalleAcopio, 'id' | 'date' | 'requestDate' | 'promiseDate'>;
+type DetalleAcopioFormDefaults = Pick<NewDetalleAcopio, 'id' | 'date' | 'requestDate' | 'promiseDate' | 'deliveryStatus'>;
 
 type DetalleAcopioFormGroupContent = {
   id: FormControl<DetalleAcopioFormRawValue['id'] | NewDetalleAcopio['id']>;
@@ -105,6 +106,7 @@ export class DetalleAcopioFormService {
       date: currentTime,
       requestDate: currentTime,
       promiseDate: currentTime,
+      deliveryStatus: Estado.Pendiente,
     };
   }
 
@@ -116,6 +118,7 @@ export class DetalleAcopioFormService {
       date: dayjs(rawDetalleAcopio.date, DATE_FORMAT),
       requestDate: dayjs(rawDetalleAcopio.requestDate, DATE_FORMAT),
       promiseDate: dayjs(rawDetalleAcopio.promiseDate, DATE_FORMAT),
+      deliveryStatus: rawDetalleAcopio.deliveryStatus,
     };
   }
 

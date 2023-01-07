@@ -153,7 +153,10 @@ public class AcopioService {
     }
 
     public Double getSumAmount(Long id) {
-        double sal = acopioRepository.getSumAmount(id);
+        Double sal = acopioRepository.getSumAmount(id);
+        if (sal == null) {
+            sal = 0D;
+        }
         return sal;
     }
 }

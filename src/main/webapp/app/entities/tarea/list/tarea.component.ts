@@ -35,8 +35,10 @@ export class TareaComponent implements OnInit {
   ascending = true;
   oId = 0;
   sId = 0;
+  Id = 0;
 
   showFilter = false;
+  filterId = 0;
   filterOId = 0;
   filterSId = 0;
   filterCId = 0;
@@ -147,6 +149,7 @@ export class TareaComponent implements OnInit {
   showFilters(): void {
     if (this.showFilter) {
       this.showFilter = false;
+      this.filterId = 0;
       this.filterOId = 0;
       this.filterSId = 0;
       this.filterCId = 0;
@@ -158,6 +161,25 @@ export class TareaComponent implements OnInit {
     } else {
       this.showFilter = true;
     }
+  }
+
+  onChangeId(): void {
+    alert('AA');
+    if (this.Id !== 0) {
+      this.filterId = this.Id;
+    } else {
+      if (this.findForm.get('id')!.value! == null) {
+        this.filterId = 0;
+      } else {
+        this.filterId = this.Id;
+      }
+    }
+    alert(this.filterId);
+    this.loadFromBackendWithRouteInformations().subscribe({
+      next: (res: EntityArrayResponseType) => {
+        this.onResponseSuccess(res);
+      },
+    });
   }
 
   onChangeObra(): void {
@@ -301,9 +323,13 @@ export class TareaComponent implements OnInit {
     if (this.filterSId !== 0) {
       this.sId = this.filterSId;
     }
+    if (this.filterId !== 0) {
+      this.Id = this.filterId;
+    }
     const queryObject = {
       eagerload: true,
       sort: this.getSortQueryParam(predicate, ascending),
+      'id.equals': this.Id,
       'obraId.equals': this.oId,
       'subcontratistaId.equals': this.sId,
       'conceptoId.equals': this.filterCId,

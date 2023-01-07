@@ -13,6 +13,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-detalle-acopio me-2"
         [routerLink]="['/detalle-acopio/new']"
+        [state]="{ aId: this.aId, lpId: this.lpId }"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Agregar linea de Acopio </span>
@@ -113,6 +114,7 @@
               <button
                 type="submit"
                 [routerLink]="['/detalle-acopio', detalleAcopio.id, 'edit']"
+                [state]="{ lpId: this.lpId }"
                 class="btn btn-primary btn-sm"
                 data-cy="entityEditButton"
               >

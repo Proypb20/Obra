@@ -14,7 +14,7 @@
         <br />
 
         <div class="row mb-3">
-          <label class="form-label" for="field_proveedor">Proveedor</label>
+          <label class="form-label" for="field_proveedor">Proveedor *</label>
           <select
             class="form-control"
             id="field_proveedor"
@@ -24,14 +24,18 @@
             [compareWith]="compareProveedor"
           >
             <!--<option [ngValue]="null"></option>-->
-            <option [ngValue]="proveedorOption" *ngFor="let proveedorOption of proveedorsSharedCollection">
+            <option
+              [ngValue]="proveedorOption"
+              *ngFor="let proveedorOption of proveedorsSharedCollection"
+              [selected]="proveedorOption.id == this.pId"
+            >
               {{ proveedorOption.name }}
             </option>
           </select>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_date">Date</label>
+          <label class="form-label" for="field_date">Fecha *</label>
           <div class="d-flex">
             <input
               id="field_date"
@@ -46,7 +50,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_name">Name</label>
+          <label class="form-label" for="field_name">Nombre *</label>
           <input type="text" class="form-control" name="name" id="field_name" data-cy="name" formControlName="name" />
           <div *ngIf="editForm.get('name')!.invalid && (editForm.get('name')!.dirty || editForm.get('name')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('name')?.errors?.required"> Este campo es obligatorio. </small>

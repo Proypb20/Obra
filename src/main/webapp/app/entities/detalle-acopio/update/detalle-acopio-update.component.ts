@@ -25,6 +25,9 @@ export class DetalleAcopioUpdateComponent implements OnInit {
   acopiosSharedCollection: IAcopio[] = [];
   detalleListaPreciosSharedCollection: IDetalleListaPrecio[] = [];
 
+  aId = 0;
+  lpId = 0;
+
   editForm: DetalleAcopioFormGroup = this.detalleAcopioFormService.createDetalleAcopioFormGroup();
 
   constructor(
@@ -41,12 +44,13 @@ export class DetalleAcopioUpdateComponent implements OnInit {
     this.detalleListaPrecioService.compareDetalleListaPrecio(o1, o2);
 
   ngOnInit(): void {
+    this.aId = history.state?.aId;
+    this.lpId = history.state?.lpId;
     this.activatedRoute.data.subscribe(({ detalleAcopio }) => {
       this.detalleAcopio = detalleAcopio;
       if (detalleAcopio) {
         this.updateForm(detalleAcopio);
       }
-
       this.loadRelationshipsOptions();
     });
   }
@@ -116,13 +120,13 @@ export class DetalleAcopioUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.acopioService
-      .query()
+      .query({ 'id.equals': this.aId })
       .pipe(map((res: HttpResponse<IAcopio[]>) => res.body ?? []))
       .pipe(map((acopios: IAcopio[]) => this.acopioService.addAcopioToCollectionIfMissing<IAcopio>(acopios, this.detalleAcopio?.acopio)))
       .subscribe((acopios: IAcopio[]) => (this.acopiosSharedCollection = acopios));
 
     this.detalleListaPrecioService
-      .query()
+      .query({ 'listaPrecioId.equals': this.lpId })
       .pipe(map((res: HttpResponse<IDetalleListaPrecio[]>) => res.body ?? []))
       .pipe(
         map((detalleListaPrecios: IDetalleListaPrecio[]) =>

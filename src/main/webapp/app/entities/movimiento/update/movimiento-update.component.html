@@ -14,7 +14,7 @@
         <br />
 
         <div class="row mb-3">
-          <label class="form-label" for="field_date">Fecha</label>
+          <label class="form-label" for="field_date">Fecha *</label>
           <div class="d-flex">
             <input
               id="field_date"
@@ -32,7 +32,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_description">Descripcion</label>
+          <label class="form-label" for="field_description">Descripcion *</label>
           <input
             type="text"
             class="form-control"
@@ -76,7 +76,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_metodoPago">Forma de Pago</label>
+          <label class="form-label" for="field_metodoPago">Forma de Pago *</label>
           <select class="form-control" name="metodoPago" formControlName="metodoPago" id="field_metodoPago" data-cy="metodoPago">
             <option *ngFor="let metodoPago of metodoPagoValues" [ngValue]="metodoPago">{{ metodoPago }}</option>
           </select>
@@ -86,7 +86,7 @@
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_amount">Importe</label>
+          <label class="form-label" for="field_amount">Importe *</label>
           <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
           <div *ngIf="editForm.get('amount')!.invalid && (editForm.get('amount')!.dirty || editForm.get('amount')!.touched)">
             <small class="form-text text-danger" *ngIf="editForm.get('amount')?.errors?.required"> Este campo es obligatorio. </small>

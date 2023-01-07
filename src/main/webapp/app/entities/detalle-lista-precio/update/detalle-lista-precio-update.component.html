@@ -23,19 +23,23 @@
             formControlName="listaPrecio"
             [compareWith]="compareListaPrecio"
           >
-            <option [ngValue]="listaPrecioOption" *ngFor="let listaPrecioOption of listaPreciosSharedCollection">
+            <option
+              [ngValue]="listaPrecioOption"
+              *ngFor="let listaPrecioOption of listaPreciosSharedCollection"
+              [selected]="listaPrecioOption.id == this.lpId"
+            >
               {{ listaPrecioOption.name }}
             </option>
           </select>
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_product">Producto</label>
+          <label class="form-label" for="field_product">Producto *</label>
           <input type="text" class="form-control" name="product" id="field_product" data-cy="product" formControlName="product" />
         </div>
 
         <div class="row mb-3">
-          <label class="form-label" for="field_amount">Importe</label>
+          <label class="form-label" for="field_amount">Importe *</label>
           <input type="number" class="form-control" name="amount" id="field_amount" data-cy="amount" formControlName="amount" />
         </div>
       </div>

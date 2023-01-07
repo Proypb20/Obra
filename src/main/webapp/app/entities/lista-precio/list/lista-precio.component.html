@@ -23,6 +23,7 @@
         data-cy="entityCreateButton"
         class="btn btn-primary jh-create-entity create-lista-precio me-2"
         [routerLink]="['/lista-precio/new']"
+        [state]="{ pId: this.pId }"
       >
         <fa-icon icon="plus"></fa-icon>
         <span> Crear nuevo Lista Precio </span>

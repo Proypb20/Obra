@@ -14,8 +14,11 @@
         <br />
 
         <div class="row mb-3">
-          <label class="form-label" for="field_lastName">Apellido</label>
+          <label class="form-label" for="field_lastName">Apellido *</label>
           <input type="text" class="form-control" name="lastName" id="field_lastName" data-cy="lastName" formControlName="lastName" />
+          <div *ngIf="editForm.get('lastName')!.invalid && (editForm.get('lastName')!.dirty || editForm.get('lastName')!.touched)">
+            <small class="form-text text-danger" *ngIf="editForm.get('lastName')?.errors?.required"> Este campo es obligatorio. </small>
+          </div>
         </div>
 
         <div class="row mb-3">

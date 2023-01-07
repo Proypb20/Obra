@@ -99,7 +99,7 @@
               <button
                 type="submit"
                 [routerLink]="['/detalle-acopio']"
-                [state]="{ aId: acopio.id }"
+                [state]="{ aId: acopio.id, lpId: acopio.listaprecio!.id }"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >

@@ -20,6 +20,8 @@ export class ListaPrecioUpdateComponent implements OnInit {
 
   proveedorsSharedCollection: IProveedor[] = [];
 
+  pId = 0;
+
   editForm: ListaPrecioFormGroup = this.listaPrecioFormService.createListaPrecioFormGroup();
 
   constructor(
@@ -32,6 +34,7 @@ export class ListaPrecioUpdateComponent implements OnInit {
   compareProveedor = (o1: IProveedor | null, o2: IProveedor | null): boolean => this.proveedorService.compareProveedor(o1, o2);
 
   ngOnInit(): void {
+    this.pId = history.state?.pId;
     this.activatedRoute.data.subscribe(({ listaPrecio }) => {
       this.listaPrecio = listaPrecio;
       if (listaPrecio) {
@@ -87,7 +90,7 @@ export class ListaPrecioUpdateComponent implements OnInit {
 
   protected loadRelationshipsOptions(): void {
     this.proveedorService
-      .query()
+      .query({ 'id.equals': this.pId })
       .pipe(map((res: HttpResponse<IProveedor[]>) => res.body ?? []))
       .pipe(
         map((proveedors: IProveedor[]) =>
