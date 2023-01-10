@@ -1,13 +1,13 @@
-select m.id
-,o.name as obra_name
-,m.date
-,to_char(m.date,'Mon-yy') as period_name
-,case when m.amount > 0 then o.name else c.name end source
-,tc.name||' '||m.transaction_number as reference
-,m.description
-,case when m.amount > 0 then 'I' else 'E' end type
-,abs(amount) as amount
-from movimiento m
-inner join obra o on m.obra_id = o.id
-left join concepto c on m.concepto_id = c.id
-left join tipo_comprobante tc on m.tipo_comprobante_id = tc.id
+ SELECT ROW_NUMBER() OVER () AS ID
+      ,o.name obra_name
+      ,TO_CHAR("M"."DATE", 'Mon-yy') period_name
+      ,c.name concept_name
+      ,SUM(m.amount * -1) amount
+ FROM MOVIMIENTO m
+ JOIN tipo_comprobante tc on tc.id = m.tipo_comprobante_id
+ JOIN concepto c on c.id = m.concepto_id
+ JOIN obra o on o.id = m.obra_id
+WHERE tc.name = 'Pago'
+group by TO_CHAR("M"."DATE", 'Mon-yy')
+,o.name
+,c.name

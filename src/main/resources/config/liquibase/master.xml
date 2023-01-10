@@ -39,10 +39,10 @@
     <include file="config/liquibase/changelog/20220913014502_added_entity_AdvPendRep.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014503_added_entity_SubcoPayConcepts.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014504_added_entity_SubcoPayAmounts.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20220913014509_added_entity_SeguimientoRep.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014509_added_entity_ResObraRep.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014510_added_entity_Saldo.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014511_added_entity_BalanceRep.xml" relativeToChangelogFile="false"/>
-    <include file="config/liquibase/changelog/20220913014512_added_entity_Seguimiento.xml" relativeToChangelogFile="false"/>
+    <include file="config/liquibase/changelog/20220913014512_added_entity_SeguimientoRep.xml" relativeToChangelogFile="false"/>
     <!-- jhipster-needle-liquibase-add-changelog - JHipster will add liquibase changelogs here -->
     <include file="config/liquibase/changelog/20220913014450_added_entity_constraints_Obra.xml" relativeToChangelogFile="false"/>
     <include file="config/liquibase/changelog/20220913014451_added_entity_constraints_Proveedor.xml" relativeToChangelogFile="false"/>

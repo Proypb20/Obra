@@ -1,9 +1,11 @@
 package com.ojeda.obras.service;
 
+import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.domain.Movimiento;
 import com.ojeda.obras.repository.MovimientoRepository;
 import com.ojeda.obras.service.dto.MovimientoDTO;
 import com.ojeda.obras.service.mapper.MovimientoMapper;
+import java.time.Instant;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -88,6 +90,17 @@ public class MovimientoService {
     public List<MovimientoDTO> findAll() {
         log.debug("Request to get all Movimientos");
         return movimientoRepository.findAll().stream().map(movimientoMapper::toDto).collect(Collectors.toCollection(LinkedList::new));
+    }
+
+    /**
+     * Get all the movimientos.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<Movimiento> findAllByConceptoAndDateBetween(Concepto concepto, Instant fromDate, Instant toDate) {
+        log.debug("Request to get all Movimientos");
+        return movimientoRepository.findAllByConceptoAndDateBetween(concepto, fromDate, toDate);
     }
 
     /**

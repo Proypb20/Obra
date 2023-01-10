@@ -7,13 +7,13 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
- * A Seguimiento.
+ * A ResObra.
  */
 @Entity
-@Table(name = "seguimiento_rep")
+@Table(name = "res_obra_rep")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class Seguimiento implements Serializable {
+public class ResObra implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,11 +25,23 @@ public class Seguimiento implements Serializable {
     @Column(name = "obra_name")
     private String obraName;
 
+    @Column(name = "date")
+    private Date date;
+
     @Column(name = "period_name")
     private String periodName;
 
-    @Column(name = "concept_name")
-    private String conceptName;
+    @Column(name = "source")
+    private String source;
+
+    @Column(name = "reference")
+    private String reference;
+
+    @Column(name = "description")
+    private String description;
+
+    @Column(name = "type")
+    private String type;
 
     @Column(name = "amount")
     private Double amount;
@@ -52,12 +64,52 @@ public class Seguimiento implements Serializable {
         this.obraName = obraName;
     }
 
+    public Date getDate() {
+        return date;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
+    }
+
     public String getPeriodName() {
         return periodName;
     }
 
     public void setPeriodName(String periodName) {
         this.periodName = periodName;
+    }
+
+    public String getSource() {
+        return source;
+    }
+
+    public void setSource(String source) {
+        this.source = source;
+    }
+
+    public String getReference() {
+        return reference;
+    }
+
+    public void setReference(String reference) {
+        this.reference = reference;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public Double getAmount() {
@@ -68,14 +120,6 @@ public class Seguimiento implements Serializable {
         this.amount = amount;
     }
 
-    public String getConceptName() {
-        return conceptName;
-    }
-
-    public void setConceptName(String conceptName) {
-        this.conceptName = conceptName;
-    }
-
     // jhipster-needle-entity-add-getters-setters - JHipster will add getters and setters here
 
     @Override
@@ -83,10 +127,10 @@ public class Seguimiento implements Serializable {
         if (this == o) {
             return true;
         }
-        if (!(o instanceof Seguimiento)) {
+        if (!(o instanceof ResObra)) {
             return false;
         }
-        return id != null && id.equals(((Seguimiento) o).id);
+        return id != null && id.equals(((ResObra) o).id);
     }
 
     @Override
@@ -98,10 +142,15 @@ public class Seguimiento implements Serializable {
     // prettier-ignore
     @Override
     public String toString() {
-        return "Seguimiento{" +
+        return "ResObra{" +
             "id=" + getId() +
             ", obra='" + getObraName() + "'" +
+            ", date='" + getDate() + "'" +
             ", periodName='" + getPeriodName() + "'" +
+            ", source='" + getSource() + "'" +
+            ", reference='" + getReference() + "'" +
+            ", description='" + getDescription() + "'" +
+            ", type='" + getType() + "'" +
             ", amount='" + getAmount().toString() + "'" +
             "}";
     }

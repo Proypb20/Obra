@@ -156,6 +156,11 @@ public class TareaService {
         return tareaRepository.findAllByObraId(id);
     }
 
+    public List<Tarea> findAllByObraName(String obraName) {
+        log.debug("Request to get All Tareas by Obra Name : {}", obraName);
+        return tareaRepository.findAllByObraName(obraName);
+    }
+
     public File generateFile(List<TareaDTO> tareas) throws IOException, URISyntaxException {
         log.debug("GenerateFile Service: {}", tareas);
 

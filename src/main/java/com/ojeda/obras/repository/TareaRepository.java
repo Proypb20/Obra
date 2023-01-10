@@ -45,6 +45,8 @@ public interface TareaRepository extends JpaRepository<Tarea, Long>, JpaSpecific
 
     List<Tarea> findAllByObraId(Long id);
 
+    List<Tarea> findAllByObraName(String obraName);
+
     @Query("SELECT COUNT(1) from Tarea tarea where tarea.obra.id = :id ")
     Long getCountByObraId(@Param("id") Long id);
 }

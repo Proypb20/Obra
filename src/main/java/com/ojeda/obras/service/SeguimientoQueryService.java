@@ -86,26 +86,14 @@ public class SeguimientoQueryService extends QueryService<Seguimiento> {
             if (criteria.getDistinct() != null) {
                 specification = specification.and(distinct(criteria.getDistinct()));
             }
-            if (criteria.getId() != null) {
-                specification = specification.and(buildRangeSpecification(criteria.getId(), Seguimiento_.id));
-            }
             if (criteria.getObraName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getObraName(), Seguimiento_.obraName));
             }
             if (criteria.getPeriodName() != null) {
                 specification = specification.and(buildStringSpecification(criteria.getPeriodName(), Seguimiento_.periodName));
             }
-            if (criteria.getSource() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getSource(), Seguimiento_.source));
-            }
-            if (criteria.getReference() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getReference(), Seguimiento_.reference));
-            }
-            if (criteria.getDescription() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getDescription(), Seguimiento_.description));
-            }
-            if (criteria.getType() != null) {
-                specification = specification.and(buildStringSpecification(criteria.getType(), Seguimiento_.type));
+            if (criteria.getConceptName() != null) {
+                specification = specification.and(buildStringSpecification(criteria.getConceptName(), Seguimiento_.conceptName));
             }
             if (criteria.getAmount() != null) {
                 specification = specification.and(buildRangeSpecification(criteria.getAmount(), Seguimiento_.amount));

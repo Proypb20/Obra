@@ -105,6 +105,11 @@ import { RouterModule } from '@angular/router';
         loadChildren: () => import('./seguimiento-rep/seguimiento-rep.module').then(m => m.SeguimientoRepModule),
       },
       {
+        path: 'res-obra-rep',
+        data: { pageTitle: 'Resumen de Obra' },
+        loadChildren: () => import('./res-obra-rep/res-obra-rep.module').then(m => m.ResObraRepModule),
+      },
+      {
         path: 'saldo',
         data: { pageTitle: 'Saldos' },
         loadChildren: () => import('./saldo/saldo.module').then(m => m.SaldoModule),

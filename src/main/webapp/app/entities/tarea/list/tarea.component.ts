@@ -164,7 +164,6 @@ export class TareaComponent implements OnInit {
   }
 
   onChangeId(): void {
-    alert('AA');
     if (this.Id !== 0) {
       this.filterId = this.Id;
     } else {
@@ -174,7 +173,6 @@ export class TareaComponent implements OnInit {
         this.filterId = this.Id;
       }
     }
-    alert(this.filterId);
     this.loadFromBackendWithRouteInformations().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess(res);

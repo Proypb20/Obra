@@ -17,7 +17,7 @@ import tech.jhipster.service.filter.*;
  */
 @ParameterObject
 @SuppressWarnings("common-java:DuplicatedBlocks")
-public class SeguimientoCriteria implements Serializable, Criteria {
+public class ResObraCriteria implements Serializable, Criteria {
 
     private static final long serialVersionUID = 1L;
 
@@ -25,28 +25,40 @@ public class SeguimientoCriteria implements Serializable, Criteria {
 
     private StringFilter obraName;
 
+    private LocalDateFilter date;
+
     private StringFilter periodName;
 
-    private StringFilter conceptName;
+    private StringFilter source;
+
+    private StringFilter reference;
+
+    private StringFilter description;
+
+    private StringFilter type;
 
     private DoubleFilter amount;
 
     private Boolean distinct;
 
-    public SeguimientoCriteria() {}
+    public ResObraCriteria() {}
 
-    public SeguimientoCriteria(SeguimientoCriteria other) {
+    public ResObraCriteria(ResObraCriteria other) {
         this.id = other.id == null ? null : other.id.copy();
         this.obraName = other.obraName == null ? null : other.obraName.copy();
+        this.date = other.date == null ? null : other.date.copy();
         this.periodName = other.periodName == null ? null : other.periodName.copy();
-        this.conceptName = other.conceptName == null ? null : other.conceptName.copy();
+        this.source = other.source == null ? null : other.source.copy();
+        this.reference = other.reference == null ? null : other.reference.copy();
+        this.description = other.description == null ? null : other.description.copy();
+        this.type = other.type == null ? null : other.type.copy();
         this.amount = other.amount == null ? null : other.amount.copy();
         this.distinct = other.distinct;
     }
 
     @Override
-    public SeguimientoCriteria copy() {
-        return new SeguimientoCriteria(this);
+    public ResObraCriteria copy() {
+        return new ResObraCriteria(this);
     }
 
     public LongFilter getId() {
@@ -75,6 +87,13 @@ public class SeguimientoCriteria implements Serializable, Criteria {
         return obraName;
     }
 
+    public LocalDateFilter date() {
+        if (date == null) {
+            date = new LocalDateFilter();
+        }
+        return date;
+    }
+
     public StringFilter periodName() {
         if (periodName == null) {
             periodName = new StringFilter();
@@ -82,11 +101,32 @@ public class SeguimientoCriteria implements Serializable, Criteria {
         return periodName;
     }
 
-    public StringFilter conceptName() {
-        if (conceptName == null) {
-            conceptName = new StringFilter();
+    public StringFilter source() {
+        if (source == null) {
+            source = new StringFilter();
         }
-        return conceptName;
+        return source;
+    }
+
+    public StringFilter reference() {
+        if (reference == null) {
+            reference = new StringFilter();
+        }
+        return reference;
+    }
+
+    public StringFilter description() {
+        if (description == null) {
+            description = new StringFilter();
+        }
+        return description;
+    }
+
+    public StringFilter type() {
+        if (type == null) {
+            type = new StringFilter();
+        }
+        return type;
     }
 
     public DoubleFilter amount() {
@@ -100,6 +140,14 @@ public class SeguimientoCriteria implements Serializable, Criteria {
         this.obraName = obraName;
     }
 
+    public LocalDateFilter getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDateFilter date) {
+        this.date = date;
+    }
+
     public StringFilter getPeriodName() {
         return periodName;
     }
@@ -108,12 +156,36 @@ public class SeguimientoCriteria implements Serializable, Criteria {
         this.periodName = periodName;
     }
 
-    public StringFilter getConceptName() {
-        return conceptName;
+    public StringFilter getSource() {
+        return source;
     }
 
-    public void setConceptName(StringFilter conceptName) {
-        this.conceptName = conceptName;
+    public void setSource(StringFilter source) {
+        this.source = source;
+    }
+
+    public StringFilter getReference() {
+        return reference;
+    }
+
+    public void setReference(StringFilter reference) {
+        this.reference = reference;
+    }
+
+    public StringFilter getDescription() {
+        return description;
+    }
+
+    public void setDescription(StringFilter description) {
+        this.description = description;
+    }
+
+    public StringFilter getType() {
+        return type;
+    }
+
+    public void setType(StringFilter type) {
+        this.type = type;
     }
 
     public DoubleFilter getAmount() {
@@ -140,12 +212,16 @@ public class SeguimientoCriteria implements Serializable, Criteria {
         if (o == null || getClass() != o.getClass()) {
             return false;
         }
-        final SeguimientoCriteria that = (SeguimientoCriteria) o;
+        final ResObraCriteria that = (ResObraCriteria) o;
         return (
             Objects.equals(id, that.id) &&
             Objects.equals(obraName, that.obraName) &&
+            Objects.equals(date, that.date) &&
             Objects.equals(periodName, that.periodName) &&
-            Objects.equals(conceptName, that.conceptName) &&
+            Objects.equals(source, that.source) &&
+            Objects.equals(reference, that.reference) &&
+            Objects.equals(description, that.description) &&
+            Objects.equals(type, that.type) &&
             Objects.equals(amount, that.amount) &&
             Objects.equals(distinct, that.distinct)
         );
@@ -153,17 +229,21 @@ public class SeguimientoCriteria implements Serializable, Criteria {
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, obraName, periodName, conceptName, amount, distinct);
+        return Objects.hash(id, obraName, date, periodName, source, reference, description, type, amount, distinct);
     }
 
     // prettier-ignore
     @Override
     public String toString() {
-        return "SeguimientoCriteria{" +
+        return "ResObraCriteria{" +
             (id != null ? "id=" + id + ", " : "") +
             (obraName != null ? "obra=" + obraName + ", " : "") +
+            (date != null ? "date=" + date + ", " : "") +
             (periodName != null ? "subcontratista=" + periodName + ", " : "") +
-            (conceptName != null ? "subcontratista=" + conceptName + ", " : "") +
+            (source != null ? "subcontratista=" + source + ", " : "") +
+            (reference != null ? "subcontratista=" + reference + ", " : "") +
+            (description != null ? "subcontratista=" + description + ", " : "") +
+            (type != null ? "subcontratista=" + type + ", " : "") +
             (amount != null ? "advanceStatus=" + amount + ", " : "") +
             (distinct != null ? "distinct=" + distinct + ", " : "") +
             "}";

@@ -1,25 +1,15 @@
 package com.ojeda.obras.service;
 
-import com.ojeda.obras.domain.Seguimiento;
+import com.ojeda.obras.domain.*;
 import com.ojeda.obras.repository.SeguimientoRepository;
 import com.ojeda.obras.service.dto.SeguimientoDTO;
-import com.ojeda.obras.service.dto.SubcoPayConceptDTO;
-import com.ojeda.obras.service.dto.SubcoPaySubcoDTO;
 import com.ojeda.obras.service.mapper.SeguimientoMapper;
 import java.io.*;
-import java.net.URI;
 import java.net.URISyntaxException;
-import java.net.URL;
-import java.text.DateFormat;
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 import org.apache.poi.ss.usermodel.*;
 import org.apache.poi.ss.util.CellRangeAddress;
-import org.apache.poi.util.IOUtils;
-import org.apache.poi.util.Units;
 import org.apache.poi.xssf.usermodel.XSSFFont;
 import org.apache.poi.xssf.usermodel.XSSFWorkbook;
 import org.slf4j.Logger;
@@ -40,9 +30,20 @@ public class SeguimientoService {
 
     private final SeguimientoMapper seguimientoMapper;
 
-    public SeguimientoService(SeguimientoRepository seguimientoRepository, SeguimientoMapper seguimientoMapper) {
+    private final TareaService tareaService;
+
+    private final MovimientoService movimientoService;
+
+    public SeguimientoService(
+        SeguimientoRepository seguimientoRepository,
+        SeguimientoMapper seguimientoMapper,
+        TareaService tareaService,
+        MovimientoService movimientoService
+    ) {
         this.seguimientoRepository = seguimientoRepository;
         this.seguimientoMapper = seguimientoMapper;
+        this.tareaService = tareaService;
+        this.movimientoService = movimientoService;
     }
 
     /**
@@ -57,11 +58,34 @@ public class SeguimientoService {
     }
 
     /**
+     * Get all the subcoPayConcept.
+     *
+     * @return the list of entities.
+     */
+    @Transactional(readOnly = true)
+    public List<Seguimiento> findAllByObraNameAndPeriodNameAndConceptName(String obraName, String periodName, String conceptName) {
+        log.debug("Request to get all Seguimiento By Obra, Period y Concepto; {},{},{}", obraName, periodName, conceptName);
+        return seguimientoRepository.findAllByObraNameAndPeriodNameAndConceptName(obraName, periodName, conceptName);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Seguimiento> findAllByObraName(String obraName) {
+        log.debug("Request to get all Seguimiento By Obra; {}", obraName);
+        return seguimientoRepository.findAllByObraName(obraName);
+    }
+
+    @Transactional(readOnly = true)
+    public List<Seguimiento> findAllByObraNameAndPeriodName(String obraName, String periodName) {
+        log.debug("Request to get all Seguimiento By Obra y Period; {},{}", obraName, periodName);
+        return seguimientoRepository.findAllByObraNameAndPeriodName(obraName, periodName);
+    }
+
+    /**
      * Generate Excel File
      *
      */
-    public File generateFile(List<SeguimientoDTO> seguimientos, String obraName, String periodName) throws IOException, URISyntaxException {
-        log.debug("GenerateFile Service: {},{},{}", seguimientos, obraName, periodName);
+    public File generateFile(String obraName, List<String> periods) throws IOException, URISyntaxException {
+        log.debug("GenerateFile Service: {},{},{}", obraName, periods);
 
         /* Genero el excel */
         Workbook workbook = new XSSFWorkbook();
@@ -69,22 +93,26 @@ public class SeguimientoService {
 
         Sheet sheet = workbook.createSheet(sheetS);
 
-        sheet.setColumnWidth(0, 4200);
-        sheet.setColumnWidth(1, 5000);
-        sheet.setColumnWidth(2, 5000);
-        sheet.setColumnWidth(3, 10000);
-        sheet.setColumnWidth(4, 3300);
-        sheet.setColumnWidth(5, 3300);
+        sheet.setColumnWidth(0, 5000); // Descripcion
+        sheet.setColumnWidth(1, 3190); // Saldo MO
+        sheet.setColumnWidth(2, 3190); // Presupuesto
+        sheet.setColumnWidth(3, 3190); // Total
+        int p = 3;
+        for (String period : periods) {
+            p++;
+            sheet.setColumnWidth(p, 3190); // Resumenes
+        }
 
-        sheet.addMergedRegion(CellRangeAddress.valueOf("C2:D2"));
+        sheet.addMergedRegion(CellRangeAddress.valueOf("A1:C1"));
 
         /* Titulos */
 
-        Row title = sheet.createRow(1);
+        Row title = sheet.createRow(0);
+
         CellStyle titleStyle = workbook.createCellStyle();
         XSSFFont fontTitle = ((XSSFWorkbook) workbook).createFont();
         fontTitle.setFontName("Arial");
-        fontTitle.setFontHeightInPoints((short) 10);
+        fontTitle.setFontHeightInPoints((short) 8);
         fontTitle.setBold(true);
         titleStyle.setFont(fontTitle);
         titleStyle.setAlignment(HorizontalAlignment.CENTER);
@@ -92,253 +120,198 @@ public class SeguimientoService {
         CellStyle titleStyleDT = workbook.createCellStyle();
         XSSFFont fontTitleDT = ((XSSFWorkbook) workbook).createFont();
         fontTitleDT.setFontName("Arial");
-        fontTitleDT.setFontHeightInPoints((short) 10);
+        fontTitleDT.setFontHeightInPoints((short) 8);
         fontTitleDT.setBold(false);
         titleStyleDT.setFont(fontTitleDT);
         titleStyleDT.setAlignment(HorizontalAlignment.RIGHT);
 
-        CellStyle titleStyleD = workbook.createCellStyle();
-        XSSFFont fontTitleD = ((XSSFWorkbook) workbook).createFont();
-        fontTitleD.setFontName("Arial");
-        fontTitleD.setFontHeightInPoints((short) 10);
-        fontTitleD.setBold(false);
-        titleStyleD.setFont(fontTitleD);
-        DataFormat dfDateD = workbook.createDataFormat();
-        titleStyleD.setDataFormat(dfDateD.getFormat("DD/M/YYYY"));
-        titleStyleD.setAlignment(HorizontalAlignment.RIGHT);
-
-        Cell titleCell = title.createCell(2);
-        titleCell.setCellValue("RESUMEN OBRA " + obraName);
-        titleCell.setCellStyle(titleStyle);
-
-        Cell titleCellDT = title.createCell(4);
-        titleCellDT.setCellValue("Fecha");
-        titleCellDT.setCellStyle(titleStyleDT);
-
-        Cell titleCellD = title.createCell(5);
-        titleCellD.setCellValue(new Date());
-        titleCellD.setCellStyle(titleStyleD);
-
-        Row header = sheet.createRow(4);
-
-        CellStyle headerStyle = workbook.createCellStyle();
-        headerStyle.setFillForegroundColor(IndexedColors.GREY_25_PERCENT.getIndex());
-        headerStyle.setFillPattern(FillPatternType.SOLID_FOREGROUND);
-        headerStyle.setBorderBottom(BorderStyle.THIN);
-        headerStyle.setBorderTop(BorderStyle.THIN);
-        headerStyle.setBorderRight(BorderStyle.THIN);
-        headerStyle.setBorderLeft(BorderStyle.THIN);
-
-        XSSFFont font = ((XSSFWorkbook) workbook).createFont();
-        font.setFontName("Arial");
-        font.setFontHeightInPoints((short) 10);
-        font.setBold(false);
-        headerStyle.setFont(font);
-        headerStyle.setAlignment(HorizontalAlignment.CENTER);
-
-        Cell headerCell = null;
-
-        headerCell = header.createCell(0);
-        headerCell.setCellValue("Fecha");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(1);
-        headerCell.setCellValue("Origen");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(2);
-        headerCell.setCellValue("Referencia");
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(3);
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(4);
-        headerCell.setCellStyle(headerStyle);
-
-        headerCell = header.createCell(5);
-        headerCell.setCellValue("TOTAL");
-        headerCell.setCellStyle(headerStyle);
-
-        /* Linea Saldo General */
-
-        Row rowSG = sheet.createRow(5);
-        CellStyle rowSGStyle = workbook.createCellStyle();
-        XSSFFont fontSG = ((XSSFWorkbook) workbook).createFont();
-        fontSG.setFontName("Arial");
-        fontSG.setFontHeightInPoints((short) 10);
-        fontSG.setBold(true);
-        rowSGStyle.setFont(fontSG);
-
-        Cell cell = rowSG.createCell(3);
-        cell.setCellValue("SALDO GENERAL DE LA OBRA");
-        cell.setCellStyle(rowSGStyle);
-
-        Double sumTotalI = 0D, sumTotalE = 0D;
-
-        for (SeguimientoDTO seguimiento : seguimientos) {
-            if (seguimiento.getType().equals("I")) {
-                sumTotalI = sumTotalI + seguimiento.getAmount();
-            } else {
-                sumTotalE = sumTotalE + seguimiento.getAmount();
-            }
-        }
-
-        cell = rowSG.createCell(5);
-
         CellStyle styleMon = workbook.createCellStyle();
         XSSFFont fontSGMon = ((XSSFWorkbook) workbook).createFont();
         fontSGMon.setFontName("Arial");
-        fontSGMon.setFontHeightInPoints((short) 10);
-        fontSGMon.setBold(true);
+        fontSGMon.setFontHeightInPoints((short) 8);
         styleMon.setFont(fontSGMon);
         styleMon.setAlignment(HorizontalAlignment.RIGHT);
         DataFormat dfMon = workbook.createDataFormat();
         styleMon.setDataFormat(dfMon.getFormat("$0.00"));
-        cell.setCellValue(sumTotalI - sumTotalE);
-        cell.setCellStyle(styleMon);
 
-        /* Linea total Ingresos */
+        CellStyle styleMonB = workbook.createCellStyle();
+        XSSFFont fontSGMonB = ((XSSFWorkbook) workbook).createFont();
+        fontSGMonB.setFontName("Arial");
+        fontSGMonB.setFontHeightInPoints((short) 8);
+        fontSGMonB.setBold(true);
+        styleMonB.setFont(fontSGMonB);
+        styleMonB.setAlignment(HorizontalAlignment.RIGHT);
+        DataFormat dfMonB = workbook.createDataFormat();
+        styleMonB.setDataFormat(dfMonB.getFormat("$0.00"));
 
-        Row rowTI = sheet.createRow(6);
+        Cell titleCell = title.createCell(0);
+        titleCell.setCellValue("SEGUIMIENTO " + obraName);
+        titleCell.setCellStyle(titleStyle);
 
-        cell = rowTI.createCell(3);
+        Cell titleCellDT = title.createCell(3);
+        titleCellDT.setCellValue("TOTAL");
+        titleCellDT.setCellStyle(titleStyle);
 
-        CellStyle styleTI = workbook.createCellStyle();
-        XSSFFont fontTI = ((XSSFWorkbook) workbook).createFont();
-        fontTI.setFontName("Arial");
-        fontTI.setFontHeightInPoints((short) 10);
-        fontTI.setBold(false);
-        styleTI.setFont(fontTI);
-        styleTI.setAlignment(HorizontalAlignment.LEFT);
-        cell.setCellValue("TOTAL INGRESOS");
-        cell.setCellStyle(styleTI);
+        p = 3;
+        for (String period : periods) {
+            p++;
+            titleCellDT = title.createCell(p);
+            titleCellDT.setCellValue(period);
+            titleCellDT.setCellStyle(titleStyleDT);
+        }
 
-        cell = rowTI.createCell(5);
+        Row title2 = sheet.createRow(1);
 
-        CellStyle styleTIA = workbook.createCellStyle();
-        XSSFFont fontTIA = ((XSSFWorkbook) workbook).createFont();
-        fontTIA.setFontName("Arial");
-        fontTIA.setFontHeightInPoints((short) 10);
-        fontTIA.setBold(false);
-        styleTIA.setFont(fontTIA);
-        styleTIA.setAlignment(HorizontalAlignment.RIGHT);
-        styleTIA.setDataFormat(dfMon.getFormat("$0.00"));
-        cell.setCellValue(sumTotalI);
-        cell.setCellStyle(styleTIA);
+        titleCellDT = title2.createCell(0);
+        titleCellDT.setCellValue("Descripcion");
+        titleCellDT.setCellStyle(titleStyle);
 
-        /* Lineas de Ingresos */
+        titleCellDT = title2.createCell(1);
+        titleCellDT.setCellValue("Saldo MO");
+        titleCellDT.setCellStyle(titleStyle);
 
-        Row rowI = null;
-        int rowid = 6;
+        titleCellDT = title2.createCell(2);
+        titleCellDT.setCellValue("PRESUPUESTO");
+        titleCellDT.setCellStyle(titleStyle);
 
-        XSSFFont fontI = ((XSSFWorkbook) workbook).createFont();
-        fontI.setFontName("Arial");
-        fontI.setFontHeightInPoints((short) 10);
-        fontI.setBold(false);
+        titleCellDT = title2.createCell(3);
+        titleCellDT.setCellValue("PAGOS");
+        titleCellDT.setCellStyle(titleStyle);
 
-        CellStyle styleID = workbook.createCellStyle();
-        styleID.setFont(fontI);
-        /* CreationHelper createHelper = workbook.getCreationHelper();
-        styleID.setDataFormat(createHelper.createDataFormat().getFormat("dd/mm/yy"));*/
-        DataFormat dfDate = workbook.createDataFormat();
-        styleID.setDataFormat(dfDate.getFormat("DD/M/YYYY"));
-        styleID.setAlignment(HorizontalAlignment.RIGHT);
+        p = 3;
+        int r = 0;
+        for (String period : periods) {
+            p++;
+            r++;
+            titleCellDT = title2.createCell(p);
+            titleCellDT.setCellValue(r + "° RESUMEN");
+            titleCellDT.setCellStyle(titleStyle);
+        }
 
-        CellStyle styleIS = workbook.createCellStyle();
-        styleIS.setFont(fontI);
-        styleIS.setAlignment(HorizontalAlignment.LEFT);
+        /* Obtengo Lista de conceptos */
 
-        CellStyle styleIA = workbook.createCellStyle();
-        styleIA.setFont(fontI);
-        styleIA.setAlignment(HorizontalAlignment.RIGHT);
-        styleIA.setDataFormat(dfMon.getFormat("$0.00"));
-
-        for (SeguimientoDTO seguimiento : seguimientos) {
-            if (seguimiento.getType().equals("I")) {
-                rowid = rowid + 1;
-                rowI = sheet.createRow(rowid);
-
-                cell = rowI.createCell(0);
-                cell.setCellValue(seguimiento.getDate());
-                cell.setCellStyle(styleID);
-
-                cell = rowI.createCell(1);
-                cell.setCellValue(seguimiento.getSource());
-                cell.setCellStyle(styleIS);
-
-                cell = rowI.createCell(2);
-                cell.setCellValue(seguimiento.getReference());
-                cell.setCellStyle(styleIS);
-
-                cell = rowI.createCell(3);
-                cell.setCellValue(seguimiento.getDescription());
-                cell.setCellStyle(styleIS);
-
-                cell = rowI.createCell(4);
-                cell.setCellValue(seguimiento.getAmount());
-                cell.setCellStyle(styleIA);
+        List<Tarea> tareas = tareaService.findAllByObraName(obraName);
+        List<String> conceptos = new ArrayList<>();
+        for (Tarea tarea : tareas) {
+            if (!conceptos.contains(tarea.getConcepto().getName())) {
+                conceptos.add(tarea.getConcepto().getName());
+            }
+        }
+        List<Seguimiento> segs = findAllByObraName(obraName);
+        for (Seguimiento seg : segs) {
+            if (!conceptos.contains(seg.getConceptName())) {
+                conceptos.add(seg.getConceptName());
             }
         }
 
-        /* Linea total egresos */
+        Double totalSaldo = 0D;
+        Double totalPresupuesto = 0D;
+        Double totalPagos = 0D;
 
-        rowid = rowid + 1;
+        /*Recorro los conceptos y obtengo los valores*/
 
-        Row rowTE = sheet.createRow(rowid);
+        Row conceptoR;
 
-        cell = rowTE.createCell(3);
+        int ro;
+        ro = 1;
+        for (String concepto : conceptos) {
+            ro++;
+            conceptoR = sheet.createRow(ro);
 
-        CellStyle styleTE = workbook.createCellStyle();
-        XSSFFont fontTE = ((XSSFWorkbook) workbook).createFont();
-        fontTE.setFontName("Arial");
-        fontTE.setFontHeightInPoints((short) 10);
-        fontTE.setBold(false);
-        styleTE.setFont(fontTE);
-        styleTE.setAlignment(HorizontalAlignment.LEFT);
-        cell.setCellValue("TOTAL EGRESOS");
-        cell.setCellStyle(styleTE);
+            titleCellDT = conceptoR.createCell(0);
+            titleCellDT.setCellValue(concepto);
+            titleCellDT.setCellStyle(titleStyleDT);
 
-        cell = rowTE.createCell(5);
+            // Obtengo el presupuesto
 
-        CellStyle styleTEA = workbook.createCellStyle();
-        XSSFFont fontTEA = ((XSSFWorkbook) workbook).createFont();
-        fontTEA.setFontName("Arial");
-        fontTEA.setFontHeightInPoints((short) 10);
-        fontTEA.setBold(false);
-        styleTEA.setFont(fontTIA);
-        styleTEA.setAlignment(HorizontalAlignment.RIGHT);
-        styleTEA.setDataFormat(dfMon.getFormat("$0.00"));
-        cell.setCellValue(sumTotalE);
-        cell.setCellStyle(styleTEA);
-
-        /* Lineas Egresos */
-
-        for (SeguimientoDTO seguimiento : seguimientos) {
-            if (seguimiento.getType().equals("E")) {
-                rowid = rowid + 1;
-                rowI = sheet.createRow(rowid);
-
-                cell = rowI.createCell(0);
-                cell.setCellValue(seguimiento.getDate());
-                cell.setCellStyle(styleID);
-
-                cell = rowI.createCell(1);
-                cell.setCellValue(seguimiento.getSource());
-                cell.setCellStyle(styleIS);
-
-                cell = rowI.createCell(2);
-                cell.setCellValue(seguimiento.getReference());
-                cell.setCellStyle(styleIS);
-
-                cell = rowI.createCell(3);
-                cell.setCellValue(seguimiento.getDescription());
-                cell.setCellStyle(styleIS);
-
-                cell = rowI.createCell(4);
-                cell.setCellValue(seguimiento.getAmount());
-                cell.setCellStyle(styleIA);
+            Double presupuesto;
+            presupuesto = 0D;
+            for (Tarea tarea : tareas) {
+                if (tarea.getConcepto().getName().equals(concepto)) {
+                    presupuesto = presupuesto + tarea.getCost();
+                }
             }
+
+            titleCellDT = conceptoR.createCell(2);
+            titleCellDT.setCellValue(presupuesto);
+            titleCellDT.setCellStyle(styleMonB);
+
+            // Obtengo los pagos
+            Double amount, totalAmount;
+            totalAmount = 0D;
+            p = 3;
+            for (String period : periods) {
+                p++;
+                amount = 0D;
+
+                List<Seguimiento> pagos = findAllByObraNameAndPeriodNameAndConceptName(
+                    obraName,
+                    period.substring(0, 1).toUpperCase() + period.substring(1),
+                    concepto
+                );
+                log.debug("Pagos: {}", pagos);
+
+                if (pagos.size() > 0) {
+                    for (Seguimiento seg : pagos) {
+                        amount = amount + (seg.getAmount());
+                    }
+                }
+                log.debug("Monto: {}", amount);
+
+                titleCellDT = conceptoR.createCell(p);
+                titleCellDT.setCellValue(amount);
+                titleCellDT.setCellStyle(styleMon);
+
+                totalAmount = totalAmount + amount;
+            }
+
+            titleCellDT = conceptoR.createCell(3);
+            titleCellDT.setCellValue(totalAmount);
+            titleCellDT.setCellStyle(styleMon);
+
+            titleCellDT = conceptoR.createCell(1);
+            titleCellDT.setCellValue((presupuesto - totalAmount));
+            titleCellDT.setCellStyle(styleMonB);
+
+            totalSaldo = totalSaldo + (presupuesto - totalAmount);
+            totalPresupuesto = totalPresupuesto + presupuesto;
+            totalPagos = totalPagos + totalAmount;
+        }
+
+        ro++;
+        Row conceptoTotal = sheet.createRow(ro);
+
+        titleCellDT = conceptoTotal.createCell(0);
+        titleCellDT.setCellValue("TOTAL");
+        titleCellDT.setCellStyle(titleStyle);
+
+        titleCellDT = conceptoTotal.createCell(1);
+        titleCellDT.setCellValue(totalSaldo);
+        titleCellDT.setCellStyle(styleMonB);
+
+        titleCellDT = conceptoTotal.createCell(2);
+        titleCellDT.setCellValue(totalPresupuesto);
+        titleCellDT.setCellStyle(styleMonB);
+
+        titleCellDT = conceptoTotal.createCell(3);
+        titleCellDT.setCellValue(totalPagos);
+        titleCellDT.setCellStyle(styleMonB);
+
+        p = 3;
+        Double totPeriodo;
+        for (String period : periods) {
+            totPeriodo = 0D;
+            p++;
+            List<Seguimiento> totPeriodos = findAllByObraNameAndPeriodName(
+                obraName,
+                period.substring(0, 1).toUpperCase() + period.substring(1)
+            );
+            for (Seguimiento seg : totPeriodos) {
+                totPeriodo = totPeriodo + seg.getAmount();
+            }
+            titleCellDT = conceptoTotal.createCell(p);
+            titleCellDT.setCellValue(totPeriodo);
+            titleCellDT.setCellStyle(styleMonB);
         }
 
         File outputFile = File.createTempFile("temp", ".xlsx");

@@ -17,7 +17,6 @@ import { saveAs } from 'file-saver';
 })
 export class SeguimientoRepComponent implements OnInit {
   seguimientoReps?: ISeguimientoRep[];
-  seguimientoReps2?: ISeguimientoRep[];
   obras?: IObra[];
   isLoading = false;
   isLoadingObra = false;
@@ -64,11 +63,6 @@ export class SeguimientoRepComponent implements OnInit {
         this.onResponseSuccessObra(res);
       },
     });
-    this.loadFromBackendWithRouteInformations().subscribe({
-      next: (res: EntityArrayResponseType) => {
-        this.onResponseSuccess(res);
-      },
-    });
   }
 
   navigateToWithComponentValues(): void {
@@ -79,55 +73,13 @@ export class SeguimientoRepComponent implements OnInit {
     window.history.back();
   }
 
-  onChangeObra(): void {
-    this.ob = this.findForm.get('obra')!.value!;
-    this.findForm.patchValue({ periodName: null });
-    this.per = this.findForm.get('periodName')!.value!;
-    this.loadFromBackendWithRouteInformations().subscribe({
-      next: (res: EntityArrayResponseType) => {
-        this.onResponseSuccess(res);
-      },
-    });
-  }
-
-  find(): void {
-    if (this.showSeg == false) {
-      this.showSeguimiento();
-    }
-    this.ob = this.findForm.get('obra')!.value!;
-    this.per = this.findForm.get('periodName')!.value!;
-    this.loadFromBackendWithRouteInformations2().subscribe({
-      next: (res: EntityArrayResponseType) => {
-        this.onResponseSuccess2(res);
-        if (this.showSeg == false) {
-          this.showSeguimiento();
-        }
-      },
-    });
-  }
-
   exportXLS(): void {
     const queryObject = {
-      'obraName.equals': this.ob!,
-      'periodName.equals': this.per!,
+      'obraName.equals': this.findForm.get('obra')!.value!,
     };
     this.seguimientoRepService.generateXLS(queryObject).subscribe((data: any) => {
-      saveAs(data, 'Seguimiento_Obra_' + this.ob! + '.xls');
+      saveAs(data, 'Seguimiento_Obra_' + this.findForm.get('obra')!.value! + '.xls');
     });
-  }
-
-  protected loadFromBackendWithRouteInformations(): Observable<EntityArrayResponseType> {
-    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
-      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-      switchMap(() => this.queryBackend(this.predicate, this.ascending))
-    );
-  }
-
-  protected loadFromBackendWithRouteInformations2(): Observable<EntityArrayResponseType> {
-    return combineLatest([this.activatedRoute.queryParamMap, this.activatedRoute.data]).pipe(
-      tap(([params, data]) => this.fillComponentAttributeFromRoute(params, data)),
-      switchMap(() => this.queryBackend2(this.predicate, this.ascending))
-    );
   }
 
   protected loadFromBackendWithRouteInformationsObra(): Observable<EntityArrayResponseType2> {
@@ -143,56 +95,17 @@ export class SeguimientoRepComponent implements OnInit {
     this.ascending = sort[1] === ASC;
   }
 
-  protected onResponseSuccess(response: EntityArrayResponseType): void {
-    const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
-    this.seguimientoReps = this.refineData(dataFromBody);
-    this.seguimientoReps2 = this.seguimientoReps;
-  }
-
-  protected onResponseSuccess2(response: EntityArrayResponseType): void {
-    const dataFromBody = this.fillComponentAttributesFromResponseBody(response.body);
-    this.seguimientoReps = this.refineData(dataFromBody);
-  }
-
   protected onResponseSuccessObra(response: EntityArrayResponseType2): void {
     const dataFromBody = this.fillComponentAttributesFromResponseBodyObra(response.body);
     this.obras = this.refineDataObra(dataFromBody);
-  }
-
-  protected refineData(data: ISeguimientoRep[]): ISeguimientoRep[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
   protected refineDataObra(data: IObra[]): IObra[] {
     return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
   }
 
-  protected fillComponentAttributesFromResponseBody(data: ISeguimientoRep[] | null): ISeguimientoRep[] {
-    return data ?? [];
-  }
-
   protected fillComponentAttributesFromResponseBodyObra(data: IObra[] | null): IObra[] {
     return data ?? [];
-  }
-
-  protected queryBackend(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
-    this.isLoading = true;
-    const queryObject = {
-      sort: this.getSortQueryParam(predicate, ascending),
-      'obraName.equals': this.ob!,
-      'periodName.equals': this.per!,
-    };
-    return this.seguimientoRepService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
-  }
-
-  protected queryBackend2(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType> {
-    this.isLoading = true;
-    const queryObject = {
-      sort: this.getSortQueryParam(predicate, ascending),
-      'obraName.equals': this.ob!,
-      'periodName.equals': this.per!,
-    };
-    return this.seguimientoRepService.query(queryObject).pipe(tap(() => (this.isLoading = false)));
   }
 
   protected queryBackendObra(predicate?: string, ascending?: boolean): Observable<EntityArrayResponseType2> {

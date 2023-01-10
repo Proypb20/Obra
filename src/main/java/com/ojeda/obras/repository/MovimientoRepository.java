@@ -1,6 +1,8 @@
 package com.ojeda.obras.repository;
 
+import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.domain.Movimiento;
+import java.time.Instant;
 import java.util.List;
 import java.util.Optional;
 import org.springframework.data.domain.Page;
@@ -41,4 +43,6 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Long>, J
         "select movimiento from Movimiento movimiento left join fetch movimiento.obra left join fetch movimiento.subcontratista left join fetch movimiento.concepto left join fetch movimiento.tipoComprobante where movimiento.id =:id"
     )
     Optional<Movimiento> findOneWithToOneRelationships(@Param("id") Long id);
+
+    List<Movimiento> findAllByConceptoAndDateBetween(Concepto concepto, Instant fromDate, Instant toDate);
 }

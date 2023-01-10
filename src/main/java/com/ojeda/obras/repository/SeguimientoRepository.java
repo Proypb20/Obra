@@ -11,4 +11,8 @@ import org.springframework.stereotype.Repository;
  */
 @SuppressWarnings("unused")
 @Repository
-public interface SeguimientoRepository extends JpaRepository<Seguimiento, Long>, JpaSpecificationExecutor<Seguimiento> {}
+public interface SeguimientoRepository extends JpaRepository<Seguimiento, Long>, JpaSpecificationExecutor<Seguimiento> {
+    List<Seguimiento> findAllByObraNameAndPeriodNameAndConceptName(String obraName, String periodName, String conceptName);
+    List<Seguimiento> findAllByObraName(String obraName);
+    List<Seguimiento> findAllByObraNameAndPeriodName(String obraName, String periodName);
+}

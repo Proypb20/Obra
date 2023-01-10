@@ -8,7 +8,7 @@
         Added the entity BalanceRep.
     -->
     <changeSet id="20220913014512-1" author="Sly">
-        <createView viewName="seguimiento" path="config/liquibase/changelog/seguimiento.sql">
+        <createView viewName="seguimiento_rep" path="config/liquibase/changelog/seguimiento_rep.sql">
         </createView>
     </changeSet>
 
