@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { HttpClient, HttpResponse } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { ApplicationConfigService } from 'app/core/config/application-config.service';
 import { VERSION } from 'app/app.constants';
 import { Account } from 'app/core/auth/account.model';

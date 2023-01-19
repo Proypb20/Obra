@@ -25,6 +25,8 @@ export class DetalleAcopioUpdateComponent implements OnInit {
   acopiosSharedCollection: IAcopio[] = [];
   detalleListaPreciosSharedCollection: IDetalleListaPrecio[] = [];
 
+  selectedAcopio: IAcopio | null = null;
+
   aId = 0;
   lpId = 0;
 
@@ -123,7 +125,7 @@ export class DetalleAcopioUpdateComponent implements OnInit {
       .query({ 'id.equals': this.aId })
       .pipe(map((res: HttpResponse<IAcopio[]>) => res.body ?? []))
       .pipe(map((acopios: IAcopio[]) => this.acopioService.addAcopioToCollectionIfMissing<IAcopio>(acopios, this.detalleAcopio?.acopio)))
-      .subscribe((acopios: IAcopio[]) => (this.acopiosSharedCollection = acopios));
+      .subscribe((acopios: IAcopio[]) => ((this.acopiosSharedCollection = acopios), (this.selectedAcopio = acopios[0])));
 
     this.detalleListaPrecioService
       .query({ 'listaPrecioId.equals': this.lpId })

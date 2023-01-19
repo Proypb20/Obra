@@ -20,6 +20,8 @@ export class ListaPrecioUpdateComponent implements OnInit {
 
   proveedorsSharedCollection: IProveedor[] = [];
 
+  selectedProveedor: IProveedor | null = null;
+
   pId = 0;
 
   editForm: ListaPrecioFormGroup = this.listaPrecioFormService.createListaPrecioFormGroup();
@@ -97,6 +99,6 @@ export class ListaPrecioUpdateComponent implements OnInit {
           this.proveedorService.addProveedorToCollectionIfMissing<IProveedor>(proveedors, this.listaPrecio?.proveedor)
         )
       )
-      .subscribe((proveedors: IProveedor[]) => (this.proveedorsSharedCollection = proveedors));
+      .subscribe((proveedors: IProveedor[]) => ((this.proveedorsSharedCollection = proveedors), (this.selectedProveedor = proveedors[0])));
   }
 }

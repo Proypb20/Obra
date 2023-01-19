@@ -14,7 +14,7 @@ type PartialWithRequiredKeyOf<T extends { id: unknown }> = Partial<Omit<T, 'id'>
  */
 type TareaFormGroupInput = ITarea | PartialWithRequiredKeyOf<NewTarea>;
 
-type TareaFormDefaults = Pick<NewTarea, 'id'>;
+type TareaFormDefaults = Pick<NewTarea, 'id' | 'obra'>;
 
 type TareaFormGroupContent = {
   id: FormControl<ITarea['id'] | NewTarea['id']>;

@@ -26,6 +26,9 @@ export class AcopioUpdateComponent implements OnInit {
   listaPreciosSharedCollection: IListaPrecio[] = [];
   proveedorsSharedCollection: IProveedor[] = [];
 
+  selectedObra: IObra | null = null;
+  selectedProveedor: IProveedor | null = null;
+
   pId = 0;
   oId = 0;
 
@@ -120,12 +123,19 @@ export class AcopioUpdateComponent implements OnInit {
   }
 
   protected loadRelationshipsOptions(): void {
-    this.obraService
-      .query({ 'id.equals': this.oId })
-      .pipe(map((res: HttpResponse<IObra[]>) => res.body ?? []))
-      .pipe(map((obras: IObra[]) => this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.acopio?.obra)))
-      .subscribe((obras: IObra[]) => (this.obrasSharedCollection = obras));
-
+    if (this.oId !== undefined) {
+      this.obraService
+        .query({ 'id.equals': this.oId })
+        .pipe(map((res: HttpResponse<IObra[]>) => res.body ?? []))
+        .pipe(map((obras: IObra[]) => this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.acopio?.obra)))
+        .subscribe((obras: IObra[]) => ((this.obrasSharedCollection = obras), (this.selectedObra = obras[0])));
+    } else {
+      this.obraService
+        .query({ 'id.equals': this.oId })
+        .pipe(map((res: HttpResponse<IObra[]>) => res.body ?? []))
+        .pipe(map((obras: IObra[]) => this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.acopio?.obra)))
+        .subscribe((obras: IObra[]) => (this.obrasSharedCollection = obras));
+    }
     this.listaPrecioService
       .query({ 'proveedorId.equals': this.pId })
       .pipe(map((res: HttpResponse<IListaPrecio[]>) => res.body ?? []))
@@ -136,14 +146,28 @@ export class AcopioUpdateComponent implements OnInit {
       )
       .subscribe((listaPrecios: IListaPrecio[]) => (this.listaPreciosSharedCollection = listaPrecios));
 
-    this.proveedorService
-      .query({ 'id.equals': this.pId })
-      .pipe(map((res: HttpResponse<IProveedor[]>) => res.body ?? []))
-      .pipe(
-        map((proveedors: IProveedor[]) =>
-          this.proveedorService.addProveedorToCollectionIfMissing<IProveedor>(proveedors, this.acopio?.proveedor)
+    if (this.pId !== undefined) {
+      this.proveedorService
+        .query({ 'id.equals': this.pId })
+        .pipe(map((res: HttpResponse<IProveedor[]>) => res.body ?? []))
+        .pipe(
+          map((proveedors: IProveedor[]) =>
+            this.proveedorService.addProveedorToCollectionIfMissing<IProveedor>(proveedors, this.acopio?.proveedor)
+          )
         )
-      )
-      .subscribe((proveedors: IProveedor[]) => (this.proveedorsSharedCollection = proveedors));
+        .subscribe(
+          (proveedors: IProveedor[]) => ((this.proveedorsSharedCollection = proveedors), (this.selectedProveedor = proveedors[0]))
+        );
+    } else {
+      this.proveedorService
+        .query({ 'id.equals': this.pId })
+        .pipe(map((res: HttpResponse<IProveedor[]>) => res.body ?? []))
+        .pipe(
+          map((proveedors: IProveedor[]) =>
+            this.proveedorService.addProveedorToCollectionIfMissing<IProveedor>(proveedors, this.acopio?.proveedor)
+          )
+        )
+        .subscribe((proveedors: IProveedor[]) => (this.proveedorsSharedCollection = proveedors));
+    }
   }
 }

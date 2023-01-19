@@ -5,7 +5,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators } from '@angular/forms';
 import { ISeguimientoRep } from '../seguimiento-rep.model';
 import { ASC, DESC, SORT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
-import { EntityArrayResponseType, SeguimientoRepService } from '../service/seguimiento-rep.service';
+import { SeguimientoRepService } from '../service/seguimiento-rep.service';
 import { EntityArrayResponseType as EntityArrayResponseType2, ObraService } from 'app/entities/obra/service/obra.service';
 import { SortService } from 'app/shared/sort/sort.service';
 import { IObra } from 'app/entities/obra/obra.model';
@@ -50,7 +50,7 @@ export class SeguimientoRepComponent implements OnInit {
   }
 
   showSeguimiento(): void {
-    if (this.showSeg == false) {
+    if (this.showSeg === false) {
       this.showSeg = true;
     } else {
       this.showSeg = false;

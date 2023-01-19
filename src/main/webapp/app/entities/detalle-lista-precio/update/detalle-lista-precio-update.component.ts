@@ -21,6 +21,8 @@ export class DetalleListaPrecioUpdateComponent implements OnInit {
   listaPreciosSharedCollection: IListaPrecio[] = [];
   lpId = 0;
 
+  selectedLp: IListaPrecio | null = null;
+
   editForm: DetalleListaPrecioFormGroup = this.detalleListaPrecioFormService.createDetalleListaPrecioFormGroup();
 
   constructor(
@@ -96,6 +98,8 @@ export class DetalleListaPrecioUpdateComponent implements OnInit {
           this.listaPrecioService.addListaPrecioToCollectionIfMissing<IListaPrecio>(listaPrecios, this.detalleListaPrecio?.listaPrecio)
         )
       )
-      .subscribe((listaPrecios: IListaPrecio[]) => (this.listaPreciosSharedCollection = listaPrecios));
+      .subscribe(
+        (listaPrecios: IListaPrecio[]) => ((this.listaPreciosSharedCollection = listaPrecios), (this.selectedLp = listaPrecios[0]))
+      );
   }
 }

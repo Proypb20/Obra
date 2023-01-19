@@ -22,12 +22,9 @@
             name="listaPrecio"
             formControlName="listaPrecio"
             [compareWith]="compareListaPrecio"
+            [(ngModel)]="selectedLp"
           >
-            <option
-              [ngValue]="listaPrecioOption"
-              *ngFor="let listaPrecioOption of listaPreciosSharedCollection"
-              [selected]="listaPrecioOption.id == this.lpId"
-            >
+            <option [ngValue]="listaPrecioOption" *ngFor="let listaPrecioOption of listaPreciosSharedCollection">
               {{ listaPrecioOption.name }}
             </option>
           </select>

@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
 import { NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder } from '@angular/forms';
-import { HttpResponse } from '@angular/common/http';
 import { TareaService } from '../service/tarea.service';
-import { map } from 'rxjs/operators';
 
 @Component({
   templateUrl: './tarea-submit-dialog.component.html',

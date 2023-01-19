@@ -22,8 +22,9 @@
             name="acopio"
             formControlName="acopio"
             [compareWith]="compareAcopio"
+            [(ngModel)]="selectedAcopio"
           >
-            <option [ngValue]="acopioOption" *ngFor="let acopioOption of acopiosSharedCollection" [selected]="acopioOption.id == this.aId">
+            <option [ngValue]="acopioOption" *ngFor="let acopioOption of acopiosSharedCollection">
               {{ acopioOption.date | formatShortDate }}, {{ acopioOption.proveedor?.name }}
             </option>
           </select>

@@ -15,8 +15,16 @@
 
         <div class="row mb-3">
           <label class="form-label" for="field_obra">Obra *</label>
-          <select class="form-control" id="field_obra" data-cy="obra" name="obra" formControlName="obra" [compareWith]="compareObra">
-            <option [ngValue]="obraOption" *ngFor="let obraOption of obrasSharedCollection" [selected]="obraOption.id == this.oId">
+          <select
+            class="form-control"
+            [(ngModel)]="selectedObra"
+            id="field_obra"
+            data-cy="obra"
+            name="obra"
+            formControlName="obra"
+            [compareWith]="compareObra"
+          >
+            <option *ngFor="let obraOption of obrasSharedCollection" [ngValue]="obraOption">
               {{ obraOption.name }}
             </option>
           </select>

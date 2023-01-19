@@ -6,12 +6,12 @@ import { takeUntil } from 'rxjs/operators';
 import { AccountService } from 'app/core/auth/account.service';
 import { Account } from 'app/core/auth/account.model';
 
-import { HttpHeaders, HttpResponse } from '@angular/common/http';
+import { HttpResponse } from '@angular/common/http';
 import { ISaldo } from 'app/entities/saldo/saldo.model';
 import { SaldoService } from 'app/entities/saldo/service/saldo.service';
 import { IAdvPendRep } from 'app/entities/adv-pend-rep/adv-pend-rep.model';
 import { AdvPendRepService } from 'app/entities/adv-pend-rep/service/adv-pend-rep.service';
-import { ASC, DESC, SORT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
+import { ASC, DESC } from 'app/config/navigation.constants';
 
 @Component({
   selector: 'jhi-home',

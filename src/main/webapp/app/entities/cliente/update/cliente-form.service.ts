@@ -47,9 +47,7 @@ export class ClienteFormService {
       lastName: new FormControl(clienteRawValue.lastName, {
         validators: [Validators.required],
       }),
-      firstName: new FormControl(clienteRawValue.firstName, {
-        validators: [Validators.required],
-      }),
+      firstName: new FormControl(clienteRawValue.firstName),
       taxpayerID: new FormControl(clienteRawValue.taxpayerID),
       address: new FormControl(clienteRawValue.address),
       city: new FormControl(clienteRawValue.city),

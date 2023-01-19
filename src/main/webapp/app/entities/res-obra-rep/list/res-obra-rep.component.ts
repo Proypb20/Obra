@@ -51,7 +51,7 @@ export class ResObraRepComponent implements OnInit {
   }
 
   showResObra(): void {
-    if (this.showSeg == false) {
+    if (this.showSeg === false) {
       this.showSeg = true;
     } else {
       this.showSeg = false;
@@ -91,7 +91,7 @@ export class ResObraRepComponent implements OnInit {
   }
 
   find(): void {
-    if (this.showSeg == false) {
+    if (this.showSeg === false) {
       this.showResObra();
     }
     this.ob = this.findForm.get('obra')!.value!;
@@ -99,7 +99,7 @@ export class ResObraRepComponent implements OnInit {
     this.loadFromBackendWithRouteInformations2().subscribe({
       next: (res: EntityArrayResponseType) => {
         this.onResponseSuccess2(res);
-        if (this.showSeg == false) {
+        if (this.showSeg === false) {
           this.showResObra();
         }
       },

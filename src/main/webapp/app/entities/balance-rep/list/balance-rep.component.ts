@@ -1,4 +1,3 @@
-import dayjs from 'dayjs/esm';
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Data, ParamMap, Router } from '@angular/router';
 import { combineLatest, Observable, switchMap, tap } from 'rxjs';

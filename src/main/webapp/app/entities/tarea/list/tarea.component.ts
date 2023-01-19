@@ -78,6 +78,8 @@ export class TareaComponent implements OnInit {
   ngOnInit(): void {
     this.oId = history.state?.oId;
     this.sId = history.state?.sId;
+    this.filterOId = this.oId;
+    this.filterSId = this.sId;
     this.load();
   }
 
@@ -320,6 +322,8 @@ export class TareaComponent implements OnInit {
     }
     if (this.filterSId !== 0) {
       this.sId = this.filterSId;
+    } else {
+      this.sId = 0;
     }
     if (this.filterId !== 0) {
       this.Id = this.filterId;

@@ -22,13 +22,10 @@
             name="proveedor"
             formControlName="proveedor"
             [compareWith]="compareProveedor"
+            [(ngModel)]="selectedProveedor"
           >
             <!--<option [ngValue]="null"></option>-->
-            <option
-              [ngValue]="proveedorOption"
-              *ngFor="let proveedorOption of proveedorsSharedCollection"
-              [selected]="proveedorOption.id == this.pId"
-            >
+            <option [ngValue]="proveedorOption" *ngFor="let proveedorOption of proveedorsSharedCollection">
               {{ proveedorOption.name }}
             </option>
           </select>
