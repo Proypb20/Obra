@@ -12,6 +12,7 @@ import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import org.apache.poi.hssf.usermodel.HSSFSheet;
@@ -168,9 +169,9 @@ public class ListaPrecioService {
         log.debug("FileName: {}", file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")));
         log.debug(
             "Resultado compare: {}",
-            file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).compareTo(".xls")
+            file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).toUpperCase().compareTo(".XLS")
         );
-        if (file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).compareTo(".xls") == 0) {
+        if (file.getOriginalFilename().substring(file.getOriginalFilename().lastIndexOf(".")).toUpperCase().compareTo(".XLS") == 0) {
             log.debug("XLS");
             FileInputStream fis = new FileInputStream(fileLocation);
             HSSFWorkbook wb = new HSSFWorkbook(fis);

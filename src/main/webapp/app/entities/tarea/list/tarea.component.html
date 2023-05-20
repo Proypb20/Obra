@@ -50,11 +50,6 @@
       <table class="table table-striped" aria-describedby="page-heading">
         <thead>
           <tr>
-            <!--<th scope="col">
-              <label class="form-label" for="field_id">Id</label>
-              <input type="number" class="form-control" name="id" id="field_id" data-cy="id" formControlName="id"
-                     (onChanges)="onChangeId()"/>
-            </th>-->
             <th scope="col">
               <label class="form-label" for="field_obra">Obra</label>
               <select
@@ -186,7 +181,13 @@
                 <span class="d-none d-md-inline">Vista</span>
               </button>-->
 
-              <button type="submit" [routerLink]="['/tarea', tarea.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/tarea', tarea.id, 'edit']"
+                [state]="{ oId: tarea.obra!.id }"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Editar</span>
               </button>

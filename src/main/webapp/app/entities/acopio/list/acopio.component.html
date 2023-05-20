@@ -99,7 +99,7 @@
               <button
                 type="submit"
                 [routerLink]="['/detalle-acopio']"
-                [state]="{ aId: acopio.id, lpId: acopio.listaprecio!.id }"
+                [state]="{ aId: acopio.id, lpId: acopio.listaprecio?.id }"
                 class="btn btn-info btn-sm"
                 data-cy="entityDetailsButton"
               >
@@ -107,7 +107,13 @@
                 <span class="d-none d-md-inline">Detalle</span>
               </button>
 
-              <button type="submit" [routerLink]="['/acopio', acopio.id, 'edit']" class="btn btn-primary btn-sm" data-cy="entityEditButton">
+              <button
+                type="submit"
+                [routerLink]="['/acopio', acopio.id, 'edit']"
+                [state]="{ pId: acopio.proveedor?.id, oId: acopio.obra?.id }"
+                class="btn btn-primary btn-sm"
+                data-cy="entityEditButton"
+              >
                 <fa-icon icon="pencil-alt"></fa-icon>
                 <span class="d-none d-md-inline">Editar</span>
               </button>

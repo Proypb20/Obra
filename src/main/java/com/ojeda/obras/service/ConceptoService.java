@@ -1,9 +1,14 @@
 package com.ojeda.obras.service;
 
+import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
+
 import com.ojeda.obras.domain.Concepto;
 import com.ojeda.obras.repository.ConceptoRepository;
+import com.ojeda.obras.repository.MovimientoRepository;
+import com.ojeda.obras.repository.TareaRepository;
 import com.ojeda.obras.service.dto.ConceptoDTO;
 import com.ojeda.obras.service.mapper.ConceptoMapper;
+import com.ojeda.obras.web.rest.errors.BadRequestAlertException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +31,20 @@ public class ConceptoService {
 
     private final ConceptoMapper conceptoMapper;
 
-    public ConceptoService(ConceptoRepository conceptoRepository, ConceptoMapper conceptoMapper) {
+    private final TareaRepository tareaRepository;
+
+    private final MovimientoRepository movimientoRepository;
+
+    public ConceptoService(
+        ConceptoRepository conceptoRepository,
+        ConceptoMapper conceptoMapper,
+        MovimientoRepository movimientoRepository,
+        TareaRepository tareaRepository
+    ) {
         this.conceptoRepository = conceptoRepository;
         this.conceptoMapper = conceptoMapper;
+        this.movimientoRepository = movimientoRepository;
+        this.tareaRepository = tareaRepository;
     }
 
     /**
@@ -107,6 +123,25 @@ public class ConceptoService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Concepto : {}", id);
+
+        log.debug("Valido que el concepto no tenga tareas");
+
+        Long tareas = tareaRepository.getCountByConceptoId(id);
+        if (tareas != 0) {
+            throw new BadRequestAlertException("Hay tareas asociados a esta Concepto", ENTITY_NAME, "Hay tareas asociadas al concepto");
+        }
+
+        log.debug("Valido que el concepto no tenga Movimientos");
+
+        Long movs = movimientoRepository.getCountByConceptoId(id);
+        if (movs != 0) {
+            throw new BadRequestAlertException(
+                "Hay movimientos asociados a este concepto",
+                ENTITY_NAME,
+                "Hay movimientos asociados a la obra"
+            );
+        }
+
         conceptoRepository.deleteById(id);
     }
 }

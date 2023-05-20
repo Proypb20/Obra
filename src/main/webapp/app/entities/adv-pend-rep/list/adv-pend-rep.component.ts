@@ -194,15 +194,15 @@ export class AdvPendRepComponent implements OnInit {
   }
 
   protected refineDataTarea(data: ITarea[]): ITarea[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    return data.sort(this.sortService.startSort('tarea', this.ascending ? 1 : -1));
   }
 
   protected refineDataObra(data: IObra[]): IObra[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    return data.sort(this.sortService.startSort('name', this.ascending ? 1 : -1));
   }
 
   protected refineDataSubcontratista(data: ISubcontratista[]): ISubcontratista[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    return data.sort(this.sortService.startSort('lastName', this.ascending ? 1 : -1));
   }
 
   protected fillComponentAttributesFromResponseBody(data: IAdvPendRep[] | null): IAdvPendRep[] {

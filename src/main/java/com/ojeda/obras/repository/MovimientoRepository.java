@@ -45,4 +45,13 @@ public interface MovimientoRepository extends JpaRepository<Movimiento, Long>, J
     Optional<Movimiento> findOneWithToOneRelationships(@Param("id") Long id);
 
     List<Movimiento> findAllByConceptoAndDateBetween(Concepto concepto, Instant fromDate, Instant toDate);
+
+    @Query("SELECT COUNT(1) from Movimiento movimiento where movimiento.obra.id = :id ")
+    Long getCountByObraId(@Param("id") Long id);
+
+    @Query("SELECT COUNT(1) from Movimiento movimiento where movimiento.subcontratista.id = :id ")
+    Long getCountBySubcontratistaId(@Param("id") Long id);
+
+    @Query("SELECT COUNT(1) from Movimiento movimiento where movimiento.concepto.id = :id ")
+    Long getCountByConceptoId(@Param("id") Long id);
 }

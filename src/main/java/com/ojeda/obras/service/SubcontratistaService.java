@@ -1,9 +1,14 @@
 package com.ojeda.obras.service;
 
+import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
+
 import com.ojeda.obras.domain.Subcontratista;
+import com.ojeda.obras.repository.MovimientoRepository;
 import com.ojeda.obras.repository.SubcontratistaRepository;
+import com.ojeda.obras.repository.TareaRepository;
 import com.ojeda.obras.service.dto.SubcontratistaDTO;
 import com.ojeda.obras.service.mapper.SubcontratistaMapper;
+import com.ojeda.obras.web.rest.errors.BadRequestAlertException;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Optional;
@@ -26,9 +31,20 @@ public class SubcontratistaService {
 
     private final SubcontratistaMapper subcontratistaMapper;
 
-    public SubcontratistaService(SubcontratistaRepository subcontratistaRepository, SubcontratistaMapper subcontratistaMapper) {
+    private final TareaRepository tareaRepository;
+
+    private final MovimientoRepository movimientoRepository;
+
+    public SubcontratistaService(
+        SubcontratistaRepository subcontratistaRepository,
+        SubcontratistaMapper subcontratistaMapper,
+        MovimientoRepository movimientoRepository,
+        TareaRepository tareaRepository
+    ) {
         this.subcontratistaRepository = subcontratistaRepository;
         this.subcontratistaMapper = subcontratistaMapper;
+        this.movimientoRepository = movimientoRepository;
+        this.tareaRepository = tareaRepository;
     }
 
     /**
@@ -111,6 +127,29 @@ public class SubcontratistaService {
      */
     public void delete(Long id) {
         log.debug("Request to delete Subcontratista : {}", id);
+
+        log.debug("Valido que el subcontratista no tenga tareas");
+
+        Long tareas = tareaRepository.getCountBySubcontratistaId(id);
+        if (tareas != 0) {
+            throw new BadRequestAlertException(
+                "Hay tareas asociados a esta Subcontratista",
+                ENTITY_NAME,
+                "Hay tareas asociadas al subcontratista"
+            );
+        }
+
+        log.debug("Valido que el subcontratista no tenga Movimientos");
+
+        Long movs = movimientoRepository.getCountBySubcontratistaId(id);
+        if (movs != 0) {
+            throw new BadRequestAlertException(
+                "Hay movimientos asociados a este subcontratista",
+                ENTITY_NAME,
+                "Hay movimientos asociados al subcontratista"
+            );
+        }
+
         subcontratistaRepository.deleteById(id);
     }
 }

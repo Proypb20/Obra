@@ -3,6 +3,7 @@ package com.ojeda.obras.service;
 import static org.hibernate.id.IdentifierGenerator.ENTITY_NAME;
 
 import com.ojeda.obras.domain.Obra;
+import com.ojeda.obras.repository.MovimientoRepository;
 import com.ojeda.obras.repository.ObraRepository;
 import com.ojeda.obras.repository.TareaRepository;
 import com.ojeda.obras.service.dto.ObraDTO;
@@ -34,10 +35,18 @@ public class ObraService {
 
     private final TareaRepository tareaRepository;
 
-    public ObraService(ObraRepository obraRepository, ObraMapper obraMapper, TareaRepository tareaRepository) {
+    private final MovimientoRepository movimientoRepository;
+
+    public ObraService(
+        ObraRepository obraRepository,
+        ObraMapper obraMapper,
+        TareaRepository tareaRepository,
+        MovimientoRepository movimientoRepository
+    ) {
         this.obraRepository = obraRepository;
         this.obraMapper = obraMapper;
         this.tareaRepository = tareaRepository;
+        this.movimientoRepository = movimientoRepository;
     }
 
     /**
@@ -132,6 +141,14 @@ public class ObraService {
         if (tareas != 0) {
             throw new BadRequestAlertException("Hay tareas asociados a esta obra", ENTITY_NAME, "Hay tareas asociadas a la obra");
         }
+
+        log.debug("Valido que la obra no tenga Movimientos");
+
+        Long movs = movimientoRepository.getCountByObraId(id);
+        if (movs != 0) {
+            throw new BadRequestAlertException("Hay movimientos asociados a esta obra", ENTITY_NAME, "Hay movimientos asociados a la obra");
+        }
+
         obraRepository.deleteById(id);
     }
 }

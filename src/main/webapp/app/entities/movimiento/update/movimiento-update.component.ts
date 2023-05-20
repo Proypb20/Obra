@@ -4,6 +4,8 @@ import { ActivatedRoute } from '@angular/router';
 import { Observable } from 'rxjs';
 import { finalize, map } from 'rxjs/operators';
 
+import { ASC, DESC, SORT, ITEM_DELETED_EVENT, DEFAULT_SORT_DATA } from 'app/config/navigation.constants';
+
 import { MovimientoFormService, MovimientoFormGroup } from './movimiento-form.service';
 import { IMovimiento } from '../movimiento.model';
 import { MovimientoService } from '../service/movimiento.service';
@@ -16,6 +18,7 @@ import { ConceptoService } from 'app/entities/concepto/service/concepto.service'
 import { ITipoComprobante } from 'app/entities/tipo-comprobante/tipo-comprobante.model';
 import { TipoComprobanteService } from 'app/entities/tipo-comprobante/service/tipo-comprobante.service';
 import { MetodoPago } from 'app/entities/enumerations/metodo-pago.model';
+import { SortService } from 'app/shared/sort/sort.service';
 
 @Component({
   selector: 'jhi-movimiento-update',
@@ -40,7 +43,8 @@ export class MovimientoUpdateComponent implements OnInit {
     protected subcontratistaService: SubcontratistaService,
     protected conceptoService: ConceptoService,
     protected tipoComprobanteService: TipoComprobanteService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected sortService: SortService
   ) {}
 
   compareObra = (o1: IObra | null, o2: IObra | null): boolean => this.obraService.compareObra(o1, o2);
@@ -116,47 +120,80 @@ export class MovimientoUpdateComponent implements OnInit {
     );
   }
 
+  protected getSortQueryParam(predicate: string, ascending: boolean): string[] {
+    const ascendingQueryParam = ascending ? ASC : DESC;
+    if (predicate === '') {
+      return [];
+    } else {
+      return [predicate + ',' + ascendingQueryParam];
+    }
+  }
+
+  protected refineDataObras(data: IObra[]): IObra[] {
+    return data.sort(this.sortService.startSort('name', 1));
+  }
+
+  protected refineDataSubco(data: ISubcontratista[]): ISubcontratista[] {
+    return data.sort(this.sortService.startSort('lastName', 1));
+  }
+
+  protected refineDataConcepto(data: IConcepto[]): IConcepto[] {
+    return data.sort(this.sortService.startSort('name', 1));
+  }
+
+  protected refineDataTComp(data: ITipoComprobante[]): ITipoComprobante[] {
+    return data.sort(this.sortService.startSort('name', 1));
+  }
+
   protected loadRelationshipsOptions(): void {
     this.obraService
       .query()
       .pipe(map((res: HttpResponse<IObra[]>) => res.body ?? []))
-      .pipe(map((obras: IObra[]) => this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.movimiento?.obra)))
-      .subscribe((obras: IObra[]) => (this.obrasSharedCollection = obras));
+      .pipe(
+        map((obras: IObra[]) => this.refineDataObras(this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.movimiento?.obra)))
+      )
+      .subscribe((obras: IObra[]) => (this.obrasSharedCollection = this.refineDataObras(obras)));
 
     this.subcontratistaService
       .query()
       .pipe(map((res: HttpResponse<ISubcontratista[]>) => res.body ?? []))
       .pipe(
         map((subcontratistas: ISubcontratista[]) =>
-          this.subcontratistaService.addSubcontratistaToCollectionIfMissing<ISubcontratista>(
-            subcontratistas,
-            this.movimiento?.subcontratista
+          this.refineDataSubco(
+            this.subcontratistaService.addSubcontratistaToCollectionIfMissing<ISubcontratista>(
+              subcontratistas,
+              this.movimiento?.subcontratista
+            )
           )
         )
       )
-      .subscribe((subcontratistas: ISubcontratista[]) => (this.subcontratistasSharedCollection = subcontratistas));
+      .subscribe((subcontratistas: ISubcontratista[]) => (this.subcontratistasSharedCollection = this.refineDataSubco(subcontratistas)));
 
     this.conceptoService
       .query()
       .pipe(map((res: HttpResponse<IConcepto[]>) => res.body ?? []))
       .pipe(
         map((conceptos: IConcepto[]) =>
-          this.conceptoService.addConceptoToCollectionIfMissing<IConcepto>(conceptos, this.movimiento?.concepto)
+          this.refineDataConcepto(this.conceptoService.addConceptoToCollectionIfMissing<IConcepto>(conceptos, this.movimiento?.concepto))
         )
       )
-      .subscribe((conceptos: IConcepto[]) => (this.conceptosSharedCollection = conceptos));
+      .subscribe((conceptos: IConcepto[]) => (this.conceptosSharedCollection = this.refineDataConcepto(conceptos)));
 
     this.tipoComprobanteService
       .query()
       .pipe(map((res: HttpResponse<ITipoComprobante[]>) => res.body ?? []))
       .pipe(
         map((tipoComprobantes: ITipoComprobante[]) =>
-          this.tipoComprobanteService.addTipoComprobanteToCollectionIfMissing<ITipoComprobante>(
-            tipoComprobantes,
-            this.movimiento?.tipoComprobante
+          this.refineDataTComp(
+            this.tipoComprobanteService.addTipoComprobanteToCollectionIfMissing<ITipoComprobante>(
+              tipoComprobantes,
+              this.movimiento?.tipoComprobante
+            )
           )
         )
       )
-      .subscribe((tipoComprobantes: ITipoComprobante[]) => (this.tipoComprobantesSharedCollection = tipoComprobantes));
+      .subscribe(
+        (tipoComprobantes: ITipoComprobante[]) => (this.tipoComprobantesSharedCollection = this.refineDataTComp(tipoComprobantes))
+      );
   }
 }

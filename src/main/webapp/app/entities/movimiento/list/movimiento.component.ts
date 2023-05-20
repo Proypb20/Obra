@@ -323,7 +323,7 @@ export class MovimientoComponent implements OnInit {
   protected fillComponentAttributeFromRoute(params: ParamMap, data: Data): void {
     const sort = (params.get(SORT) ?? data[DEFAULT_SORT_DATA]).split(',');
     this.predicate = 'date';
-    this.ascending = sort[1] === DESC;
+    this.ascending = sort[1] === ASC;
   }
 
   protected onResponseSuccess(response: EntityArrayResponseType): void {
@@ -356,19 +356,19 @@ export class MovimientoComponent implements OnInit {
   }
 
   protected refineDataObra(data: IObra[]): IObra[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    return data.sort(this.sortService.startSort('name', this.ascending ? 1 : -1));
   }
 
   protected refineDataSubcontratista(data: ISubcontratista[]): ISubcontratista[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    return data.sort(this.sortService.startSort('lastName', this.ascending ? 1 : -1));
   }
 
   protected refineDataConcepto(data: IConcepto[]): IConcepto[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    return data.sort(this.sortService.startSort('name', this.ascending ? 1 : -1));
   }
 
   protected refineDataTipoComprobante(data: ITipoComprobante[]): ITipoComprobante[] {
-    return data.sort(this.sortService.startSort(this.predicate, this.ascending ? 1 : -1));
+    return data.sort(this.sortService.startSort('name', this.ascending ? 1 : -1));
   }
 
   protected fillComponentAttributesFromResponseBody(data: IMovimiento[] | null): IMovimiento[] {

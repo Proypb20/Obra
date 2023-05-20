@@ -177,44 +177,52 @@
     <table class="table table-striped" aria-describedby="page-heading">
       <thead>
         <tr jhiSort [(predicate)]="predicate" [(ascending)]="ascending" (sortChange)="navigateToWithComponentValues()">
-          <th scope="col">
+          <th scope="col" jhiSortBy="date">
             <div class="d-flex">
               <span>Fecha</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col">
+          <th scope="col" jhiSortBy="description">
             <div class="d-flex">
               <span>Descripcion</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col">
+          <th scope="col" jhiSortBy="metodoPago">
             <div class="d-flex">
               <span>Metodo Pago</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col">
+          <th scope="col" jhiSortBy="tipoComprobante">
             <div class="d-flex">
               <span>Tipo Comprobante</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col">
+          <th scope="col" jhiSortBy="amount">
             <div class="d-flex">
               <span>Importe</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col">
+          <th scope="col" jhiSortBy="obra">
             <div class="d-flex">
               <span>Obra</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col">
+          <th scope="col" jhiSortBy="subcontratista">
             <div class="d-flex">
               <span>Subcontratista</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
-          <th scope="col">
+          <th scope="col" jhiSortBy="concepto">
             <div class="d-flex">
               <span>Concepto</span>
+              <fa-icon class="p-1" icon="sort"></fa-icon>
             </div>
           </th>
           <th scope="col"></th>

@@ -13,6 +13,7 @@ import { ISubcontratista } from 'app/entities/subcontratista/subcontratista.mode
 import { SubcontratistaService } from 'app/entities/subcontratista/service/subcontratista.service';
 import { IConcepto } from 'app/entities/concepto/concepto.model';
 import { ConceptoService } from 'app/entities/concepto/service/concepto.service';
+import { SortService } from 'app/shared/sort/sort.service';
 
 @Component({
   selector: 'jhi-tarea-update',
@@ -38,7 +39,8 @@ export class TareaUpdateComponent implements OnInit {
     protected obraService: ObraService,
     protected subcontratistaService: SubcontratistaService,
     protected conceptoService: ConceptoService,
-    protected activatedRoute: ActivatedRoute
+    protected activatedRoute: ActivatedRoute,
+    protected sortService: SortService
   ) {}
 
   compareObra = (o1: IObra | null, o2: IObra | null): boolean => this.obraService.compareObra(o1, o2);
@@ -108,11 +110,23 @@ export class TareaUpdateComponent implements OnInit {
     );
   }
 
+  protected refineDataObras(data: IObra[]): IObra[] {
+    return data.sort(this.sortService.startSort('name', 1));
+  }
+
+  protected refineDataSubco(data: ISubcontratista[]): ISubcontratista[] {
+    return data.sort(this.sortService.startSort('lastName', 1));
+  }
+
+  protected refineDataConcepto(data: IConcepto[]): IConcepto[] {
+    return data.sort(this.sortService.startSort('name', 1));
+  }
+
   protected loadRelationshipsOptions(): void {
     this.obraService
       .query({ 'id.equals': this.oId })
       .pipe(map((res: HttpResponse<IObra[]>) => res.body ?? []))
-      .pipe(map((obras: IObra[]) => this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.tarea?.obra)))
+      .pipe(map((obras: IObra[]) => this.refineDataObras(this.obraService.addObraToCollectionIfMissing<IObra>(obras, this.tarea?.obra))))
       .subscribe((obras: IObra[]) => ((this.obrasSharedCollection = obras), (this.selectedObra = obras[0])));
 
     this.subcontratistaService
@@ -120,17 +134,21 @@ export class TareaUpdateComponent implements OnInit {
       .pipe(map((res: HttpResponse<ISubcontratista[]>) => res.body ?? []))
       .pipe(
         map((subcontratistas: ISubcontratista[]) =>
-          this.subcontratistaService.addSubcontratistaToCollectionIfMissing<ISubcontratista>(subcontratistas, this.tarea?.subcontratista)
+          this.refineDataSubco(
+            this.subcontratistaService.addSubcontratistaToCollectionIfMissing<ISubcontratista>(subcontratistas, this.tarea?.subcontratista)
+          )
         )
       )
-      .subscribe((subcontratistas: ISubcontratista[]) => (this.subcontratistasSharedCollection = subcontratistas));
+      .subscribe((subcontratistas: ISubcontratista[]) => (this.subcontratistasSharedCollection = this.refineDataSubco(subcontratistas)));
 
     this.conceptoService
       .query()
       .pipe(map((res: HttpResponse<IConcepto[]>) => res.body ?? []))
       .pipe(
-        map((conceptos: IConcepto[]) => this.conceptoService.addConceptoToCollectionIfMissing<IConcepto>(conceptos, this.tarea?.concepto))
+        map((conceptos: IConcepto[]) =>
+          this.refineDataConcepto(this.conceptoService.addConceptoToCollectionIfMissing<IConcepto>(conceptos, this.tarea?.concepto))
+        )
       )
-      .subscribe((conceptos: IConcepto[]) => (this.conceptosSharedCollection = conceptos));
+      .subscribe((conceptos: IConcepto[]) => (this.conceptosSharedCollection = this.refineDataConcepto(conceptos)));
   }
 }
